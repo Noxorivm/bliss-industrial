@@ -6,6 +6,7 @@
   --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Raleway", sans-serif;
   --nav-font: "Inter", sans-serif;
+  scroll-behavior: smooth;
 }
 
 /* BLISS Elegant B&W Color Scheme */
@@ -312,6 +313,25 @@ h6 {
   }
 }
 
+/* Botón blanco con letras negras que se invierte en hover */
+.cta-blanco-negro {
+  background: var(--color-white);
+  color: var(--color-black);
+  border: 2px solid var(--color-white);
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 25px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.cta-blanco-negro:hover {
+  background: var(--accent-color);
+  color: var(--color-white);
+  border-color: var(--accent-color);
+}
+
+
 /* Global Header on Scroll */
 .scrolled .header {
   --background-color: rgba(17, 17, 17, 0.9);
@@ -458,13 +478,11 @@ h6 {
 
 /* Mobile Navigation */
 @media (max-width: 1199px) {
-  .mobile-nav-toggle {
-    color: var(--nav-color);
-    font-size: 28px;
-    line-height: 0;
-    margin-right: 10px;
-    cursor: pointer;
-    transition: color 0.3s;
+  .mobile-nav-active .mobile-nav-toggle {
+    position: fixed;
+    top: 15px;
+    left: 70px;
+    z-index: 9999;
   }
 
   .navmenu {
@@ -1735,4 +1753,10 @@ section,
 --------------------------------------------------------------*/
 .about .row {
   align-items: center; /* Centra verticalmente la imagen y el contenido */
+}
+
+@media (min-width: 1200px) {
+  .mobile-nav-toggle {
+    display: none;
+  }
 }
