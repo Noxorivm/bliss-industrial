@@ -1263,24 +1263,35 @@ section,
 /*--------------------------------------------------------------
 # Clients Section
 --------------------------------------------------------------*/
+
 .clients {
-  padding: 30px 0;
+  padding: 60px 0;
+  display: flex;
+  justify-content: center;
 }
 
-.clients .client-logo {
-  height: 100px;
+.clients .row {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.clients .client-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
   padding: 15px;
 }
 
 .clients .client-logo img {
   max-height: 60px;
-  width: auto;
   height: auto;
+  width: auto;
   object-fit: contain;
-  align-self: center;
+  display: block;
   transition: 0.3s;
   opacity: 0.6;
   filter: grayscale(100%);
@@ -1290,7 +1301,6 @@ section,
   filter: none;
   opacity: 1;
 }
-
 
 
 /*--------------------------------------------------------------
