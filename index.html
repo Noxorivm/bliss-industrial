@@ -766,13 +766,31 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    $('.select2').select2({
+  $(document).ready(function () {
+    $('#sector_empresa').select2({
       placeholder: "Sector de la empresa *",
       allowClear: true
     });
+
+    // Detectar cambio en el valor
+    $('#sector_empresa').on('change', function () {
+      const selectedValue = $(this).val();
+      const otroSectorDiv = $('#otroSectorDiv');
+      const otroSectorInput = $('#otroSectorInput');
+
+      if (selectedValue === 'Otro') {
+        otroSectorDiv.show();
+        otroSectorInput.prop('required', true);
+      } else {
+        otroSectorDiv.hide();
+        otroSectorInput.prop('required', false);
+      }
+    });
   });
 </script>
+
+
+
 
 </body>
 
