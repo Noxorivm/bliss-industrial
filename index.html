@@ -563,7 +563,66 @@
     </section><!-- /Team Section -->
 
     <!-- Contact Section -->
-    <section id="contact" class="contact section">
+    <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+      <div class="row gy-4">
+    
+        <!-- Nombre de contacto -->
+        <div class="col-md-6">
+          <input type="text" name="nombre_contacto" class="form-control" placeholder="Nombre persona de contacto *" required>
+        </div>
+    
+        <!-- Correo -->
+        <div class="col-md-6">
+          <input type="email" name="correo" class="form-control" placeholder="Correo electrónico *" required>
+        </div>
+    
+        <!-- Nombre empresa -->
+        <div class="col-md-6">
+          <input type="text" name="nombre_empresa" class="form-control" placeholder="Nombre de la empresa *" required>
+        </div>
+    
+        <!-- Sector -->
+        <div class="col-md-6">
+          <select name="sector_empresa" class="form-select select2" required>
+            <option value="" disabled selected>Sector de la empresa *</option>
+            <option value="Automoción">Automoción</option>
+            <option value="Alimentación">Alimentación</option>
+            <option value="Farmacéutica">Farmacéutica</option>
+            <option value="Energía">Energía</option>
+            <option value="Textil">Textil</option>
+            <option value="Logística">Logística</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+    
+        <!-- Localización -->
+        <div class="col-md-12">
+          <input type="text" name="localizacion" class="form-control" placeholder="Localización de la empresa">
+        </div>
+    
+        <!-- Servicio de interés -->
+        <div class="col-md-12">
+          <select name="servicio_interes" class="form-select" required>
+            <option value="" disabled selected>¿Qué servicio te interesa? *</option>
+            <option value="BLISS AI for Industry">BLISS AI for Industry</option>
+            <option value="BLISS Trade & Performance">BLISS Trade & Performance</option>
+            <option value="BLISS Executive">BLISS Executive</option>
+          </select>
+        </div>
+    
+        <!-- Botón de envío -->
+        <div class="col-md-12 text-center">
+          <div class="loading">Cargando</div>
+          <div class="error-message"></div>
+          <div class="sent-message">¡Tu mensaje ha sido enviado con éxito!</div>
+          <button type="submit">Enviar Mensaje</button>
+        </div>
+    
+        <!-- Configuración extra para formsubmit -->
+        <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
+        <input type="hidden" name="_captcha" value="false">
+      </div>
+    </form>
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -605,37 +664,6 @@
           </div>
 
           <div class="col-lg-6">
-            <!-- Reemplazar 'forms/contact.php' si es necesario -->
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Su Nombre" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Su Email" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Asunto" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="4" placeholder="Mensaje" required=""></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Cargando</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Su mensaje ha sido enviado. ¡Gracias!</div>
-
-                  <button type="submit">Enviar Mensaje</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
 
         </div>
 
@@ -735,6 +763,19 @@
   <script>
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
   </script>
+
+<!-- Select2 para buscador en dropdown -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    $('.select2').select2({
+      placeholder: "Sector de la empresa *",
+      allowClear: true
+    });
+  });
+</script>
 
 </body>
 
