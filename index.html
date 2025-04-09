@@ -562,115 +562,112 @@
 
     </section><!-- /Team Section -->
 
-    <!-- Contact Section -->
-    <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-      <div class="row gy-4">
+    <section id="contact" class="contact section">
+      <div class="container" data-aos="fade-up">
     
-        <!-- Nombre de contacto -->
-        <div class="col-md-6">
-          <input type="text" name="nombre_contacto" class="form-control" placeholder="Nombre persona de contacto *" required>
+        <!-- Título -->
+        <div class="section-title">
+          <h2>Contacto</h2>
+          <p>Hablemos de su proyecto</p>
         </div>
     
-        <!-- Correo -->
-        <div class="col-md-6">
-          <input type="email" name="correo" class="form-control" placeholder="Correo electrónico *" required>
-        </div>
-    
-        <!-- Nombre empresa -->
-        <div class="col-md-6">
-          <input type="text" name="nombre_empresa" class="form-control" placeholder="Nombre de la empresa *" required>
-        </div>
-    
-        <!-- Sector -->
-        <div class="col-md-6">
-          <select name="sector_empresa" class="form-select select2" required>
-            <option value="" disabled selected>Sector de la empresa *</option>
-            <option value="Automoción">Automoción</option>
-            <option value="Alimentación">Alimentación</option>
-            <option value="Farmacéutica">Farmacéutica</option>
-            <option value="Energía">Energía</option>
-            <option value="Textil">Textil</option>
-            <option value="Logística">Logística</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-    
-        <!-- Localización -->
-        <div class="col-md-12">
-          <input type="text" name="localizacion" class="form-control" placeholder="Localización de la empresa">
-        </div>
-    
-        <!-- Servicio de interés -->
-        <div class="col-md-12">
-          <select name="servicio_interes" class="form-select" required>
-            <option value="" disabled selected>¿Qué servicio te interesa? *</option>
-            <option value="BLISS AI for Industry">BLISS AI for Industry</option>
-            <option value="BLISS Trade & Performance">BLISS Trade & Performance</option>
-            <option value="BLISS Executive">BLISS Executive</option>
-          </select>
-        </div>
-    
-        <!-- Botón de envío -->
-        <div class="col-md-12 text-center">
-          <div class="loading">Cargando</div>
-          <div class="error-message"></div>
-          <div class="sent-message">¡Tu mensaje ha sido enviado con éxito!</div>
-          <button type="submit">Enviar Mensaje</button>
-        </div>
-    
-        <!-- Configuración extra para formsubmit -->
-        <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
-        <input type="hidden" name="_captcha" value="false">
-      </div>
-    </form>
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contacto</h2>
-        <p>Hablemos de su proyecto<br></p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
         <div class="row gy-4">
-          <div class="col-lg-6 ">
+          <!-- Información de contacto -->
+          <div class="col-lg-6">
             <div class="row gy-4">
-
               <div class="col-lg-12">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-geo-alt"></i>
                   <h3>Dirección</h3>
-                  <p>Calle falsa 123</p> <!-- Reemplazar con dirección real -->
+                  <p>Calle falsa 123</p>
                 </div>
-              </div><!-- End Info Item -->
-
+              </div>
               <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-telephone"></i>
                   <h3>Llámanos</h3>
-                  <p>+34 696696696</p> <!-- Reemplazar con teléfono real -->
+                  <p>+34 696696696</p>
                 </div>
-              </div><!-- End Info Item -->
-
+              </div>
               <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="info-item d-flex flex-column justify-content-center align-items-center">
                   <i class="bi bi-envelope"></i>
                   <h3>Email</h3>
-                  <p>hola@blissindustrial.eu</p> <!-- Reemplazar con email real -->
+                  <p>hola@blissindustrial.eu</p>
                 </div>
-              </div><!-- End Info Item -->
-
+              </div>
             </div>
           </div>
-
+    
+          <!-- Formulario -->
           <div class="col-lg-6">
-
+            <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form">
+              <div class="row gy-4">
+    
+                <div class="col-md-6">
+                  <input type="text" name="nombre_contacto" class="form-control" placeholder="Nombre persona de contacto *" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="email" name="correo" class="form-control" placeholder="Correo electrónico *" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" name="nombre_empresa" class="form-control" placeholder="Nombre de la empresa *" required>
+                </div>
+                <div class="col-md-6">
+                  <select name="sector_empresa" class="form-select select2" id="sector_empresa" required>
+                    <option value="" disabled selected>Sector de la empresa *</option>
+                    <option value="Automoción">Automoción</option>
+                    <option value="Alimentación">Alimentación</option>
+                    <option value="Farmacéutica">Farmacéutica</option>
+                    <option value="Energía">Energía</option>
+                    <option value="Textil">Textil</option>
+                    <option value="Logística">Logística</option>
+                    <option value="Electrónica">Electrónica</option>
+                    <option value="Química">Química</option>
+                    <option value="Construcción">Construcción</option>
+                    <option value="Tecnología">Tecnología</option>
+                    <option value="Mobiliario">Mobiliario</option>
+                    <option value="Packaging">Packaging</option>
+                    <option value="Minería">Minería</option>
+                    <option value="Agua y medio ambiente">Agua y medio ambiente</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+                
+                <!-- Campo oculto que se mostrará si elige “Otro” -->
+                <div class="col-md-6" id="otroSectorDiv" style="display: none;">
+                  <input type="text" name="otro_sector" class="form-control" placeholder="Especifica el sector" id="otroSectorInput">
+                </div>
+                
+    
+                <div class="col-12">
+                  <input type="text" name="localizacion" class="form-control" placeholder="Localización de la empresa">
+                </div>
+                <div class="col-12">
+                  <select name="servicio_interes" class="form-select" required>
+                    <option value="" disabled selected>¿Qué servicio te interesa? *</option>
+                    <option value="BLISS AI for Industry">BLISS AI for Industry</option>
+                    <option value="BLISS Trade & Performance">BLISS Trade & Performance</option>
+                    <option value="BLISS Executive">BLISS Executive</option>
+                  </select>
+                </div>
+    
+                <div class="col-12 text-center">
+                  <div class="loading">Cargando</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">¡Tu mensaje ha sido enviado con éxito!</div>
+                  <button type="submit">Enviar Mensaje</button>
+                </div>
+    
+                <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
+                <input type="hidden" name="_captcha" value="false">
+              </div>
+            </form>
+          </div>
         </div>
-
       </div>
-
-    </section><!-- /Contact Section -->
-
+    </section>
+    
   </main>
 
   <footer id="footer" class="footer dark-background">
