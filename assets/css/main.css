@@ -27,9 +27,9 @@
   --color-light-gray: #F4F4F4;
   --color-medium-gray: #CCCCCC;
   --color-dark-gray: #333333;
-  --color-accent-yellow: #FACC15; /* Existing yellow */
-  --color-accent-yellow-darker: #EAB308; /* Darker yellow for hover */
-  --color-accent-yellow-glow: rgba(250, 204, 21, 0.5); /* Glow effect */
+  --color-accent-yellow: #FACC15;
+  --color-accent-yellow-darker: #EAB308;
+  --color-accent-yellow-glow: rgba(250, 204, 21, 0.5);
 
   /* Semantic Colors */
   --background-color: var(--color-white);
@@ -37,8 +37,8 @@
   --heading-color: var(--color-black);
   --accent-color: var(--color-accent-yellow);
   --surface-color: var(--color-white);
-  --contrast-color: var(--color-black); /* Text on light yellow */
-  --contrast-color-dark: var(--color-white); /* Text on black/dark backgrounds */
+  --contrast-color: var(--color-black);
+  --contrast-color-dark: var(--color-white);
   --border-color-light: rgba(0, 0, 0, 0.1);
   --border-color-dark: rgba(255, 255, 255, 0.15);
   --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -50,7 +50,7 @@
 :root {
   --nav-color: var(--color-medium-gray);
   --nav-hover-color: var(--color-white);
-  --nav-active-color: var(--color-accent-yellow); /* Active link yellow */
+  --nav-active-color: var(--color-accent-yellow);
   --nav-mobile-background-color: var(--color-black);
   --nav-dropdown-background-color: var(--color-black);
   --nav-dropdown-color: var(--color-medium-gray);
@@ -71,11 +71,10 @@
   --default-color: var(--color-light-gray);
   --heading-color: var(--color-white);
   --surface-color: var(--color-dark-gray);
-  --contrast-color: var(--color-white); /* Text over primary dark */
+  --contrast-color: var(--color-white);
   --border-color: var(--border-color-dark);
 }
 
-/* Smooth scroll */
 :root {
   scroll-behavior: smooth;
 }
@@ -105,18 +104,15 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
-  font-weight: 700; /* Default heading weight */
+  font-weight: 700;
 }
 
-/* Highlight spans */
 .highlight {
   color: var(--accent-color);
 }
-.highlight-dark { /* For light backgrounds */
-   color: var(--color-black); /* Or a specific dark accent */
+.highlight-dark {
+   color: var(--color-black);
    font-weight: 900;
-   /* Maybe add a subtle underline? */
-   /* border-bottom: 2px solid var(--accent-color); */
 }
 
 
@@ -124,7 +120,6 @@ h1, h2, h3, h4, h5, h6 {
 # Animations & Interactive Elements
 --------------------------------------------------------------*/
 
-/* Basic fade-in for onload elements */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -134,10 +129,10 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeIn 0.8s var(--easing-smooth) both;
 }
 .animate-onload-fadein-delay1 {
-  animation: fadeIn 1s var(--easing-smooth) 0.3s both; /* Delay added */
+  animation: fadeIn 1s var(--easing-smooth) 0.3s both;
 }
 .animate-onload-fadein-delay2 {
-  animation: fadeIn 1s var(--easing-smooth) 0.6s both; /* Delay added */
+  animation: fadeIn 1s var(--easing-smooth) 0.6s both;
 }
 
 /* Icon Fade-in */
@@ -164,29 +159,29 @@ h1, h2, h3, h4, h5, h6 {
 /* Interactive Title Shine Effect */
 .interactive-title {
   position: relative;
-  display: inline-block; /* Needed for pseudo-element positioning */
-  overflow: hidden; /* Contain the shine */
+  display: inline-block;
+  overflow: hidden;
 }
 
 .interactive-title::after {
   content: '';
   position: absolute;
   top: 0;
-  left: -150%; /* Start off-screen */
+  left: -150%;
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transition: left var(--transition-speed-slow) var(--easing-smooth);
-  transform: skewX(-25deg); /* Skewed shine */
-  pointer-events: none; /* Allow clicking through */
+  transform: skewX(-25deg);
+  pointer-events: none;
 }
 /* Trigger on hover of the title itself or its parent container (like a card) */
 .interactive-title:hover::after,
-.interactive-card:hover .interactive-title-card::after, /* Specific for cards */
-.interactive-feature-item:hover .interactive-title::after { /* Specific for features */
-  left: 150%; /* Move across */
+.interactive-card:hover .interactive-title-card::after,
+.interactive-feature-item:hover .interactive-title::after {
+  left: 150%;
 }
-/* Dark background adjustments */
+/* Dark background */
 .dark-background .interactive-title::after {
    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
@@ -196,7 +191,7 @@ h1, h2, h3, h4, h5, h6 {
 .interactive-image {
   transition: transform var(--transition-speed-medium) var(--easing-smooth),
               box-shadow var(--transition-speed-medium) var(--easing-smooth);
-  border-radius: 1rem; /* Ensure radius is set */
+  border-radius: 1rem;
 }
 .interactive-image:hover {
   transform: scale(1.03) rotate(1deg);
@@ -207,23 +202,23 @@ h1, h2, h3, h4, h5, h6 {
 .interactive-list li {
   transition: transform var(--transition-speed-fast) var(--easing-smooth),
               color var(--transition-speed-fast) var(--easing-smooth);
-  cursor: default; /* Indicate non-clickable */
+  cursor: default;
 }
 .interactive-list li:hover {
   transform: translateX(5px);
-  color: var(--accent-color); /* Highlight text on hover */
+  color: var(--accent-color);
 }
 .interactive-list li i {
    transition: transform var(--transition-speed-fast) var(--easing-smooth);
 }
 .interactive-list li:hover i {
-  transform: scale(1.1); /* Scale icon slightly */
+  transform: scale(1.1);
 }
 
 
 /* Detail Lists */
 .detail-list li, .detail-list-ordered li, .detail-list-negative li {
-    padding-left: 25px; /* Space for icon/number */
+    padding-left: 25px;
     margin-bottom: 0.75rem;
     transition: transform var(--transition-speed-fast) ease-out;
     position: relative;
@@ -234,12 +229,12 @@ h1, h2, h3, h4, h5, h6 {
 .detail-list i.bi-dot, .detail-list-negative i.bi-x {
     position: absolute;
     left: -15px;
-    top: 5px; /* Adjust vertical alignment */
+    top: 5px;
     color: var(--accent-color);
     transition: transform 0.2s ease;
 }
 .detail-list-negative i.bi-x {
-    color: var(--color-medium-gray); /* Softer color for negative */
+    color: var(--color-medium-gray);
 }
 .detail-list li:hover i.bi-dot, .detail-list-negative li:hover i.bi-x {
     transform: scale(1.5);
@@ -295,38 +290,37 @@ h1, h2, h3, h4, h5, h6 {
 # Header & Navigation Enhancements
 --------------------------------------------------------------*/
 .header {
-  background-color: rgba(17, 17, 17, 0.85); /* Start slightly transparent */
+  background-color: rgba(17, 17, 17, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 15px 0; /* Use original padding */
+  padding: 15px 0;
   transition: background-color var(--transition-speed-medium) var(--easing-smooth),
               padding var(--transition-speed-medium) var(--easing-smooth),
               box-shadow var(--transition-speed-medium) var(--easing-smooth);
-  z-index: 997; /* Ensure it's high enough */
+  z-index: 997;
 }
 
 .header .container-fluid {
-    /* Ensure the container itself allows flex items to align properly */
     display: flex;
     align-items: center;
-    position: relative; /* Needed for absolute positioning of mobile nav */
+    position: relative;
 }
 
 .header .logo {
   line-height: 1;
-  margin-right: auto; /* Pushes nav and cta to the right */
+  margin-right: auto;
 }
 .header .logo img {
-  max-height: 50px; /* Adjust as needed */
+  max-height: 50px;
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
 .header .logo:hover img {
-    transform: scale(1.05); /* Slight scale on logo hover */
+    transform: scale(1.05);
 }
 
 /* Global Header on Scroll */
 .scrolled .header {
-  background-color: rgba(17, 17, 17, 0.95); /* More opaque on scroll */
+  background-color: rgba(17, 17, 17, 0.95);
   padding: 10px 0;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
@@ -335,36 +329,36 @@ h1, h2, h3, h4, h5, h6 {
 @media (min-width: 1200px) {
   .navmenu {
     padding: 0;
-    margin: 0; /* Remove any default margin */
-    margin-left: 20px; /* Space between logo and nav */
+    margin: 0;
+    margin-left: 20px;
   }
 
   .navmenu ul {
     margin: 0;
     padding: 0;
-    display: flex !important; /* FORCE FLEX DISPLAY FOR DESKTOP */
+    display: flex !important;
     list-style: none;
     align-items: center;
   }
 
   .navmenu li {
     position: relative;
-    display: block; /* Keep as block for positioning context */
+    display: block;
   }
 
   .navmenu>ul>li {
     white-space: nowrap;
-    padding: 10px 0 10px 24px; /* Adjusted padding for horizontal layout */
+    padding: 10px 0 10px 24px;
   }
    .navmenu>ul>li:first-child {
-        padding-left: 0; /* No left padding for first item */
+        padding-left: 0;
     }
 
   .navmenu a,
   .navmenu a:focus {
     color: var(--nav-color);
     font-size: 14px;
-    padding: 5px 3px; /* Adjust vertical padding */
+    padding: 5px 3px;
     font-family: var(--nav-font);
     font-weight: 500;
     display: flex;
@@ -374,22 +368,22 @@ h1, h2, h3, h4, h5, h6 {
     transition: color var(--transition-speed-fast) ease-out;
     position: relative;
     text-transform: uppercase;
-    letter-spacing: 0.5px; /* Add subtle spacing */
-    background-color: transparent !important; /* REMOVE ANY BACKGROUND */
+    letter-spacing: 0.5px;
+    background-color: transparent !important;
   }
 
    .navmenu a i,
    .navmenu a:focus i {
-      display: none; /* Hide dropdown arrows on desktop if not used */
+      display: none;
    }
 
   .navmenu>ul>li>a::before {
     content: "";
     position: absolute;
     height: 2px;
-    bottom: -6px; /* Adjusted position closer to text */
-    left: 0; /* Start from left */
-    background-color: var(--nav-active-color); /* Use yellow for active */
+    bottom: -6px;
+    left: 0;
+    background-color: var(--nav-active-color);
     visibility: hidden;
     width: 0px;
     transition: width var(--transition-speed-medium) var(--easing-smooth);
@@ -397,12 +391,12 @@ h1, h2, h3, h4, h5, h6 {
 
   .navmenu a:hover,
   .navmenu li:hover>a {
-    color: var(--nav-hover-color); /* White on hover */
+    color: var(--nav-hover-color);
   }
   .navmenu .active,
   .navmenu .active:focus {
-    color: var(--nav-active-color) !important; /* Yellow when active - FORCE */
-    background-color: transparent !important; /* Ensure no background */
+    color: var(--nav-active-color) !important;
+    background-color: transparent !important;
   }
 
   /* Underline animation */
@@ -410,7 +404,7 @@ h1, h2, h3, h4, h5, h6 {
   .navmenu li:hover>a::before,
   .navmenu .active::before {
     visibility: visible;
-    width: 100%; /* Underline spans full width */
+    width: 100%;
   }
 
    /* Hide mobile toggle on desktop */
@@ -419,18 +413,18 @@ h1, h2, h3, h4, h5, h6 {
    }
 
    /* Ensure dropdowns work correctly if added later */
-   .navmenu .dropdown ul { /* Styles for desktop dropdowns */
+   .navmenu .dropdown ul {
       display: block;
       position: absolute;
       left: 14px;
-      top: calc(100% + 10px); /* Position below parent */
+      top: calc(100% + 10px);
       margin: 0;
       padding: 10px 0;
       z-index: 99;
       opacity: 0;
       visibility: hidden;
       background: var(--nav-dropdown-background-color);
-      box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1); /* Adjust shadow if needed */
+      box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
       border-radius: 4px;
    }
@@ -441,7 +435,7 @@ h1, h2, h3, h4, h5, h6 {
       text-transform: none;
       color: var(--nav-dropdown-color);
    }
-   .navmenu .dropdown ul a i { display: inline-block; font-size: 12px; } /* Show icons in dropdown */
+   .navmenu .dropdown ul a i { display: inline-block; font-size: 12px; }
    .navmenu .dropdown ul a:hover,
    .navmenu .dropdown ul .active:hover,
    .navmenu .dropdown ul li:hover>a {
@@ -449,13 +443,13 @@ h1, h2, h3, h4, h5, h6 {
    }
    .navmenu .dropdown:hover > ul {
       opacity: 1;
-      top: 100%; /* Adjust final position */
+      top: 100%;
       visibility: visible;
    }
    /* Nested Dropdowns */
    .navmenu .dropdown .dropdown ul {
        top: 0;
-       left: calc(100% + 10px); /* Position to the right */
+       left: calc(100% + 10px);
        visibility: hidden;
    }
    .navmenu .dropdown .dropdown:hover > ul {
@@ -467,66 +461,61 @@ h1, h2, h3, h4, h5, h6 {
 
 } /* End Desktop Media Query */
 
-/* --- MOBILE NAVIGATION (Ensure toggle visibility) --- */
 @media (max-width: 1199px) {
-   /* Base styles for toggle button */
    .mobile-nav-toggle {
-      display: block; /* Or inline-block */
+      display: block;
       color: var(--color-white);
       font-size: 28px;
       cursor: pointer;
       transition: transform 0.3s ease, color 0.3s ease;
-      line-height: 0; /* Prevent extra space */
-      position: relative; /* Default positioning */
-      z-index: 9999; /* High z-index */
+      line-height: 0;
+      position: relative;
+      z-index: 9999;
    }
    .mobile-nav-toggle:hover {
        color: var(--accent-color);
    }
-   /* Hide the 'X' icon by default */
    .mobile-nav-toggle.bi-x {
        display: none;
    }
-   /* State when mobile nav is active */
    .mobile-nav-active .mobile-nav-toggle.bi-list {
-       display: none; /* Hide list icon */
+       display: none;
    }
    .mobile-nav-active .mobile-nav-toggle.bi-x {
-       display: block; /* Show X icon */
-       position: fixed; /* Position fixed top right */
+       display: block;
+       position: fixed;
        top: 20px;
        right: 20px;
    }
    /* Navmenu container when mobile nav is active */
    .mobile-nav-active .navmenu {
-        display: block; /* Make navmenu container visible */
+        display: block;
         position: fixed;
         overflow: hidden;
         inset: 0;
-        background: rgba(17, 17, 17, 0.95); /* Darker overlay */
-        transition: opacity 0.3s ease-in-out; /* Transition opacity */
+        background: rgba(17, 17, 17, 0.95);
+        transition: opacity 0.3s ease-in-out;
         z-index: 9998;
         opacity: 1;
    }
    /* Navmenu UL list when mobile nav is active */
     .mobile-nav-active .navmenu ul {
-        display: block; /* Ensure list shows */
+        display: block;
         position: absolute;
-        inset: 60px 20px 20px 20px; /* Positioning */
+        inset: 60px 20px 20px 20px;
         padding: 10px 0;
         margin: 0;
         border-radius: 6px;
         background-color: var(--nav-mobile-background-color);
         overflow-y: auto;
         transition: 0.3s;
-        z-index: 9999; /* Above overlay */
+        z-index: 9999;
     }
-    /* Default state for mobile navmenu & ul (hidden) */
-    .navmenu { display: none; } /* Hide navmenu container initially */
-    .navmenu ul { display: none; } /* Hide ul by default */
+    .navmenu { display: none; }
+    .navmenu ul { display: none; }
 
     /* Styles for mobile links */
-    .navmenu a, .navmenu a:focus { /* Base mobile link styles */
+    .navmenu a, .navmenu a:focus {
         padding: 10px 20px;
         font-size: 15px;
         display: flex;
@@ -537,13 +526,13 @@ h1, h2, h3, h4, h5, h6 {
         transition: 0.3s;
     }
      .navmenu a:hover, .navmenu li:hover > a {
-         color: var(--nav-dropdown-hover-color); /* White */
-         background: rgba(255, 255, 255, 0.05); /* Subtle hover background */
+         color: var(--nav-dropdown-hover-color);
+         background: rgba(255, 255, 255, 0.05);
       }
       /* Mobile Active Link */
       .navmenu .active, .navmenu .active:focus {
-          color: var(--accent-color); /* Yellow active link */
-          background: rgba(250, 204, 21, 0.1); /* Subtle yellow background for active */
+          color: var(--accent-color);
+          background: rgba(250, 204, 21, 0.1);
       }
      /* Mobile Dropdown Toggle */
      .navmenu .toggle-dropdown > .bi { transition: transform 0.3s; }
@@ -555,47 +544,46 @@ h1, h2, h3, h4, h5, h6 {
          z-index: 99;
          padding: 10px 0;
          margin: 10px 20px;
-         background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter background */
-         border-left: 3px solid var(--accent-color); /* Indent indicator */
+         background-color: rgba(255, 255, 255, 0.05);
+         border-left: 3px solid var(--accent-color);
          transition: all 0.5s ease-in-out;
      }
      .navmenu .dropdown > .dropdown-active { display: block; }
 
-} /* End Mobile Media Query */
+}
 
-/* --- Header CTA Button Position Fix --- */
 .header .cta-btn {
   color: var(--color-black);
   background: var(--accent-color);
   border: 2px solid var(--accent-color);
   font-size: 13px;
-  padding: 8px 28px; /* Slightly larger */
-  margin: 0 0 0 15px; /* Reduced margin-left */
-  border-radius: 50px; /* Pill shape */
+  padding: 8px 28px;
+  margin: 0 0 0 15px;
+  border-radius: 50px;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 5px rgba(250, 204, 21, 0.3); /* Subtle glow */
-  order: 3; /* Ensure it comes after the navmenu potentially on desktop */
-  white-space: nowrap; /* Prevent wrapping */
+  box-shadow: 0 2px 5px rgba(250, 204, 21, 0.3);
+  order: 3;
+  white-space: nowrap;
 }
 .header .cta-btn:hover {
   background: var(--color-accent-yellow-darker);
   border-color: var(--color-accent-yellow-darker);
   color: var(--color-black);
-  transform: translateY(-2px) scale(1.02); /* Lift effect */
-  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4); /* Enhanced glow */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
 }
 
 @media (max-width: 1199px) {
     .header .cta-btn {
-        order: 2; /* Before mobile toggle */
-        margin: 0 15px 0 0; /* Margin right */
+        order: 2;
+        margin: 0 15px 0 0;
     }
     .mobile-nav-toggle {
-        order: 3; /* After CTA */
-        margin-left: 0; /* Reset margin */
+        order: 3;
+        margin-left: 0;
     }
 }
 
@@ -607,12 +595,12 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  padding: 0; /* Remove default padding */
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: var(--color-black); /* Fallback color */
+  background-color: var(--color-black);
 }
 
 .hero-video {
@@ -622,7 +610,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  pointer-events: none; /* Keep this */
+  pointer-events: none;
 }
 
 /* Darker Overlay */
@@ -638,30 +626,29 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   z-index: 3;
   text-align: center;
-  /* Ensure container takes up space */
   width: 100%;
-  padding: 120px 15px 100px 15px; /* Adjust top/bottom padding */
+  padding: 120px 15px 100px 15px;
 }
 
 .hero .hero-title {
-  margin: 0 auto 25px auto; /* Center horizontally, add more bottom margin */
-  font-size: clamp(2.2rem, 5.5vw, 3.8rem); /* Slightly adjusted clamp values */
+  margin: 0 auto 25px auto;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
   font-weight: 900;
   text-transform: uppercase;
   color: var(--color-white);
-  line-height: 1.25; /* Adjusted line height */
+  line-height: 1.25;
   text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
-  max-width: 900px; /* Limit max width */
+  max-width: 900px;
 }
 
 .hero .hero-subtitle {
   color: var(--color-light-gray);
-  margin: 0 auto 35px auto; /* Center, more bottom margin */
-  font-size: clamp(1rem, 2.2vw, 1.25rem); /* Adjusted clamp */
-  max-width: 750px; /* Adjusted max width */
+  margin: 0 auto 35px auto;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  max-width: 750px;
   opacity: 0.9;
-  line-height: 1.7; /* Increased line height */
-  font-weight: 300; /* Lighter weight for subtitle */
+  line-height: 1.7;
+  font-weight: 300;
 }
 
 /* Hero CTA Button */
@@ -670,9 +657,9 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-black);
   border: 2px solid var(--color-white);
   text-transform: uppercase;
-  font-weight: 700; /* Bolder */
-  padding: 12px 35px; /* Larger */
-  border-radius: 50px; /* Pill shape */
+  font-weight: 700;
+  padding: 12px 35px;
+  border-radius: 50px;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
   letter-spacing: 1px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -680,10 +667,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero .btn-get-started.cta-blanco-negro:hover {
   background: var(--accent-color);
-  color: var(--color-black); /* Keep text black on yellow */
+  color: var(--color-black);
   border-color: var(--accent-color);
-  transform: translateY(-3px) scale(1.03); /* Lift effect */
-   box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3); /* Yellow glow */
+  transform: translateY(-3px) scale(1.03);
+   box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
 }
 
 
@@ -692,9 +679,9 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 section,
 .section {
-  scroll-margin-top: 90px; /* Adjust based on final header height */
-  padding: 80px 0; /* Standard padding */
-  overflow: hidden; /* Prevent AOS overflow issues */
+  scroll-margin-top: 90px;
+  padding: 80px 0;
+  overflow: hidden;
 }
 
 .section.light-background {
@@ -710,96 +697,91 @@ section,
 # Section Title Enhancements
 --------------------------------------------------------------*/
 .section-title {
-  padding-bottom: 50px; /* Adjusted */
+  padding-bottom: 50px;
   text-align: center;
 }
 
-.section-title h2 { /* The small uppercase title */
+.section-title h2 {
   font-size: 14px;
   font-weight: 700;
   padding: 0;
   line-height: 1;
-  margin: 0 0 15px 0; /* Increased bottom margin */
+  margin: 0 0 15px 0;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-medium-gray); /* Lighter color */
-  /* Optional: if centering is slightly off, uncomment below */
-  /* display: inline-block; */
+  color: var(--color-medium-gray);
 }
 .dark-background .section-title h2 {
-    color: rgba(255, 255, 255, 0.5); /* Even lighter on dark bg */
+    color: rgba(255, 255, 255, 0.5);
 }
 
-/* Lines beside the small title - CORRECTED */
 .section-title h2::after,
 .section-title h2::before {
   content: "";
-  width: 80px; /* Shorter lines */
+  width: 80px;
   height: 1px;
   display: inline-block;
   background: var(--accent-color);
-  opacity: 0.5; /* Make lines subtler */
-  margin: 0 10px; /* Horizontal margin only */
-  vertical-align: middle; /* Vertically align lines with text */
+  opacity: 0.5;
+  margin: 0 10px;
+  vertical-align: middle;
 }
 
-.section-title p { /* The main large title */
+.section-title p {
   color: var(--heading-color);
   margin: 0;
-  font-size: clamp(1.8rem, 4.5vw, 2.8rem); /* Slightly smaller max */
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
   font-weight: 900;
   text-transform: uppercase;
   font-family: var(--heading-font);
-  line-height: 1.35; /* Adjusted line height */
+  line-height: 1.35;
 }
 .dark-background .section-title p {
-    color: var(--heading-color); /* Ensure it uses the correct variable */
+    color: var(--heading-color);
 }
 
 /*--------------------------------------------------------------
 # Ecosistema Section List Fix
 --------------------------------------------------------------*/
-/* Targeting the specific list in Ecosistema */
 #ecosistema .list-ticks {
   list-style: none;
-  padding-left: 0; /* REMOVE default browser padding */
-  margin-top: 1rem; /* Add some space above the list */
+  padding-left: 0;
+  margin-top: 1rem;
 }
 
 #ecosistema .list-ticks li {
-  padding-left: 30px; /* Space for icon + text */
+  padding-left: 30px;
   position: relative;
-  margin-bottom: 1rem; /* Space between items */
+  margin-bottom: 1rem;
   transition: transform var(--transition-speed-fast) var(--easing-smooth),
               color var(--transition-speed-fast) var(--easing-smooth);
   cursor: default;
-  color: var(--default-color); /* Ensure default text color */
-  line-height: 1.6; /* Improve readability */
+  color: var(--default-color);
+  line-height: 1.6;
 }
 
 #ecosistema .list-ticks li i {
   position: absolute;
   left: 0;
-  top: 5px; /* Adjust vertical alignment */
-  font-size: 1.1rem; /* Control icon size */
-  color: var(--accent-color); /* Ensure color is correct */
+  top: 5px;
+  font-size: 1.1rem;
+  color: var(--accent-color);
   transition: transform var(--transition-speed-fast) var(--easing-smooth);
 }
 
 #ecosistema .list-ticks li:hover {
   transform: translateX(5px);
-  color: var(--heading-color); /* Highlight text on hover */
+  color: var(--heading-color);
 }
 #ecosistema .list-ticks li:hover i {
-  transform: scale(1.1); /* Scale icon slightly */
+  transform: scale(1.1);
 }
 
-/* Spacing adjustment between Ecosistema and Services (Optional) */
 #ecosistema {
-    padding-bottom: 60px; /* Reduce bottom padding if needed */
+    padding-bottom: 60px;
 }
 #soluciones {
-    padding-top: 60px; /* Reduce top padding if needed */
+    padding-top: 60px;
 }
 
 /*--------------------------------------------------------------
@@ -807,60 +789,60 @@ section,
 --------------------------------------------------------------*/
 .service-item.interactive-card {
   background: var(--surface-color);
-  border-radius: 1rem; /* More pronounced radius */
-  overflow: hidden; /* Ensure content doesn't overflow */
+  border-radius: 1rem;
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-speed-medium) var(--easing-smooth),
               box-shadow var(--transition-speed-medium) var(--easing-smooth);
-  border: 1px solid var(--border-color-light); /* Subtle border */
-  position: relative; /* For potential pseudo-elements */
-  height: 100%; /* Ensure takes full height from col */
-  display: flex; /* Use flex for content alignment */
+  border: 1px solid var(--border-color-light);
+  position: relative;
+  height: 100%;
+  display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 2.5rem 1.5rem; /* More padding */
+  padding: 2.5rem 1.5rem;
 }
 
-.service-item.interactive-card::before { /* Optional: subtle gradient border effect on hover */
+.service-item.interactive-card::before {
     content: '';
     position: absolute;
-    inset: -1px; /* Cover the border */
+    inset: -1px;
     border-radius: inherit;
     background: linear-gradient(45deg, var(--accent-color), var(--color-accent-yellow-darker));
     opacity: 0;
     transition: opacity var(--transition-speed-medium) var(--easing-smooth);
-    z-index: -1; /* Place behind content */
+    z-index: -1;
 }
 
 .service-item.interactive-card:hover {
-  transform: translateY(-10px) scale(1.02); /* Lift and slight scale */
+  transform: translateY(-10px) scale(1.02);
   box-shadow: var(--shadow-lg);
 }
 .service-item.interactive-card:hover::before {
-    opacity: 1; /* Show gradient border on hover */
+    opacity: 1;
 }
 
 .service-item-content {
-  position: relative; /* To ensure content is above pseudo-element */
+  position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center content */
-  flex-grow: 1; /* Allow content to grow */
+  align-items: center;
+  flex-grow: 1;
 }
 
 .service-logo {
-  height: 60px !important; /* Ensure height */
+  height: 60px !important;
   margin-bottom: 1.5rem !important;
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
 
 .interactive-card:hover .service-logo {
-  transform: scale(1.1) rotate(-5deg); /* Animate logo */
+  transform: scale(1.1) rotate(-5deg);
 }
 
-.interactive-title-card { /* Specific class for card titles */
-  font-size: 1.3rem !important; /* Larger title */
+.interactive-title-card {
+  font-size: 1.3rem !important;
   font-weight: 700 !important;
   margin-bottom: 1rem !important;
 }
@@ -869,8 +851,8 @@ section,
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--default-color);
-    flex-grow: 1; /* Push button down */
-    margin-bottom: 1.5rem; /* Space before button */
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
 }
 
 .btn-card-detail {
@@ -883,7 +865,7 @@ section,
   font-size: 0.8rem;
   font-weight: 700;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex; /* Align icon properly */
+  display: inline-flex;
   align-items: center;
 }
 .btn-card-detail i {
@@ -899,24 +881,30 @@ section,
 }
 
 .interactive-card:hover .btn-card-detail i {
-  transform: translateX(4px); /* Move arrow on hover */
+  transform: translateX(4px);
 }
 
 /*--------------------------------------------------------------
 # Clients Section Enhancements
 --------------------------------------------------------------*/
 .clients-section {
-    padding: 80px 0; /* Adjust padding */
+    padding: 80px 0;
 }
 .client-logo-img {
-  max-height: 55px; /* Slightly smaller max height */
-  width: auto; /* Let width adjust */
+  max-height: 55px;
+  width: auto;
   object-fit: contain;
   opacity: 0.6;
-  filter: grayscale(100%) contrast(90%); /* Grayscale and slightly less contrast */
+  filter: grayscale(100%) contrast(90%);
   transition: all var(--transition-speed-medium) var(--easing-smooth);
-  margin: 0 auto; /* Center in slide */
+  margin: 0 auto;
   display: block;
+}
+
+.client-swiper .swiper-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .swiper-slide {
@@ -927,11 +915,11 @@ section,
 }
 .swiper-slide:hover .client-logo-img {
   opacity: 1;
-  filter: none; /* Remove grayscale */
-  transform: scale(1.1); /* Scale up */
+  filter: none;
+  transform: scale(1.1);
 }
 .swiper-pagination.client-pagination {
-    position: relative; /* Position below swiper */
+    position: relative;
     bottom: auto;
     margin-top: 30px;
 }
@@ -945,7 +933,7 @@ section,
 .swiper-pagination.client-pagination .swiper-pagination-bullet-active {
     background-color: var(--accent-color);
     opacity: 1;
-    width: 25px; /* Active bullet wider */
+    width: 25px;
     border-radius: 5px;
 }
 
@@ -957,9 +945,9 @@ section,
   background: var(--surface-color);
   border-radius: 1rem;
   padding: 2rem;
-  border: 1px solid transparent; /* Start transparent */
+  border: 1px solid transparent;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
-  height: 100%; /* Ensure consistent height */
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -969,19 +957,19 @@ section,
 .feature-item.interactive-feature-item:hover {
   transform: translateY(-10px);
   box-shadow: var(--shadow-md);
-  border-color: var(--accent-color); /* Highlight border */
+  border-color: var(--accent-color);
 }
 
 .feature-icon {
-  font-size: 3rem; /* Larger icon */
+  font-size: 3rem;
   color: var(--accent-color);
   margin-bottom: 1.5rem;
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
-  line-height: 1; /* Prevent extra space */
+  line-height: 1;
 }
 
 .feature-item.interactive-feature-item:hover .feature-icon {
-  transform: scale(1.1) rotate(-10deg); /* Bounce/rotate effect */
+  transform: scale(1.1) rotate(-10deg);
 }
 
 .feature-item h5 {
@@ -994,7 +982,7 @@ section,
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--default-color);
-  opacity: 0.9; /* Slightly less emphasis */
+  opacity: 0.9;
 }
 
 
@@ -1004,7 +992,7 @@ section,
 .service-detail-section {
     padding: 100px 0;
 }
-.service-detail-section .display-5 { /* The main title */
+.service-detail-section .display-5 {
     font-weight: 900;
 }
 .interactive-subtitle {
@@ -1014,7 +1002,7 @@ section,
     padding-left: 10px;
     border-left: 3px solid var(--accent-color);
     transition: border-color 0.3s ease;
-    margin-bottom: 1rem; /* Added margin */
+    margin-bottom: 1rem;
 }
 .interactive-subtitle i {
     transition: transform 0.3s ease;
@@ -1032,23 +1020,23 @@ section,
 
 /* Service Detail Logo-Title Alignment Fix */
 .service-title-wrapper {
-  display: flex; /* Enable Flexbox */
-  align-items: center; /* Vertically center items */
-  justify-content: center; /* Horizontally center items (since parent is text-center) */
-  gap: 1rem; /* Space between logo and title (adjust as needed) */
-  margin-bottom: 0.5rem; /* Space below the logo/title group */
-  flex-wrap: wrap; /* Allow wrapping on very small screens */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 /* Ensure image doesn't cause layout shifts */
 .service-title-wrapper img {
-    flex-shrink: 0; /* Prevent image from shrinking */
-    height: 70px; /* Maintain consistent height if needed */
+    flex-shrink: 0;
+    height: 70px;
     width: auto;
 }
 /* Adjust heading margin if needed within flex */
 .service-title-wrapper h2 {
-    margin-bottom: 0; /* Remove default bottom margin if any */
-    line-height: 1.2; /* Adjust line-height if title wraps */
+    margin-bottom: 0;
+    line-height: 1.2;
 }
 
 
@@ -1086,7 +1074,7 @@ section,
     background-color: var(--color-light-gray);
     border-top: 4px solid var(--accent-color);
     transition: box-shadow 0.3s ease;
-    border-radius: 0.5rem; /* Added subtle radius */
+    border-radius: 0.5rem;
 }
 .event-subscription-box:hover {
     box-shadow: var(--shadow-md);
@@ -1101,7 +1089,7 @@ section,
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    overflow: hidden; /* Hide icon initially */
+    overflow: hidden;
     position: relative;
 }
 .cta-event .btn-text {
@@ -1112,7 +1100,7 @@ section,
     position: absolute;
     right: 15px;
     top: 50%;
-    transform: translateY(-50%) translateX(30px); /* Start off-screen */
+    transform: translateY(-50%) translateX(30px);
     opacity: 0;
     transition: all 0.3s ease;
     font-size: 1.1rem;
@@ -1120,13 +1108,13 @@ section,
 .cta-event:hover {
     background-color: var(--color-accent-yellow-darker);
     border-color: var(--color-accent-yellow-darker);
-    padding-right: 45px; /* Make space for icon */
+    padding-right: 45px;
 }
 .cta-event:hover .btn-text {
-    transform: translateX(-10px); /* Move text slightly left */
+    transform: translateX(-10px);
 }
 .cta-event:hover .icon-send {
-    transform: translateY(-50%) translateX(0); /* Bring icon in */
+    transform: translateY(-50%) translateX(0);
     opacity: 1;
 }
 
@@ -1135,20 +1123,20 @@ section,
 # Contact Section Enhancements
 --------------------------------------------------------------*/
 .contact .info-container {
-    background: var(--color-light-gray); /* Use light gray */
+    background: var(--color-light-gray);
     border-radius: 1rem;
-    padding: 2.5rem; /* Consistent padding */
+    padding: 2.5rem;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 .contact .info-item {
-   padding: 0; /* Remove default padding */
-   margin-bottom: 2rem; /* Space between items */
-   text-align: left; /* Align text left */
-   background: none; /* Remove inner background */
-   box-shadow: none; /* Remove inner shadow */
+   padding: 0;
+   margin-bottom: 2rem;
+   text-align: left;
+   background: none;
+   box-shadow: none;
    display: flex;
    align-items: center;
 }
@@ -1156,16 +1144,16 @@ section,
     margin-bottom: 0;
 }
 .contact .info-item i {
-  font-size: 1.8rem; /* Adjust size */
+  font-size: 1.8rem;
   color: var(--accent-color);
-  background-color: rgba(250, 204, 21, 0.1); /* Soft background */
-  width: 55px; /* Adjust size */
+  background-color: rgba(250, 204, 21, 0.1);
+  width: 55px;
   height: 55px;
   border-radius: 50%;
-  border: none; /* Remove dotted border */
-  margin-right: 20px; /* Space between icon and text */
-  flex-shrink: 0; /* Prevent shrinking */
-  display: inline-flex; /* Use flex for centering */
+  border: none;
+  margin-right: 20px;
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease, background-color 0.3s ease;
@@ -1179,7 +1167,7 @@ section,
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0 0 5px 0;
-  color: var(--heading-color); /* Use heading color */
+  color: var(--heading-color);
 }
 .contact .info-item p {
   padding: 0;
@@ -1187,7 +1175,7 @@ section,
   font-size: 0.95rem;
   line-height: 1.5;
 }
-.contact .info-item a { /* Style links within info items */
+.contact .info-item a {
     color: var(--default-color);
 }
 .contact .info-item a:hover {
@@ -1200,7 +1188,7 @@ section,
     border-radius: 1rem;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-color-light);
-    padding: 2.5rem; /* Consistent padding */
+    padding: 2.5rem;
     height: 100%;
 }
 
@@ -1216,10 +1204,10 @@ section,
 .contact .php-email-form textarea {
   font-size: 0.95rem;
   padding: 12px 15px;
-  border-radius: 8px; /* Slightly more rounded */
+  border-radius: 8px;
   color: var(--default-color);
-  background-color: var(--color-light-gray); /* Light gray background */
-  border: 1px solid transparent; /* Start with transparent border */
+  background-color: var(--color-light-gray);
+  border: 1px solid transparent;
   transition: border-color var(--transition-speed-medium) ease, box-shadow var(--transition-speed-medium) ease, background-color var(--transition-speed-medium) ease;
 }
 
@@ -1227,14 +1215,14 @@ section,
 .contact .php-email-form .form-select:focus,
 .contact .php-email-form textarea:focus {
   border-color: var(--accent-color);
-  background-color: var(--color-white); /* White on focus */
-  box-shadow: 0 0 0 3px var(--color-accent-yellow-glow); /* Glow effect */
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 3px var(--color-accent-yellow-glow);
   outline: none;
 }
 
 .contact .php-email-form select.form-select {
   cursor: pointer;
-  appearance: none; /* Custom arrow */
+  appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
@@ -1243,14 +1231,13 @@ section,
 
 /* Show/Hide "Otro Sector" Animation */
 #otroSectorDiv {
-    display: block; /* Keep as block for transitions */
+    display: block;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin-top 0.3s ease;
     overflow: hidden;
     opacity: 0;
-    max-height: 0; /* Start collapsed */
-    margin-top: 0; /* Start collapsed */
+    max-height: 0;
+    margin-top: 0;
 }
-/* No need for [style*="block"] selector anymore */
 
 
 /* Contact Form Submit Button */
@@ -1267,7 +1254,7 @@ section,
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 1rem; /* Add margin */
+  margin-top: 1rem;
 }
 .cta-form i {
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
@@ -1290,7 +1277,7 @@ section,
   margin: 15px 0 0 0;
   border-radius: 8px;
   font-weight: 500;
-  display: none; /* Hide by default */
+  display: none;
   text-align: center;
 }
 .php-email-form .loading { background: var(--color-light-gray); }
@@ -1309,7 +1296,7 @@ section,
   height: 24px;
   margin: 0 10px -6px 0;
   border: 3px solid var(--accent-color);
-  border-top-color: var(--color-light-gray); /* Match loading background */
+  border-top-color: var(--color-light-gray);
   animation: php-email-form-loading 1s linear infinite;
 }
 
@@ -1319,14 +1306,14 @@ section,
 --------------------------------------------------------------*/
 .footer {
   background-color: var(--color-black);
-  color: var(--color-light-gray); /* Default text color */
+  color: var(--color-light-gray);
   font-size: 0.9rem;
-  padding: 60px 0 0 0; /* Add padding top, remove bottom */
+  padding: 60px 0 0 0;
 }
 
 .footer .footer-top {
-  padding: 0 0 40px 0; /* Adjust padding */
-  border-bottom: 1px solid var(--border-color-dark); /* Add bottom border */
+  padding: 0 0 40px 0;
+  border-bottom: 1px solid var(--border-color-dark);
 }
 
 .footer .footer-about .logo span {
@@ -1334,19 +1321,19 @@ section,
   font-size: 1.8rem;
 }
 .footer .footer-about p {
-  color: var(--color-medium-gray); /* Lighter text for description */
+  color: var(--color-medium-gray);
   line-height: 1.6;
 }
 .footer .footer-contact p {
    margin-bottom: 8px;
    color: var(--color-light-gray);
-   display: flex; /* Align icon and text */
+   display: flex;
    align-items: flex-start;
 }
 .footer .footer-contact i {
-    color: var(--accent-color); /* Yellow icons */
-    margin-right: 8px; /* Space after icon */
-    margin-top: 3px; /* Align icon slightly lower */
+    color: var(--accent-color);
+    margin-right: 8px;
+    margin-top: 3px;
     flex-shrink: 0;
 }
 .footer .footer-contact a {
@@ -1358,9 +1345,9 @@ section,
 }
 
 .footer .social-links a {
-  background-color: rgba(255, 255, 255, 0.1); /* Subtle background */
+  background-color: rgba(255, 255, 255, 0.1);
   color: var(--color-light-gray);
-  border: none; /* Remove border */
+  border: none;
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -1374,7 +1361,7 @@ section,
 .footer .social-links a:hover {
   background-color: var(--accent-color);
   color: var(--contrast-color);
-  transform: translateY(-3px); /* Lift effect */
+  transform: translateY(-3px);
 }
 
 .footer h4 {
@@ -1383,9 +1370,9 @@ section,
   padding-bottom: 15px;
   color: var(--color-white);
   position: relative;
-  margin-bottom: 15px; /* Space below title */
+  margin-bottom: 15px;
 }
-.footer h4::after { /* Underline for titles */
+.footer h4::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -1396,14 +1383,14 @@ section,
 }
 
 .footer .footer-links ul { list-style: none; padding: 0; margin: 0; }
-.footer .footer-links ul li { padding: 8px 0; } /* Adjust padding */
+.footer .footer-links ul li { padding: 8px 0; }
 .footer .footer-links ul a {
-  color: var(--color-medium-gray); /* Lighter links */
+  color: var(--color-medium-gray);
   transition: color 0.2s ease, padding-left 0.2s ease;
   display: inline-block;
   position: relative;
 }
-.footer .footer-links ul a::before { /* Bullet point */
+.footer .footer-links ul a::before {
     content: '»';
     position: absolute;
     left: -15px;
@@ -1413,23 +1400,23 @@ section,
 }
 .footer .footer-links ul a:hover {
   color: var(--color-white);
-  padding-left: 5px; /* Move text right */
+  padding-left: 5px;
 }
 .footer .footer-links ul a:hover::before {
-    left: -10px; /* Move bullet in */
+    left: -10px;
     opacity: 1;
 }
 
 /* Newsletter Form */
 .footer .footer-newsletter .newsletter-form {
   margin-top: 1.5rem;
-  padding: 0; /* Remove default padding */
+  padding: 0;
   position: relative;
-  border-radius: 50px; /* Pill shape */
+  border-radius: 50px;
   border: 1px solid var(--border-color-dark);
   display: flex;
   background-color: rgba(255, 255, 255, 0.1);
-  overflow: hidden; /* Contain button */
+  overflow: hidden;
   transition: border-color 0.3s ease;
 }
 .footer .footer-newsletter .newsletter-form:focus-within {
@@ -1438,7 +1425,7 @@ section,
 
 .footer .footer-newsletter .newsletter-form input[type=email] {
   border: 0;
-  padding: 10px 20px; /* Adjust padding */
+  padding: 10px 20px;
   width: 100%;
   background-color: transparent;
   color: var(--color-white);
@@ -1452,14 +1439,14 @@ section,
     outline: none;
 }
 
-.footer .footer-newsletter .btn-newsletter { /* Changed from input type=submit */
+.footer .footer-newsletter .btn-newsletter {
   border: 0;
   background: var(--accent-color);
   color: var(--contrast-color);
   transition: background-color 0.3s ease;
-  padding: 0 20px; /* Padding for icon */
+  padding: 0 20px;
   cursor: pointer;
-  font-size: 1.2rem; /* Icon size */
+  font-size: 1.2rem;
 }
 .footer .footer-newsletter .btn-newsletter:hover {
   background: var(--color-accent-yellow-darker);
@@ -1489,7 +1476,7 @@ section,
 .footer .copyright {
   text-align: center;
   padding: 30px 0;
-  margin-top: 30px; /* Space above copyright */
+  margin-top: 30px;
   border-top: 1px solid var(--border-color-dark);
   color: var(--color-medium-gray);
 }
@@ -1516,18 +1503,15 @@ section,
   inset: 0;
   z-index: 999999;
   overflow: hidden;
-  background: var(--color-black); /* Dark preloader */
+  background: var(--color-black);
   transition: all 0.6s ease-out;
-  display: flex; /* Use flex for centering */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
-#preloader .preloader-spinner { /* Using a div now */
-  /* position: fixed; */ /* Not needed with flex */
-  /* top: calc(50% - 30px); */
-  /* left: calc(50% - 30px); */
-  border: 4px solid rgba(255, 255, 255, 0.2); /* Lighter border */
-  border-top-color: var(--accent-color); /* Accent color spinner */
+#preloader .preloader-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--accent-color);
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -1535,13 +1519,9 @@ section,
 }
 /* Optional logo in preloader */
 #preloader .preloader-logo {
-    /* position: fixed; */ /* Not needed with flex */
-    /* top: calc(50% + 40px); */ /* Position below spinner */
-    /* left: 50%; */
-    /* transform: translateX(-50%); */
     max-height: 40px;
     opacity: 0.8;
-    margin-top: 20px; /* Space below spinner */
+    margin-top: 20px;
 }
 
 @keyframes animate-preloader {
@@ -1559,14 +1539,14 @@ section,
   opacity: 0;
   right: 15px;
   bottom: 15px;
-  z-index: 9999; /* High z-index */
+  z-index: 9999;
   background-color: var(--accent-color);
-  width: 44px; /* Slightly larger */
+  width: 44px;
   height: 44px;
-  border-radius: 50%; /* Circle */
+  border-radius: 50%;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: flex; /* Center icon */
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -1579,8 +1559,8 @@ section,
 
 .scroll-top:hover {
   background-color: var(--color-accent-yellow-darker);
-  transform: translateY(-4px) scale(1.05); /* Lift effect */
-  box-shadow: 0 6px 15px rgba(250, 204, 21, 0.4); /* Glow */
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(250, 204, 21, 0.4);
 }
 
 .scroll-top.active {
