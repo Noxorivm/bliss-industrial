@@ -1847,3 +1847,9 @@ section,
   position: absolute;
   left: 0;
 }
+
+.parallax-bg {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
