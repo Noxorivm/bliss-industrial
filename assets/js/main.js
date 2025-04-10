@@ -1,158 +1,247 @@
 (function () {
   "use strict";
 
-  // Añade clase "scrolled" al hacer scroll
+  /**
+   * Apply .scrolled class to the body as the page is scrolled down
+   */
   function toggleScrolled() {
-    const body = document.querySelector('body');
-    const header = document.querySelector('#header');
-    if (!header.classList.contains('scroll-up-sticky') && !header.classList.contains('sticky-top') && !header.classList.contains('fixed-top')) return;
-    window.scrollY > 100 ? body.classList.add('scrolled') : body.classList.remove('scrolled');
+    const selectBody = document.querySelector('body');
+    const selectHeader = document.querySelector('#header');
+    if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
+    window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
   }
-
   document.addEventListener('scroll', toggleScrolled);
   window.addEventListener('load', toggleScrolled);
 
-  // Menú móvil
+  /**
+   * Mobile nav toggle
+   */
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-  function mobileNavToggle() {
-    document.body.classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn?.classList.toggle('bi-list');
-    mobileNavToggleBtn?.classList.toggle('bi-x');
-  }
-  mobileNavToggleBtn?.addEventListener('click', mobileNavToggle);
+  const navmenu = document.querySelector('#navmenu'); // Get the navmenu itself
+  const body = document.body; // Cache body element
 
-  // Ocultar nav móvil al hacer clic en links del mismo hash
-  document.querySelectorAll('#navmenu a').forEach(link => {
-    link.addEventListener('click', () => {
-      if (document.body.classList.contains('mobile-nav-active')) {
-        mobileNavToggle();
+  function mobileNavToggle() {
+    body.classList.toggle('mobile-nav-active');
+    const show = body.classList.contains('mobile-nav-active');
+
+    // Toggle icons visibility based on state
+    const listIcon = document.querySelector('.mobile-nav-toggle.bi-list');
+    const xIcon = document.querySelector('.mobile-nav-toggle.bi-x');
+    if (listIcon) listIcon.style.display = show ? 'none' : 'block';
+    if (xIcon) xIcon.style.display = show ? 'block' : 'none';
+
+    // Toggle navmenu visibility for smoother transitions
+    if (navmenu) {
+       navmenu.style.display = show ? 'block' : 'none'; // Use display instead of visibility
+       // Force reflow for transition
+       // void navmenu.offsetWidth;
+       navmenu.style.opacity = show ? '1' : '0';
+    }
+  }
+
+  if (mobileNavToggleBtn) {
+      // Add listener to the primary toggle button (which includes both icons)
+      const mainToggleContainer = document.querySelector('.mobile-nav-toggle'); // Assuming the container holds both
+       if (mainToggleContainer) {
+           mainToggleContainer.addEventListener('click', (e) => {
+               // Prevent clicks on hidden icon from triggering toggle
+               if ((e.target.classList.contains('bi-list') && !body.classList.contains('mobile-nav-active')) ||
+                   (e.target.classList.contains('bi-x') && body.classList.contains('mobile-nav-active'))) {
+                   mobileNavToggle();
+               }
+           });
+       } else {
+           // Fallback if icons are separate (less ideal)
+           document.querySelectorAll('.mobile-nav-toggle').forEach(toggle => {
+               toggle.addEventListener('click', mobileNavToggle);
+           });
+       }
+
+      // Add click listener to the overlay (navmenu when active) to close
+      if (navmenu) {
+          navmenu.addEventListener('click', (e) => {
+              // Close only if clicking the background overlay itself, not a link inside ul
+              if (e.target === navmenu && body.classList.contains('mobile-nav-active')) {
+                  mobileNavToggle();
+              }
+          });
+      }
+  }
+
+  /**
+   * Hide mobile nav on same-page/hash links
+   */
+  document.querySelectorAll('#navmenu a').forEach(navmenuLink => {
+    navmenuLink.addEventListener('click', (e) => { // Add event arg
+      // Check if it's a hash link on the same page
+      if (navmenuLink.pathname === window.location.pathname && navmenuLink.hash) {
+          if (body.classList.contains('mobile-nav-active')) {
+            // Prevent default jump, allow smooth scroll to handle it
+            // e.preventDefault(); // Optional: Remove if smooth scroll works fine
+            mobileNavToggle();
+          }
       }
     });
   });
 
-  // Dropdowns móviles
-  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(dropdown => {
-    dropdown.addEventListener('click', function (e) {
+  /**
+   * Toggle mobile nav dropdowns
+   */
+  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(dropdownToggle => {
+    dropdownToggle.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-      e.stopImmediatePropagation();
+      e.stopImmediatePropagation(); // Prevent closing nav when clicking dropdown
     });
   });
 
-  // Preloader
-  const preloader = document.querySelector('#preloader');
-  window.addEventListener('load', () => {
-    preloader?.remove();
-  });
 
-  // Scroll top button
+  /**
+   * Preloader
+   */
+  const preloader = document.querySelector('#preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      // Optional: add a short delay before removing for smoother fade
+      setTimeout(() => {
+        preloader.style.opacity = '0'; // Fade out
+        setTimeout(() => preloader.remove(), 500); // Remove after fade
+      }, 300); // 300ms delay before starting fade
+    });
+  }
+
+  /**
+   * Scroll top button
+   */
   const scrollTop = document.querySelector('.scroll-top');
   function toggleScrollTop() {
     if (scrollTop) {
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop?.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (scrollTop) {
+      scrollTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+  }
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
 
-  // AOS (animaciones suaves)
+  /**
+   * Animation on scroll function and init
+   */
   function aosInit() {
     AOS.init({
-      duration: 800,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
+      duration: 800, // Slightly longer duration
+      easing: 'ease-out-cubic', // Smoother easing
+      once: true, // Animation happens only once
+      mirror: false // Animation doesn't reverse on scroll up
     });
+    // Optional: Refresh AOS after dynamic content loads if needed
+    // setTimeout(() => { AOS.refresh(); }, 500);
   }
   window.addEventListener('load', aosInit);
 
-  // GLightbox
-  GLightbox({ selector: '.glightbox' });
+  /**
+   * Init GLightbox
+   */
+  const glightbox = GLightbox({
+    selector: '.glightbox'
+  });
 
-  // Contador
+  /**
+   * Init PureCounter
+   */
   new PureCounter();
 
-  // Swipers
-  function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(swiperEl => {
-      const config = JSON.parse(swiperEl.querySelector(".swiper-config").innerHTML.trim());
-      new Swiper(swiperEl, config);
+  /**
+   * Init Swipersliders (Generic - if you add more later)
+   * Specific Swiper for clients is now in HTML inline script
+   */
+  function initSwipers() {
+    document.querySelectorAll('.init-swiper').forEach(function (swiperElement) {
+      let config = JSON.parse(swiperElement.querySelector('.swiper-config').innerHTML.trim());
+      new Swiper(swiperElement, config);
     });
   }
-  window.addEventListener("load", initSwiper);
+  window.addEventListener('load', initSwipers);
 
-  // Isotope
-  document.querySelectorAll('.isotope-layout').forEach(layout => {
-    const layoutMode = layout.dataset.layout || 'masonry';
-    const defaultFilter = layout.dataset.defaultFilter || '*';
-    const sort = layout.dataset.sort || 'original-order';
 
-    let iso;
-    imagesLoaded(layout.querySelector('.isotope-container'), () => {
-      iso = new Isotope(layout.querySelector('.isotope-container'), {
+  /**
+   * Init Isotope Layout (Keep if you plan to use filtering)
+   */
+  document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
+    let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
+    let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
+    let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
+
+    let initIsotope;
+    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function () {
+      initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
         itemSelector: '.isotope-item',
-        layoutMode: layoutMode,
-        filter: defaultFilter,
+        layoutMode: layout,
+        filter: filter,
         sortBy: sort
       });
     });
 
-    layout.querySelectorAll('.isotope-filters li').forEach(filter => {
-      filter.addEventListener('click', function () {
-        layout.querySelector('.filter-active').classList.remove('filter-active');
+    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function (filters) {
+      filters.addEventListener('click', function () {
+        isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
-        iso.arrange({ filter: this.dataset.filter });
-        if (typeof aosInit === 'function') aosInit();
-      });
+        initIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        if (typeof aosInit === 'function') {
+          aosInit(); // Re-trigger AOS animations if needed after filtering
+        }
+      }, false);
     });
+
   });
 
-  // Scrollspy
-  function navmenuScrollspy() {
-    const links = document.querySelectorAll('.navmenu a');
-    const position = window.scrollY + 200;
-
-    links.forEach(link => {
-      if (!link.hash) return;
-      const section = document.querySelector(link.hash);
-      if (!section) return;
-
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        document.querySelectorAll('.navmenu a.active').forEach(i => i.classList.remove('active'));
-        link.classList.add('active');
+  /**
+   * Correct scrolling position upon page load for URLs containing hash links.
+   */
+  window.addEventListener('load', function (e) {
+    if (window.location.hash) {
+      let section = document.querySelector(window.location.hash);
+      if (section) {
+        setTimeout(() => {
+          let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
+          window.scrollTo({
+            top: section.offsetTop - parseInt(scrollMarginTop),
+            behavior: 'smooth'
+          });
+        }, 100); // Delay slightly to ensure layout stability
       }
-    });
-  }
-  window.addEventListener('load', navmenuScrollspy);
-  document.addEventListener('scroll', navmenuScrollspy);
-
-  // Scroll suave al cargar con hash
-  window.addEventListener('load', () => {
-    if (window.location.hash && document.querySelector(window.location.hash)) {
-      setTimeout(() => {
-        const el = document.querySelector(window.location.hash);
-        const margin = parseInt(getComputedStyle(el).scrollMarginTop);
-        window.scrollTo({ top: el.offsetTop - margin, behavior: 'smooth' });
-      }, 100);
     }
   });
 
-  // Animación personalizada para botón de evento (BLISS Executive)
-  const btnEvento = document.querySelector('#evento-btn');
-  const emailBox = document.querySelector('#evento-email-box');
-
-  if (btnEvento && emailBox) {
-    btnEvento.addEventListener('click', () => {
-      emailBox.classList.toggle('show');
-      emailBox.classList.contains('show')
-        ? emailBox.classList.add('fade-in')
-        : emailBox.classList.remove('fade-in');
-    });
+  /**
+   * Navmenu Scrollspy
+   */
+  let navmenulinks = document.querySelectorAll('.navmenu a');
+  function navmenuScrollspy() {
+      let position = window.scrollY + 200; // Offset for activation point
+      navmenulinks.forEach(navmenulink => {
+        if (!navmenulink.hash) return;
+        let section = document.querySelector(navmenulink.hash);
+        if (!section) return;
+        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+          document.querySelectorAll('.navmenu a.active').forEach(link => link.classList.remove('active'));
+          navmenulink.classList.add('active');
+        } else {
+          navmenulink.classList.remove('active');
+        }
+      })
   }
+  window.addEventListener('load', navmenuScrollspy);
+  document.addEventListener('scroll', navmenuScrollspy);
 
 })();

@@ -15,14 +15,14 @@
   <meta property="og:url" content="https://blissindustrial.eu/">
   <meta property="og:title" content="BLISS Industrial Services | Automatización, IA y Estrategia Industrial">
   <meta property="og:description" content="Expertos en automatización y estructuración de procesos industriales con inteligencia artificial.">
-  <meta property="og:image" content="https://blissindustrial.eu/assets/img/og-image.jpg">
+  <meta property="og:image" content="https://blissindustrial.eu/assets/img/og-image.jpg"> <!-- Make sure this image exists -->
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://blissindustrial.eu/">
   <meta name="twitter:title" content="BLISS Industrial Services | Automatización y Estrategia Industrial">
   <meta name="twitter:description" content="Consultora 100% industrial en IA, automatización y decisiones estratégicas.">
-  <meta name="twitter:image" content="https://blissindustrial.eu/assets/img/og-image.jpg">
+  <meta name="twitter:image" content="https://blissindustrial.eu/assets/img/og-image.jpg"> <!-- Make sure this image exists -->
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -32,6 +32,9 @@
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap" rel="stylesheet"> <!-- Added Raleway for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet"> <!-- Added Inter for nav -->
+
 
   <!-- Vendor CSS -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -46,625 +49,683 @@
 
 <body class="index-page">
 
-
     <!-- Header -->
     <header id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
-  
+
         <a href="index.html" class="logo d-flex align-items-center me-auto">
+          <!-- Consider using an SVG logo for better quality and potential animation -->
           <img src="assets/img/logo.jfif" alt="BLISS Industrial Services Logo">
+          <!-- Optional: Add text logo if image doesn't load or for style -->
+          <!-- <span class="sitename">BLISS</span> -->
         </a>
-  
+
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="#hero" class="active">Inicio</a></li>
             <li><a href="#ecosistema">Ecosistema</a></li>
             <li><a href="#soluciones">Soluciones</a></li>
-            <li><a href="#para-quien">Para Quién</a></li>
+            <!-- Removed "Para Quién" link as section was replaced -->
             <li><a href="#why-bliss">Por qué BLISS</a></li>
           </ul>
         </nav>
-  
+
+        <!-- Mobile Nav Toggle -->
         <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
         <a class="cta-btn" href="#contact">Contactar</a>
-  
+
       </div>
     </header>
-  
+
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background position-relative overflow-hidden">
-      <video autoplay loop muted playsinline>
+      <video autoplay loop muted playsinline class="hero-video">
         <source src="assets/img/ai.mp4" type="video/mp4">
         Tu navegador no soporta el video.
       </video>
-  
-      <div class="container d-flex flex-column align-items-center position-relative" style="z-index: 3;">
-        <h2>MEJORAMOS LA EFICIENCIA DE EMPRESAS INDUSTRIALES DESDE UN ECOSISTEMA INTELIGENTE.</h2>
-        <p>Identificamos ineficiencias, optimizamos procesos y mejoramos tus decisiones estratégicas desde un ecosistema modular y estratégico 100% industrial, que también te conecta con aliados y oportunidades clave.</p>
-        <div class="d-flex mt-4">
+       <div class="hero-overlay"></div> <!-- Added overlay -->
+
+      <div class="container d-flex flex-column align-items-center position-relative" data-aos="fade-up" style="z-index: 3;">
+        <h1 class="hero-title animate-onload-fadein">MEJORAMOS LA <span class="highlight">EFICIENCIA</span> DE EMPRESAS INDUSTRIALES DESDE UN ECOSISTEMA <span class="highlight">INTELIGENTE</span></h1>
+        <p class="hero-subtitle animate-onload-fadein-delay1">Identificamos ineficiencias, optimizamos procesos y mejoramos tus decisiones estratégicas desde un ecosistema modular y estratégico 100% industrial, que también te conecta con aliados y oportunidades clave.</p>
+        <div class="d-flex mt-4 animate-onload-fadein-delay2">
           <a href="#ecosistema" class="btn-get-started cta-blanco-negro">Conoce nuestro ecosistema</a>
         </div>
       </div>
     </section>
-   
+
     <!-- Ecosistema Section -->
-<section id="ecosistema" class="section light-background">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>ECOSISTEMA</h2>
-    <p>Un ecosistema modular diseñado para escalar tu empresa industrial sin fricciones</p>
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-4 align-items-center">
-
-      <div class="col-lg-6">
-        <ul class="list-ticks">
-          <li><i class="bi bi-check-circle-fill text-warning me-2"></i>Automatización e inteligencia artificial aplicada a procesos industriales.</li>
-          <li><i class="bi bi-check-circle-fill text-warning me-2"></i>Análisis estratégico para decisiones operativas efectivas.</li>
-          <li><i class="bi bi-check-circle-fill text-warning me-2"></i>Intermediación con proveedores, soluciones y tecnologías clave.</li>
-          <li><i class="bi bi-check-circle-fill text-warning me-2"></i>Conexiones estratégicas dentro del ecosistema industrial.</li>
-          <li><i class="bi bi-check-circle-fill text-warning me-2"></i>Modelo modular, escalable y libre de fricciones innecesarias.</li>
-        </ul>
+    <section id="ecosistema" class="section light-background">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>ECOSISTEMA</h2>
+        <p>Un ecosistema modular diseñado para <span class="highlight-dark">escalar</span> tu empresa industrial sin fricciones</p>
       </div>
 
-      <div class="col-lg-6 d-flex justify-content-center">
-        <img src="assets/img/ecosistema-bliss.webp" alt="Ecosistema BLISS" class="img-fluid rounded-4 shadow">
-      </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 align-items-center">
 
-    </div>
-  </div>
-</section>
+          <div class="col-lg-6">
+            <ul class="list-ticks interactive-list"> <!-- Added interactive-list -->
+              <li data-aos="fade-left" data-aos-delay="100"><i class="bi bi-check-circle-fill text-warning me-2"></i>Automatización e inteligencia artificial aplicada a procesos industriales.</li>
+              <li data-aos="fade-left" data-aos-delay="200"><i class="bi bi-check-circle-fill text-warning me-2"></i>Análisis estratégico para decisiones operativas efectivas.</li>
+              <li data-aos="fade-left" data-aos-delay="300"><i class="bi bi-check-circle-fill text-warning me-2"></i>Intermediación con proveedores, soluciones y tecnologías clave.</li>
+              <li data-aos="fade-left" data-aos-delay="400"><i class="bi bi-check-circle-fill text-warning me-2"></i>Conexiones estratégicas dentro del ecosistema industrial.</li>
+              <li data-aos="fade-left" data-aos-delay="500"><i class="bi bi-check-circle-fill text-warning me-2"></i>Modelo modular, escalable y libre de fricciones innecesarias.</li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6 d-flex justify-content-center">
+            <img src="assets/img/ecosistema.jpeg" alt="Ecosistema BLISS" class="img-fluid rounded-4 shadow interactive-image"> <!-- Added interactive-image -->
+          </div>
+
+        </div>
+      </div>
+    </section>
 
     <!-- Soluciones / Servicios Section -->
-<section id="soluciones" class="services section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>SERVICIOS</h2>
-    <p>Nuestras Soluciones Clave</p>
-  </div>
+    <section id="soluciones" class="services section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>SERVICIOS</h2>
+        <p>Nuestras <span class="highlight-dark">Soluciones</span> Clave</p>
+      </div>
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="row gy-5">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5 justify-content-center"> <!-- Added justify-content-center -->
 
-      <!-- BLISS AI 4 Industry -->
-      <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="service-item text-center p-4 rounded shadow-sm h-100">
-          <img src="assets/img/logo-bliss-ai.jfif" class="mb-3" alt="BLISS AI 4 Industry" style="height: 50px;">
-          <h3 class="fs-5 fw-bold mb-2">BLISS AI 4 Industry</h3>
-          <p class="small text-muted">Automatizamos lo repetitivo, optimizamos lo crítico y liberamos capacidad operativa con soluciones de IA diseñadas a medida para la industria.</p>
-          <a href="#bliss-ai-industry" class="btn btn-outline-dark mt-3">Ver más</a>
+          <!-- BLISS AI 4 Industry -->
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="200"> <!-- Changed zoom-in -->
+            <div class="service-item interactive-card h-100">
+              <div class="service-item-content">
+                <img src="assets/img/logo-bliss-ai.jfif" class="mb-3 service-logo" alt="BLISS AI 4 Industry" style="height: 50px;">
+                <h3 class="fs-5 fw-bold mb-2 interactive-title-card">BLISS AI 4 Industry</h3>
+                <p class="small text-muted">Automatizamos lo repetitivo, optimizamos lo crítico y liberamos capacidad operativa con soluciones de IA diseñadas a medida para la industria.</p>
+                <a href="#bliss-ai-industry" class="btn btn-outline-dark mt-3 btn-card-detail">Ver más <i class="bi bi-arrow-right-short"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLISS Trade & Performance -->
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="300"> <!-- Changed zoom-in -->
+             <div class="service-item interactive-card h-100">
+               <div class="service-item-content">
+                <img src="assets/img/logo3.jfif" class="mb-3 service-logo" alt="BLISS Trade & Performance" style="height: 50px;">
+                <h3 class="fs-5 fw-bold mb-2 interactive-title-card">BLISS Trade & Performance</h3>
+                <p class="small text-muted">Te ayudamos a elegir la maquinaria, soluciones o mejoras industriales más rentables, comparando alternativas con datos y estrategia.</p>
+                <a href="#bliss-trade-performance" class="btn btn-outline-dark mt-3 btn-card-detail">Ver más <i class="bi bi-arrow-right-short"></i></a>
+               </div>
+            </div>
+          </div>
+
+          <!-- BLISS Executive -->
+          <div class="col-xl-4 col-md-6" data-aos="zoom-in-up" data-aos-delay="400"> <!-- Changed zoom-in & mx-auto removed for consistency -->
+             <div class="service-item interactive-card h-100">
+               <div class="service-item-content">
+                <img src="assets/img/logo4.jfif" class="mb-3 service-logo" alt="BLISS Executive" style="height: 50px;">
+                <h3 class="fs-5 fw-bold mb-2 interactive-title-card">BLISS Executive</h3>
+                <p class="small text-muted">Conecta con empresarios industriales en eventos premium diseñados para generar ideas, alianzas y oportunidades reales.</p>
+                <a href="#bliss-executive" class="btn btn-outline-dark mt-3 btn-card-detail">Ver más <i class="bi bi-arrow-right-short"></i></a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </section>
 
-      <!-- BLISS Trade & Performance -->
-      <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-        <div class="service-item text-center p-4 rounded shadow-sm h-100">
-          <img src="assets/img/logo3.jfif" class="mb-3" alt="BLISS Trade & Performance" style="height: 50px;">
-          <h3 class="fs-5 fw-bold mb-2">BLISS Trade & Performance</h3>
-          <p class="small text-muted">Te ayudamos a elegir la maquinaria, soluciones o mejoras industriales más rentables, comparando alternativas con datos y estrategia.</p>
-          <a href="#bliss-trade-performance" class="btn btn-outline-dark mt-3">Ver más</a>
+    <!-- Clients Section Refined -->
+    <section id="clients" class="section light-background clients-section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>CLIENTES</h2>
+        <p>Confían en <span class="highlight-dark">Nosotros</span></p>
+      </div>
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper client-swiper">
+          <div class="swiper-wrapper align-items-center">
+            <div class="swiper-slide">
+              <img src="assets/img/clients/estudio_artline.png" class="img-fluid client-logo-img" alt="Artline Solutions">
+            </div>
+            <div class="swiper-slide">
+              <img src="assets/img/clients/xteach_logo.png" class="img-fluid client-logo-img" alt="XTEACH">
+            </div>
+             <!-- Add more client logos here -->
+             <div class="swiper-slide"> <!-- Example: Placeholder -->
+              <img src="https://via.placeholder.com/150x60/CCCCCC/969696?text=Cliente+3" class="img-fluid client-logo-img" alt="Cliente 3">
+            </div>
+             <div class="swiper-slide"> <!-- Example: Placeholder -->
+              <img src="https://via.placeholder.com/150x60/CCCCCC/969696?text=Cliente+4" class="img-fluid client-logo-img" alt="Cliente 4">
+            </div>
+             <div class="swiper-slide"> <!-- Example: Placeholder -->
+              <img src="https://via.placeholder.com/150x60/CCCCCC/969696?text=Cliente+5" class="img-fluid client-logo-img" alt="Cliente 5">
+            </div>
+          </div>
+          <!-- Optional: Add pagination -->
+           <div class="swiper-pagination client-pagination"></div>
         </div>
       </div>
+    </section>
 
-      <!-- BLISS Executive -->
-      <div class="col-xl-4 col-md-6 mx-auto" data-aos="zoom-in" data-aos-delay="400">
-        <div class="service-item text-center p-4 rounded shadow-sm h-100">
-          <img src="assets/img/logo4.jfif" class="mb-3" alt="BLISS Executive" style="height: 50px;">
-          <h3 class="fs-5 fw-bold mb-2">BLISS Executive</h3>
-          <p class="small text-muted">Conecta con empresarios industriales en eventos premium diseñados para generar ideas, alianzas y oportunidades reales.</p>
-          <a href="#bliss-executive" class="btn btn-outline-dark mt-3">Ver más</a>
+    <!-- Sección Detallada AI 4 Industry -->
+    <section id="bliss-ai-industry" class="section service-detail-section">
+      <div class="container" data-aos="fade-up">
+        <div class="text-center mb-5">
+          <!-- Corrected Structure: Added Wrapper Div for alignment -->
+          <div class="service-title-wrapper">
+            <img src="assets/img/logo-bliss-ai.jfif" alt="BLISS AI for Industry" style="height: 70px;" class="fade-in-icon"> <!-- Removed mb-3 -->
+            <h2 class="fw-bold display-5 interactive-title">BLISS AI for Industry</h2>
+          </div>
+          <!-- End Wrapper Div -->
+          <p class="lead text-muted subtitle-fade mt-2">Automatizamos lo repetitivo. Optimizamos lo crítico. Escalamos lo esencial.</p> <!-- Added mt-2 -->
+        </div>
+
+        <div class="row gy-5"> <!-- Increased gap -->
+          <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+            <h5 class="fw-bold mb-3 interactive-subtitle"><i class="bi bi-question-circle-fill me-2 text-warning"></i>¿Qué resolvemos?</h5>
+            <ul class="list-unstyled detail-list">
+              <li><i class="bi bi-dot"></i>Tareas repetitivas que consumen tiempo y recursos.</li>
+              <li><i class="bi bi-dot"></i>Procesos manuales con errores o duplicidades.</li>
+              <li><i class="bi bi-dot"></i>Baja visibilidad operativa y decisiones poco objetivas.</li>
+              <li><i class="bi bi-dot"></i>Estructuras ineficientes que impiden escalar.</li>
+            </ul>
+
+            <h5 class="fw-bold mt-5 mb-3 interactive-subtitle"><i class="bi bi-star-fill me-2 text-warning"></i>¿Por qué elegirnos?</h5>
+            <ul class="list-unstyled detail-list">
+              <li><i class="bi bi-dot"></i>Solo trabajamos con industria. Nada de IA genérica.</li>
+              <li><i class="bi bi-dot"></i>Resultados en días, no meses de consultoría.</li>
+              <li><i class="bi bi-dot"></i>Integramos IA, automatización y estrategia real.</li>
+              <li><i class="bi bi-dot"></i>Enfoque modular: empieza pequeño y crece según impacto.</li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+            <h5 class="fw-bold mb-3 interactive-subtitle"><i class="bi bi-lightbulb-fill me-2 text-warning"></i>Soluciones aplicadas</h5>
+            <ol class="detail-list-ordered">
+              <li><strong>Agentes IA:</strong>Automatizan tareas administrativas, comerciales u operativas.</li>
+              <li><strong>Flujos automatizados:</strong> Digitalizamos procesos con herramientas a medida.</li>
+              <li><strong>Dashboards y recomendaciones:</strong> Toma decisiones con datos en tiempo real.</li>
+              <li><strong>Arquitectura escalable:</strong> Diseñamos tu operativa para crecer sin fricción.</li>
+            </ol>
+
+            <h5 class="fw-bold mt-5 mb-3 interactive-subtitle"><i class="bi bi-clipboard-check-fill me-2 text-warning"></i>Ejemplos reales</h5>
+            <ul class="list-unstyled small detail-list">
+              <li><i class="bi bi-dot"></i>Informes automáticos de producción.</li>
+              <li><i class="bi bi-dot"></i>Propuestas comerciales generadas por IA.</li>
+              <li><i class="bi bi-dot"></i>Alertas por rotura de stock o incidencias.</li>
+              <li><i class="bi bi-dot"></i>Comparativas de precios de materia prima.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="300">
+          <a href="#contact" class="btn btn-dark btn-lg cta-main">Solicitar diagnóstico gratuito <i class="bi bi-arrow-right"></i></a>
         </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- Sección Detallada Trade Performance -->
+    <section id="bliss-trade-performance" class="section light-background service-detail-section">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+              <!-- Corrected Structure: Added Wrapper Div for alignment -->
+              <div class="service-title-wrapper">
+                <img src="assets/img/logo3.jfif" alt="BLISS Trade & Performance" style="height: 70px;" class="fade-in-icon"> <!-- Removed mb-3 -->
+                <h2 class="fw-bold display-5 interactive-title">BLISS Trade & Performance</h2>
+              </div>
+              <!-- End Wrapper Div -->
+              <p class="lead text-muted subtitle-fade mt-2">Invertir bien no es suerte. Es <span class="highlight">datos</span>, <span class="highlight">estrategia</span> y <span class="highlight">compromiso</span>.</p> <!-- Added mt-2 -->
+            </div>
 
-    <!-- Clientes / Logos Carrusel -->
-<section id="clients" class="section light-background">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Clientes</h2>
-    <p>Confían en Nosotros</p>
-  </div>
+            <div class="row gy-5 align-items-center"> <!-- Increased gap -->
+            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+                <h5 class="fw-bold mb-3 interactive-subtitle"><i class="bi bi-tools me-2 text-warning"></i>¿Qué hacemos?</h5>
+                <ul class="list-unstyled detail-list">
+                <li><i class="bi bi-dot"></i>Estudio objetivo de necesidades y contexto técnico.</li>
+                <li><i class="bi bi-dot"></i>Comparativa de tecnologías y fabricantes según rendimiento y ROI.</li>
+                <li><i class="bi bi-dot"></i>Estimación de retorno y riesgos para decisiones estratégicas.</li>
+                <li><i class="bi bi-dot"></i>Acompañamiento en decisiones clave de inversión industrial.</li>
+                </ul>
 
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="swiper client-swiper">
-      <div class="swiper-wrapper align-items-center">
-        <div class="swiper-slide d-flex justify-content-center">
-          <img src="assets/img/clients/estudio_artline.png" class="img-fluid" alt="Artline Solutions">
+                <h5 class="fw-bold mt-5 mb-3 interactive-subtitle"><i class="bi bi-x-octagon-fill me-2 text-danger"></i>Lo que <span class="text-danger">no</span> hacemos</h5>
+                <ul class="list-unstyled text-muted small detail-list-negative">
+                <li><i class="bi bi-x"></i>No vendemos maquinaria ni cobramos comisiones.</li>
+                <li><i class="bi bi-x"></i>No trabajamos para marcas.</li>
+                <li><i class="bi bi-x"></i>No maquillamos comparativas.</li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                 <div class="p-4 bg-white rounded shadow-sm text-center interactive-quote-box"> <!-- Added box -->
+                    <i class="bi bi-quote fs-1 text-warning mb-3"></i>
+                    <p class="lead fst-italic">Nuestro único interés es el del <strong class="highlight-dark">comprador industrial</strong>. Evaluamos, proponemos y comparamos para que inviertas donde tenga sentido estratégico y retorno real.</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="300">
+                <a href="#contact" class="btn btn-dark btn-lg cta-main">Solicitar análisis de inversión <i class="bi bi-arrow-right"></i></a>
+            </div>
         </div>
-        <div class="swiper-slide d-flex justify-content-center">
-          <img src="assets/img/clients/xteach_logo.png" class="img-fluid" alt="XTEACH">
+    </section>
+
+
+    <!-- Sección Detallada BLISS Executive -->
+    <section id="bliss-executive" class="section service-detail-section">
+        <div class="container" data-aos="fade-up">
+            <div class="text-center mb-5">
+              <!-- Corrected Structure: Added Wrapper Div for alignment -->
+              <div class="service-title-wrapper">
+                <img src="assets/img/logo4.jfif" alt="BLISS Executive" style="height: 70px;" class="fade-in-icon"> <!-- Removed mb-3 -->
+                <h2 class="fw-bold display-5 interactive-title">BLISS Executive</h2>
+              </div>
+              <!-- End Wrapper Div -->
+              <p class="lead text-muted subtitle-fade mt-2">Conecta con quienes pueden <span class="highlight">cambiar el rumbo</span> de tu empresa.</p> <!-- Added mt-2 -->
+            </div>
+
+            <div class="row gy-5"> <!-- Increased gap -->
+            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
+                <h5 class="fw-bold mb-3 interactive-subtitle"><i class="bi bi-building-fill me-2 text-warning"></i>¿Qué es?</h5>
+                <p class="detail-paragraph">Una unidad exclusiva del ecosistema BLISS centrada en crear espacios de conexión, inspiración y oportunidades reales para empresarios industriales.</p>
+
+                <h5 class="fw-bold mt-5 mb-3 interactive-subtitle"><i class="bi bi-gem me-2 text-warning"></i>¿Qué ofrece?</h5>
+                <ul class="list-unstyled detail-list">
+                <li><i class="bi bi-dot"></i>Red privada de líderes industriales.</li>
+                <li><i class="bi bi-dot"></i>Encuentros estratégicos y mesas redondas.</li>
+                <li><i class="bi bi-dot"></i>Acceso a oportunidades de colaboración e inversión.</li>
+                <li><i class="bi bi-dot"></i>Eventos de alto valor con expertos y casos reales.</li>
+                </ul>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+                <h5 class="fw-bold mb-3 interactive-subtitle"><i class="bi bi-calendar-event-fill me-2 text-warning"></i>Eventos BLISS</h5>
+                <ul class="list-unstyled small detail-list">
+                <li><i class="bi bi-dot"></i>Ponencias privadas sobre IA, eficiencia y escalabilidad.</li>
+                <li><i class="bi bi-dot"></i>Visitas a fábricas líderes.</li>
+                <li><i class="bi bi-dot"></i>Networking temático con empresarios industriales.</li>
+                <li><i class="bi bi-dot"></i>Entornos informales donde nacen grandes decisiones.</li>
+                </ul>
+
+                <p class="mt-4 fst-italic detail-paragraph">Creemos que las ideas que transforman empresas nacen de conversaciones estratégicas. Creamos el espacio para que ocurran.</p>
+            </div>
+            </div>
+
+             <!-- Event Subscription Form Improved -->
+             <div class="event-subscription-box mt-5 p-4 rounded bg-light text-center" data-aos="fade-up" data-aos-delay="300">
+                <h4 class="mb-3 interactive-title">¿Próximo Evento? ¡No te lo pierdas!</h4>
+                <p class="text-muted mb-3">Déjanos tu email y sé el primero en enterarte.</p>
+                 <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-2">
+                   <input type="email" name="email_evento" class="form-control form-control-lg" placeholder="Tu correo electrónico" required style="max-width: 350px;">
+                   <input type="hidden" name="_subject" value="Suscripción a evento BLISS Executive">
+                   <input type="hidden" name="_captcha" value="false">
+                   <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html"> <!-- Ensure this thank you page exists -->
+                   <button type="submit" class="btn btn-warning btn-lg cta-event">
+                        <span class="btn-text">Suscribirme</span>
+                        <i class="bi bi-send-fill icon-send"></i>
+                    </button>
+                 </form>
+             </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Swiper Clientes Script -->
-<script>
-  new Swiper('.client-swiper', {
-    loop: true,
-    speed: 1000,
-    autoplay: {
-      delay: 2000,
-    },
-    slidesPerView: 1,
-    breakpoints: {
-      576: {
-        slidesPerView: 2,
-        spaceBetween: 40,
-      },
-      768: {
-        slidesPerView: 3,
-        spaceBetween: 50,
-      },
-    }
-  });
-</script>
-
-<!-- Sección Detallada AI 4 Industry -->
-<section id="bliss-ai-industry" class="section">
-  <div class="container" data-aos="fade-up">
-    <div class="text-center mb-4">
-      <img src="assets/img/logo-bliss-ai.jfif" alt="BLISS AI for Industry" style="height: 60px;" class="mb-2">
-      <h2 class="fw-bold">BLISS AI for Industry</h2>
-      <p class="lead text-muted">Automatizamos lo repetitivo. Optimizamos lo crítico. Escalamos lo esencial.</p>
-    </div>
-
-    <div class="row gy-4">
-      <div class="col-lg-6">
-        <h5 class="fw-bold">¿Qué resolvemos?</h5>
-        <ul class="list-unstyled">
-          <li>• Tareas repetitivas que consumen tiempo y recursos.</li>
-          <li>• Procesos manuales con errores o duplicidades.</li>
-          <li>• Baja visibilidad operativa y decisiones poco objetivas.</li>
-          <li>• Estructuras ineficientes que impiden escalar.</li>
-        </ul>
-
-        <h5 class="fw-bold mt-4">¿Por qué elegirnos?</h5>
-        <ul class="list-unstyled">
-          <li>• Solo trabajamos con industria. Nada de IA genérica.</li>
-          <li>• Resultados en días, no meses de consultoría.</li>
-          <li>• Integramos IA, automatización y estrategia real.</li>
-          <li>• Enfoque modular: empieza pequeño y crece según impacto.</li>
-        </ul>
-      </div>
-
-      <div class="col-lg-6">
-        <h5 class="fw-bold">Soluciones aplicadas</h5>
-        <ol>
-          <li><strong>Agentes IA:</strong> Automatizan tareas administrativas, comerciales u operativas.</li>
-          <li><strong>Flujos automatizados:</strong> Digitalizamos procesos con herramientas a medida.</li>
-          <li><strong>Dashboards y recomendaciones:</strong> Toma decisiones con datos en tiempo real.</li>
-          <li><strong>Arquitectura escalable:</strong> Diseñamos tu operativa para crecer sin fricción.</li>
-        </ol>
-
-        <h5 class="fw-bold mt-4">Ejemplos reales</h5>
-        <ul class="list-unstyled small">
-          <li>• Informes automáticos de producción.</li>
-          <li>• Propuestas comerciales generadas por IA.</li>
-          <li>• Alertas por rotura de stock o incidencias.</li>
-          <li>• Comparativas de precios de materia prima.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="text-center mt-4">
-      <a href="#contact" class="btn btn-dark btn-lg">Solicitar diagnóstico gratuito</a>
-    </div>
-  </div>
-</section>
-
-<!-- Sección Detallada Trade Performance  -->
-<section id="bliss-trade-performance" class="section light-background">
-  <div class="container" data-aos="fade-up">
-    <div class="text-center mb-4">
-      <img src="assets/img/logo3.jfif" alt="BLISS Trade & Performance" style="height: 60px;" class="mb-2">
-      <h2 class="fw-bold">BLISS Trade & Performance</h2>
-      <p class="lead text-muted">Invertir bien no es suerte. Es datos, estrategia y compromiso.</p>
-    </div>
-
-    <div class="row gy-4">
-      <div class="col-lg-6">
-        <h5 class="fw-bold">¿Qué hacemos?</h5>
-        <ul class="list-unstyled">
-          <li>• Estudio objetivo de necesidades y contexto técnico.</li>
-          <li>• Comparativa de tecnologías y fabricantes según rendimiento y ROI.</li>
-          <li>• Estimación de retorno y riesgos para decisiones estratégicas.</li>
-          <li>• Acompañamiento en decisiones clave de inversión industrial.</li>
-        </ul>
-
-        <h5 class="fw-bold mt-4">Lo que no hacemos</h5>
-        <ul class="list-unstyled text-muted small">
-          <li>✘ No vendemos maquinaria ni cobramos comisiones.</li>
-          <li>✘ No trabajamos para marcas.</li>
-          <li>✘ No maquillamos comparativas.</li>
-        </ul>
-      </div>
-
-      <div class="col-lg-6 d-flex align-items-center justify-content-center">
-        <p class="text-center px-3">Nuestro único interés es el del comprador industrial. Evaluamos, proponemos y comparamos para que inviertas donde tenga sentido estratégico y retorno real.</p>
-      </div>
-    </div>
-
-    <div class="text-center mt-4">
-      <a href="#contact" class="btn btn-dark btn-lg">Solicitar análisis de inversión</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- Sección Detallada BLISS Executive -->
-<section id="bliss-executive" class="section">
-  <div class="container" data-aos="fade-up">
-    <div class="text-center mb-4">
-      <img src="assets/img/logo4.jfif" alt="BLISS Executive" style="height: 60px;" class="mb-2">
-      <h2 class="fw-bold">BLISS Executive</h2>
-      <p class="lead text-muted">Conecta con quienes pueden cambiar el rumbo de tu empresa.</p>
-    </div>
-
-    <div class="row gy-4">
-      <div class="col-lg-6">
-        <h5 class="fw-bold">¿Qué es?</h5>
-        <p>Una unidad exclusiva del ecosistema BLISS centrada en crear espacios de conexión, inspiración y oportunidades reales para empresarios industriales.</p>
-
-        <h5 class="fw-bold mt-4">¿Qué ofrece?</h5>
-        <ul class="list-unstyled">
-          <li>• Red privada de líderes industriales.</li>
-          <li>• Encuentros estratégicos y mesas redondas.</li>
-          <li>• Acceso a oportunidades de colaboración e inversión.</li>
-          <li>• Eventos de alto valor con expertos y casos reales.</li>
-        </ul>
-      </div>
-
-      <div class="col-lg-6">
-        <h5 class="fw-bold">Eventos BLISS</h5>
-        <ul class="list-unstyled small">
-          <li>• Ponencias privadas sobre IA, eficiencia y escalabilidad.</li>
-          <li>• Visitas a fábricas líderes.</li>
-          <li>• Networking temático con empresarios industriales.</li>
-          <li>• Entornos informales donde nacen grandes decisiones.</li>
-        </ul>
-
-        <p class="mt-4">Creemos que las ideas que transforman empresas nacen de conversaciones estratégicas. Creamos el espacio para que ocurran.</p>
-      </div>
-    </div>
-
-    <div class="text-center mt-5">
-      <button id="evento-btn" class="btn btn-warning btn-lg px-5">Apúntame al siguiente evento</button>
-      <div id="evento-form" class="mt-3" style="display: none;">
-        <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="d-flex flex-column align-items-center gap-2">
-          <input type="email" name="email_evento" class="form-control w-50" placeholder="Tu correo electrónico" required>
-          <input type="hidden" name="_subject" value="Suscripción a evento BLISS Executive">
-          <input type="hidden" name="_captcha" value="false">
-          <button type="submit" class="btn btn-dark">Suscribirme</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("evento-btn");
-    const form = document.getElementById("evento-form");
-    btn.addEventListener("click", () => {
-      form.style.display = form.style.display === "none" ? "block" : "none";
-    });
-  });
-</script>
+    </section>
 
     <!-- Why Bliss Section (Adaptada de Features) -->
     <section id="why-bliss" class="features section light-background">
       <div class="container section-title" data-aos="fade-up">
         <h2>¿Por Qué BLISS?</h2>
-        <p>Nuestro valor diferencial</p>
+        <p>Nuestro <span class="highlight-dark">Valor Diferencial</span></p>
       </div>
-    
+
       <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-3 col-md-6">
-            <div class="feature-item equal-height text-center p-4 border rounded h-100">
-              <div class="mb-3">
-                <i class="bi bi-gear-fill" style="font-size: 2rem; color: #ffc107;"></i>
+        <div class="row gy-4 justify-content-center"> <!-- Added justify-content-center -->
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+             <!-- Applied interactive-feature-item -->
+            <div class="feature-item interactive-feature-item text-center p-4 h-100">
+              <div class="feature-icon mb-3">
+                <i class="bi bi-gear-wide-connected"></i> <!-- Changed icon -->
               </div>
               <h5 class="fw-bold">Ecosistema 100% industrial</h5>
               <p>Diseñamos soluciones exclusivamente para los retos reales del sector industrial.</p>
             </div>
           </div>
-    
-          <div class="col-lg-3 col-md-6">
-            <div class="feature-item equal-height text-center p-4 border rounded h-100">
-              <div class="mb-3">
-                <i class="bi bi-layers-fill" style="font-size: 2rem; color: #ffc107;"></i>
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+             <div class="feature-item interactive-feature-item text-center p-4 h-100">
+              <div class="feature-icon mb-3">
+                <i class="bi bi-puzzle-fill"></i> <!-- Changed icon -->
               </div>
-              <h5 class="fw-bold">Soluciones modulares</h5>
+              <h5 class="fw-bold">Soluciones Modulares</h5>
               <p>Aplicamos tecnología donde aporta valor real, sin complejidad innecesaria.</p>
             </div>
           </div>
-    
-          <div class="col-lg-3 col-md-6">
-            <div class="feature-item equal-height text-center p-4 border rounded h-100">
-              <div class="mb-3">
-                <i class="bi bi-bar-chart-fill" style="font-size: 2rem; color: #ffc107;"></i>
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+             <div class="feature-item interactive-feature-item text-center p-4 h-100">
+              <div class="feature-icon mb-3">
+                 <i class="bi bi-graph-up-arrow"></i> <!-- Changed icon -->
               </div>
-              <h5 class="fw-bold">Decisiones con datos</h5>
+              <h5 class="fw-bold">Decisiones con Datos</h5>
               <p>Guiamos tus decisiones estratégicas basándonos en datos objetivos, no suposiciones.</p>
             </div>
           </div>
-    
-          <div class="col-lg-3 col-md-6">
-            <div class="feature-item equal-height text-center p-4 border rounded h-100">
-              <div class="mb-3">
-                <i class="bi bi-people-fill" style="font-size: 2rem; color: #ffc107;"></i>
+
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+             <div class="feature-item interactive-feature-item text-center p-4 h-100">
+              <div class="feature-icon mb-3">
+                <i class="bi bi-diagram-3-fill"></i> <!-- Changed icon -->
               </div>
-              <h5 class="fw-bold">Conexiones industriales</h5>
+              <h5 class="fw-bold">Conexiones Industriales</h5>
               <p>Nuestra red de aliados impulsa el valor de cada solución implementada.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-    
-    <section id="clients" class="section">
-      <div class="container section-title text-center" data-aos="fade-up">
-        <h2>Clientes</h2>
-        <p>Confían en nosotros</p>
-      </div>
-    
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-        <div class="swiper clients-swiper">
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide d-flex justify-content-center align-items-center">
-              <img src="assets/img/clients/estudio_artline.png" class="img-fluid" alt="Artline Solutions" style="max-height: 60px;">
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section"> <!-- Removed light-background -->
+      <div class="container" data-aos="fade-up">
+
+        <!-- Título -->
+        <div class="section-title">
+          <h2>Contacto</h2>
+          <p>Hablemos de tu <span class="highlight-dark">Proyecto</span></p>
+        </div>
+
+        <div class="row gy-4 mt-4"> <!-- Added margin top -->
+          <!-- Información de contacto -->
+          <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100"> <!-- Changed size -->
+            <div class="info-container bg-light p-4 p-lg-5 rounded shadow-sm h-100 d-flex flex-column justify-content-center"> <!-- Added container -->
+               <div class="info-item d-flex align-items-center mb-4">
+                  <i class="bi bi-geo-alt flex-shrink-0"></i>
+                  <div>
+                     <h3>Dirección</h3>
+                     <p>Barcelona, España <br>(Servicio Nacional)</p> <!-- Updated placeholder -->
+                  </div>
+               </div><!-- End Info Item -->
+
+                <div class="info-item d-flex align-items-center mb-4">
+                  <i class="bi bi-telephone flex-shrink-0"></i>
+                  <div>
+                    <h3>Llámanos</h3>
+                    <p><a href="tel:+34696696696">+34 696 696 696</a></p> <!-- Make tel clickable & Verify number -->
+                  </div>
+                </div><!-- End Info Item -->
+
+                <div class="info-item d-flex align-items-center">
+                  <i class="bi bi-envelope flex-shrink-0"></i>
+                   <div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:hola@blissindustrial.eu">hola@blissindustrial.eu</a></p> <!-- Make mail clickable -->
+                   </div>
+                </div><!-- End Info Item -->
             </div>
-            <div class="swiper-slide d-flex justify-content-center align-items-center">
-              <img src="assets/img/clients/xteach_logo.png" class="img-fluid" alt="XTEACH" style="max-height: 60px;">
-            </div>
+          </div>
+
+          <!-- Formulario -->
+          <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200"> <!-- Changed size -->
+            <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form p-4 p-lg-5 bg-white rounded shadow-sm h-100"> <!-- Added bg, padding, rounded, shadow -->
+              <div class="row gy-4">
+
+                <div class="col-md-6">
+                  <label for="nombre_contacto" class="form-label">Nombre Contacto *</label>
+                  <input type="text" name="nombre_contacto" id="nombre_contacto" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                   <label for="correo" class="form-label">Correo Electrónico *</label>
+                  <input type="email" name="correo" id="correo" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                   <label for="nombre_empresa" class="form-label">Nombre Empresa *</label>
+                  <input type="text" name="nombre_empresa" id="nombre_empresa" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                   <label for="sector_empresa" class="form-label">Sector Empresa *</label>
+                  <select name="sector_empresa" class="form-select" id="sector_empresa" required>
+                    <option value="" disabled selected>Selecciona...</option>
+                    <option value="Automoción">Automoción</option>
+                    <option value="Alimentación">Alimentación</option>
+                    <option value="Farmacéutica">Farmacéutica</option>
+                    <option value="Energía">Energía</option>
+                    <option value="Textil">Textil</option>
+                    <option value="Logística">Logística</option>
+                    <option value="Electrónica">Electrónica</option>
+                    <option value="Química">Química</option>
+                    <option value="Construcción">Construcción</option>
+                    <option value="Tecnología">Tecnología</option>
+                    <option value="Mobiliario">Mobiliario</option>
+                    <option value="Packaging">Packaging</option>
+                    <option value="Minería">Minería</option>
+                    <option value="Agua y medio ambiente">Agua y medio ambiente</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                <!-- Campo oculto que se mostrará si elige “Otro” -->
+                <div class="col-md-12" id="otroSectorDiv" style="display: none;"> <!-- Changed to col-12 -->
+                  <label for="otroSectorInput" class="form-label">Especifica el sector</label>
+                  <input type="text" name="otro_sector" class="form-control" id="otroSectorInput">
+                </div>
+
+                <div class="col-12">
+                  <label for="localizacion" class="form-label">Localización Empresa</label>
+                  <input type="text" name="localizacion" id="localizacion" class="form-control" >
+                </div>
+                <div class="col-12">
+                  <label for="servicio_interes" class="form-label">Servicio de Interés *</label>
+                  <select name="servicio_interes" id="servicio_interes" class="form-select" required>
+                    <option value="" disabled selected>Selecciona...</option>
+                    <option value="BLISS AI for Industry">BLISS AI for Industry</option>
+                    <option value="BLISS Trade & Performance">BLISS Trade & Performance</option>
+                    <option value="BLISS Executive">BLISS Executive</option>
+                    <option value="Consulta General">Consulta General</option> <!-- Added option -->
+                  </select>
+                </div>
+
+                <div class="col-12">
+                   <label for="mensaje" class="form-label">Tu Mensaje</label>
+                   <textarea name="mensaje" id="mensaje" class="form-control" rows="4"></textarea> <!-- Added textarea -->
+                </div>
+
+                <div class="col-12 text-center">
+                  <div class="loading">Cargando</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">¡Tu mensaje ha sido enviado con éxito! Gracias por contactarnos.</div>
+                  <button type="submit" class="btn btn-warning cta-form">Enviar Mensaje <i class="bi bi-arrow-right"></i></button>
+                </div>
+
+                <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
+                <input type="hidden" name="_captcha" value="false">
+                 <input type="hidden" name="_subject" value="Nuevo Contacto Web - BLISS Industrial"> <!-- Informative subject -->
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </section>
-    
-    <!-- Swiper init script -->
-    <script>
-      new Swiper('.clients-swiper', {
-        loop: true,
-        speed: 800,
-        slidesPerView: 3,
-        spaceBetween: 40,
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false
-        },
-        breakpoints: {
-          320: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          992: { slidesPerView: 3 }
-        }
-      });
-    </script>
 
-<section id="contact" class="contact section light-background">
-  <div class="container" data-aos="fade-up">
+    <!-- Footer -->
+    <footer id="footer" class="footer dark-background">
 
-    <!-- Título -->
-    <div class="section-title">
-      <h2>Contacto</h2>
-      <p>Hablemos de su proyecto</p>
-    </div>
-
-    <div class="row gy-4">
-      <!-- Información de contacto -->
-      <div class="col-lg-6">
+      <div class="container footer-top">
         <div class="row gy-4">
-          <div class="col-lg-12">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-geo-alt"></i>
-              <h3>Dirección</h3>
-              <p>Calle falsa 123</p>
+          <div class="col-lg-4 col-md-6 footer-about">
+            <a href="index.html" class="logo d-flex align-items-center mb-3"> <!-- Added margin -->
+              <img src="assets/img/favicon.png" alt="BLISS Logo Small"> <!-- Use favicon maybe? -->
+              <span class="sitename">BLISS Industrial Services</span>
+            </a>
+            <p>Optimizando la industria del futuro con IA, automatización y estrategia.</p>
+            <div class="footer-contact pt-3">
+              <p><i class="bi bi-geo-alt-fill me-2"></i>Barcelona, España</p>
+              <p><i class="bi bi-telephone-fill me-2"></i><a href="tel:+34696696696">+34 696 696 696</a></p> <!-- Make tel clickable -->
+              <p><i class="bi bi-envelope-fill me-2"></i><a href="mailto:hola@blissindustrial.eu">hola@blissindustrial.eu</a></p> <!-- Make mail clickable -->
+            </div>
+            <div class="social-links d-flex mt-4">
+              <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-telephone"></i>
-              <h3>Llámanos</h3>
-              <p>+34 696696696</p>
-            </div>
+
+          <div class="col-lg-2 col-md-3 col-6 footer-links"> <!-- Added col-6 -->
+            <h4>Navegación</h4>
+            <ul>
+              <li><a href="#hero">Inicio</a></li>
+              <li><a href="#ecosistema">Ecosistema</a></li>
+              <li><a href="#soluciones">Soluciones</a></li>
+               <li><a href="#why-bliss">Por qué BLISS</a></li>
+               <li><a href="#contact">Contacto</a></li>
+            </ul>
           </div>
-          <div class="col-md-6">
-            <div class="info-item d-flex flex-column justify-content-center align-items-center">
-              <i class="bi bi-envelope"></i>
-              <h3>Email</h3>
-              <p>hola@blissindustrial.eu</p>
-            </div>
+
+          <div class="col-lg-2 col-md-3 col-6 footer-links"> <!-- Added col-6 -->
+            <h4>Servicios</h4>
+            <ul>
+              <li><a href="#bliss-ai-industry">BLISS AI</a></li>
+              <li><a href="#bliss-trade-performance">Trade & Perf.</a></li>
+              <li><a href="#bliss-executive">Executive</a></li>
+               <li><a href="#contact">Diagnóstico</a></li>
+            </ul>
           </div>
-        </div>
-      </div>
 
-      <!-- Formulario -->
-      <div class="col-lg-6">
-        <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form">
-          <div class="row gy-4">
-
-            <div class="col-md-6">
-              <input type="text" name="nombre_contacto" class="form-control" placeholder="Nombre persona de contacto *" required>
-            </div>
-            <div class="col-md-6">
-              <input type="email" name="correo" class="form-control" placeholder="Correo electrónico *" required>
-            </div>
-            <div class="col-md-6">
-              <input type="text" name="nombre_empresa" class="form-control" placeholder="Nombre de la empresa *" required>
-            </div>
-            <div class="col-md-6">
-              <select name="sector_empresa" class="form-select select2" id="sector_empresa" required>
-                <option value="" disabled selected>Sector de la empresa *</option>
-                <option value="Automoción">Automoción</option>
-                <option value="Alimentación">Alimentación</option>
-                <option value="Farmacéutica">Farmacéutica</option>
-                <option value="Energía">Energía</option>
-                <option value="Textil">Textil</option>
-                <option value="Logística">Logística</option>
-                <option value="Electrónica">Electrónica</option>
-                <option value="Química">Química</option>
-                <option value="Construcción">Construcción</option>
-                <option value="Tecnología">Tecnología</option>
-                <option value="Mobiliario">Mobiliario</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Minería">Minería</option>
-                <option value="Agua y medio ambiente">Agua y medio ambiente</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
-
-            <!-- Campo oculto que se mostrará si elige “Otro” -->
-            <div class="col-md-6" id="otroSectorDiv" style="display: none;">
-              <input type="text" name="otro_sector" class="form-control" placeholder="Especifica el sector" id="otroSectorInput">
-            </div>
-
-            <div class="col-12">
-              <input type="text" name="localizacion" class="form-control" placeholder="Localización de la empresa">
-            </div>
-            <div class="col-12">
-              <select name="servicio_interes" class="form-select" required>
-                <option value="" disabled selected>¿Qué servicio te interesa? *</option>
-                <option value="BLISS AI for Industry">BLISS AI for Industry</option>
-                <option value="BLISS Trade & Performance">BLISS Trade & Performance</option>
-                <option value="BLISS Executive">BLISS Executive</option>
-              </select>
-            </div>
-
-            <div class="col-12 text-center">
+          <div class="col-lg-4 col-md-12 footer-newsletter">
+            <h4>Newsletter Eventos</h4>
+            <p>Recibe invitaciones exclusivas a nuestros eventos para líderes industriales.</p>
+             <!-- Using the same form action for simplicity, adjust if needed -->
+            <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form mt-3">
+               <input type="hidden" name="_subject" value="Suscripción Newsletter Eventos BLISS">
+               <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
+               <input type="hidden" name="_captcha" value="false">
+              <div class="newsletter-form d-flex">
+                <input type="email" name="email_newsletter" class="form-control" placeholder="Tu email" required>
+                <button type="submit" class="btn-newsletter" aria-label="Suscribirse"><i class="bi bi-send-fill"></i></button>
+              </div>
               <div class="loading">Cargando</div>
               <div class="error-message"></div>
-              <div class="sent-message">¡Tu mensaje ha sido enviado con éxito!</div>
-              <button type="submit">Enviar Mensaje</button>
+              <div class="sent-message">¡Suscripción confirmada!</div>
+            </form>
+            <div class="footer-legal mt-4 pt-4 border-top border-secondary border-opacity-25"> <!-- Legal links moved here -->
+                 <a href="#">Términos de servicio</a> | <a href="#">Política de privacidad</a>
             </div>
-
-            <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
-            <input type="hidden" name="_captcha" value="false">
           </div>
-        </form>
+
+        </div>
       </div>
+
+      <div class="container copyright text-center mt-4">
+        <p>© <span id="copyright-year"></span> <strong class="px-1 sitename">BLISS Industrial Services</strong>. Todos los derechos reservados.</p>
+        <div class="credits">
+          Diseño por <a href="https://www.linkedin.com/in/aleix-gimeno" target="_blank" rel="noopener noreferrer">Aleix Gimeno</a> | All rights reserved
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scroll Top Button -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center" aria-label="Volver arriba">
+      <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-spinner"></div>
+        <!-- Optional: Add logo to preloader -->
+        <!-- <img src="assets/img/favicon.png" alt="Loading..." class="preloader-logo"> -->
     </div>
-  </div>
-</section>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('#sector_empresa').on('change', function () {
-      const selectedValue = $(this).val();
-      const otroSectorDiv = $('#otroSectorDiv');
-      const otroSectorInput = $('#otroSectorInput');
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script> <!-- Keep if isotope is used elsewhere -->
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script> <!-- Keep if isotope is used elsewhere -->
 
-      if (selectedValue === 'Otro') {
-        otroSectorDiv.show();
-        otroSectorInput.prop('required', true);
-      } else {
-        otroSectorDiv.hide();
-        otroSectorInput.prop('required', false);
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- Inline Scripts -->
+    <script>
+      // Copyright Year
+      document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+      // Client Swiper Initialization (Moved here from HTML for clarity)
+      new Swiper('.client-swiper', {
+        loop: true,
+        speed: 1000, // Slightly faster
+        autoplay: {
+          delay: 2500, // Slightly longer pause
+          disableOnInteraction: false,
+        },
+        slidesPerView: 2, // Start with 2 on small screens
+        spaceBetween: 30,
+         grabCursor: true, // Add grab cursor effect
+         pagination: { // Added pagination
+            el: '.client-pagination',
+            clickable: true,
+          },
+        breakpoints: {
+          576: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          768: {
+            slidesPerView: 4, // Show more on medium screens
+            spaceBetween: 50,
+          },
+          992: {
+             slidesPerView: 5, // Show more on large screens
+             spaceBetween: 60,
+          }
+        }
+      });
+
+      // Contact Form - Show/Hide "Otro Sector" field
+      const sectorSelect = document.getElementById('sector_empresa');
+      const otroSectorDiv = document.getElementById('otroSectorDiv');
+      const otroSectorInput = document.getElementById('otroSectorInput');
+
+      if (sectorSelect) {
+        sectorSelect.addEventListener('change', function () {
+          if (this.value === 'Otro') {
+            otroSectorDiv.style.display = 'block'; // Use block display
+            otroSectorInput.setAttribute('required', '');
+            // Add animation classes/styles
+             otroSectorDiv.style.maxHeight = otroSectorInput.scrollHeight + 30 + 'px'; // Set max-height for transition
+             otroSectorDiv.style.opacity = '1';
+             otroSectorDiv.style.marginTop = '1rem'; // Ensure margin is added
+             setTimeout(() => { otroSectorInput.focus(); }, 300); // Focus after transition
+          } else {
+             // Add fade out animation
+            otroSectorDiv.style.opacity = '0';
+            otroSectorDiv.style.maxHeight = '0';
+            otroSectorDiv.style.marginTop = '0';
+            setTimeout(() => {
+                // We don't set display:none anymore, rely on max-height and opacity
+                otroSectorInput.removeAttribute('required');
+                otroSectorInput.value = ''; // Clear value
+            }, 300); // Match transition duration
+          }
+        });
+         // Initial check in case 'Otro' is pre-selected (unlikely here, but good practice)
+         if (sectorSelect.value === 'Otro') {
+             otroSectorDiv.style.display = 'block';
+             otroSectorDiv.style.maxHeight = otroSectorInput.scrollHeight + 30 + 'px';
+             otroSectorDiv.style.opacity = '1';
+             otroSectorDiv.style.marginTop = '1rem';
+             otroSectorInput.setAttribute('required', '');
+         } else {
+             // Start hidden
+             otroSectorDiv.style.display = 'block'; // Keep as block for transition purposes
+             otroSectorDiv.style.maxHeight = '0';
+             otroSectorDiv.style.opacity = '0';
+             otroSectorDiv.style.marginTop = '0';
+             otroSectorInput.removeAttribute('required');
+         }
       }
-    });
-  });
-</script>
 
-    
-</main>
-
-<footer id="footer" class="footer dark-background">
-
-  <div class="container footer-top">
-    <div class="row gy-4">
-      <div class="col-lg-4 col-md-6 footer-about">
-        <a href="index.html" class="logo d-flex align-items-center">
-          <span class="sitename">BLISS Industrial Services</span>
-        </a>
-        <div class="footer-contact pt-3">
-          <p>Carrer blabla</p>
-          <p>Vilassar de Mar</p>
-          <p class="mt-3"><strong>Teléfono:</strong> <span>+34 696969696</span></p>
-          <p><strong>Email:</strong> <span>hola@blissindustrial.eu</span></p>
-        </div>
-        <div class="social-links d-flex mt-4">
-          <a href="#"><i class="bi bi-twitter-x"></i></a>
-          <a href="#"><i class="bi bi-facebook"></i></a>
-          <a href="#"><i class="bi bi-instagram"></i></a>
-          <a href="#"><i class="bi bi-linkedin"></i></a>
-        </div>
-      </div>
-
-      <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Enlaces Útiles</h4>
-        <ul>
-          <li><i class="bi bi-chevron-right"></i> <a href="#hero">Inicio</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#ecosistema">Ecosistema</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#soluciones">Soluciones</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#">Términos de servicio</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#">Política de privacidad</a></li>
-        </ul>
-      </div>
-
-      <div class="col-lg-2 col-md-3 footer-links">
-        <h4>Nuestros Servicios</h4>
-        <ul>
-          <li><i class="bi bi-chevron-right"></i> <a href="#bliss-ai-industry">Estructuración IA</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#bliss-ai-industry">Automatización</a></li>
-          <li><i class="bi bi-chevron-right"></i> <a href="#bliss-ai-industry">SOPs y Toolkits</a></li>
-        </ul>
-      </div>
-
-      <div class="col-lg-4 col-md-12 footer-newsletter">
-        <h4>Newsletter de eventos</h4>
-        <p>Suscríbete para recibir invitaciones a nuestros próximos eventos de alto nivel para empresarios industriales.</p>
-        <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form">
-          <div class="newsletter-form d-flex">
-            <input type="email" name="email" class="form-control" placeholder="Tu email" required>
-            <input type="submit" value="Apuntarme">
-          </div>
-          <div class="loading">Cargando</div>
-          <div class="error-message"></div>
-          <div class="sent-message">¡Te has suscrito correctamente!</div>
-          <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
-          <input type="hidden" name="_captcha" value="false">
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="container copyright text-center mt-4">
-    <p>© <span>Copyright</span> <strong class="px-1 sitename">BLISS Industrial Services</strong> <span id="copyright-year"></span>. <span>Todos los derechos reservados</span></p>
-    <div class="credits">
-      Diseñado por <a href="https://artline.es">Aleix Gimeno</a>
-    </div>
-  </div>
-</footer>
-
-<!-- Scroll Top -->
-<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-  <i class="bi bi-arrow-up-short"></i>
-</a>
-
-<!-- Preloader -->
-<div id="preloader"></div>
-
-<!-- Vendor JS Files -->
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-<script src="assets/vendor/aos/aos.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
-<!-- Main JS File -->
-<script src="assets/js/main.js"></script>
-
-<!-- Año automático en copyright -->
-<script>
-  document.getElementById('copyright-year').textContent = new Date().getFullYear();
-</script>
+    </script>
 
 </body>
 </html>
