@@ -442,7 +442,7 @@
 
           <!-- Formulario -->
           <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200">
-            <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form p-4 p-lg-5 bg-white rounded shadow-sm h-100"> <!-- Added bg, padding, rounded, shadow -->
+            <form action="forms/contact.php" method="POST" class="php-email-form">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -512,9 +512,6 @@
                   <button type="submit" class="btn btn-warning cta-form">Enviar mensaje <i class="bi bi-arrow-right"></i></button>
                 </div>
 
-                <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
-                <input type="hidden" name="_captcha" value="false">
-                 <input type="hidden" name="_subject" value="Nuevo Contacto Web - BLISS Industrial">
               </div>
             </form>
           </div>
@@ -571,10 +568,7 @@
             <h4>Newsletter Eventos</h4>
             <p>Recibe invitaciones exclusivas a nuestros eventos para líderes industriales.</p>
              <!-- Using the same form action for simplicity, adjust if needed -->
-            <form action="https://formsubmit.co/hola@blissindustrial.eu" method="POST" class="php-email-form mt-3">
-               <input type="hidden" name="_subject" value="Suscripción Newsletter Eventos BLISS">
-               <input type="hidden" name="_next" value="https://blissindustrial.eu/gracias.html">
-               <input type="hidden" name="_captcha" value="false">
+             <form action="forms/newsletter.php" method="POST" class="php-email-form">
               <div class="newsletter-form d-flex">
                 <input type="email" name="email_newsletter" class="form-control" placeholder="Tu email" required>
                 <button type="submit" class="btn-newsletter" aria-label="Suscribirse"><i class="bi bi-send-fill"></i></button>
