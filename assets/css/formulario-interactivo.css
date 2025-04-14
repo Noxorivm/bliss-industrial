@@ -1,0 +1,260 @@
+/*--------------------------------------------------------------
+# Interactive Form Styles (formulario.html)
+--------------------------------------------------------------*/
+body.form-page-active {
+    overflow: hidden; /* Prevent scrolling background page */
+  }
+  
+  .form-page-header {
+      opacity: 0.3;
+      pointer-events: none;
+      position: relative; /* Ensure it doesn't conflict with fixed overlay */
+      z-index: 1; /* Below overlay */
+  }
+  
+  .form-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
+    z-index: 1040; /* Encima del header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Padding around the box */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .form-overlay.visible {
+     opacity: 1;
+  }
+  
+  .form-box {
+    background-color: var(--surface-color); /* Fondo blanco o gris claro */
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 700px; /* Ancho máximo de la caja */
+    overflow: hidden; /* Para bordes redondeados */
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Max height */
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+  }
+  .form-overlay.visible .form-box {
+      transform: scale(1);
+  }
+  
+  
+  .form-header {
+    background-color: var(--accent-color); /* Amarillo BLISS */
+    padding: 1rem 1.5rem;
+    color: var(--contrast-color); /* Texto negro */
+    font-family: var(--heading-font);
+    font-weight: 700;
+    font-size: 1.1rem; /* Slightly smaller */
+    text-align: center;
+  }
+  
+  .form-body {
+    padding: 2rem 2rem; /* More padding */
+    flex-grow: 1;
+    overflow-y: auto; /* Enable scroll if content overflows */
+    min-height: 200px; /* Minimum height for content */
+  }
+  
+  .form-step-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--heading-color);
+  }
+  
+  .form-body .form-label {
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: var(--heading-color);
+      display: block; /* Ensure label takes full width */
+  }
+  
+  .form-body .form-control,
+  .form-body .form-select {
+      border: 1px solid #ced4da;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+      font-size: 0.95rem;
+  }
+  .form-body .form-control:focus,
+  .form-body .form-select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--color-accent-yellow-glow);
+      outline: 0;
+  }
+  .form-body textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* Styling for Radio/Checkbox Groups */
+  .form-check-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem; /* Space between items */
+  }
+  .form-check-group.radio-inline,
+  .form-check-group.checkbox-inline {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem; /* More horizontal space */
+  }
+  .form-check-group.checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+      gap: 0.5rem 1rem;
+  }
+  
+  .form-check {
+      padding-left: 2em; /* Space for custom control */
+  }
+  .form-check .form-check-input {
+      float: left;
+      margin-left: -2em;
+      margin-top: 0.2em; /* Adjust vertical alignment */
+      width: 1.25em;
+      height: 1.25em;
+      cursor: pointer;
+  }
+  .form-check .form-check-input:focus {
+       box-shadow: 0 0 0 0.25rem var(--color-accent-yellow-glow);
+  }
+  .form-check .form-check-input:checked {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+  }
+  .form-check .form-check-label {
+      cursor: pointer;
+      font-weight: 400;
+  }
+  
+  /* Invalid state for radio/checkbox groups */
+  .form-check-input.is-invalid ~ .form-check-label {
+      color: var(--bs-danger); /* Indicate error on label */
+  }
+  .form-check-input.is-invalid {
+      border-color: var(--bs-danger);
+  }
+  .form-control.is-invalid, .form-select.is-invalid {
+       border-color: var(--bs-danger);
+       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+       background-repeat: no-repeat;
+       background-position: right calc(.375em + .1875rem) center;
+       background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+  }
+  .form-control.is-invalid:focus, .form-select.is-invalid:focus {
+       border-color: var(--bs-danger);
+       box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, .25);
+  }
+  
+  /* Conditional fields */
+  .conditional-target {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
+    display: none; /* Start hidden for JS logic */
+  }
+  .conditional-target input {
+      margin-top: 0.25rem;
+  }
+  
+  
+  .form-footer {
+    padding: 1rem 1.5rem;
+    background-color: var(--color-light-gray);
+    border-top: 1px solid var(--border-color-light);
+    display: flex; /* Use flex for button alignment */
+    justify-content: space-between; /* Space between prev/next */
+    align-items: center;
+  }
+  
+  .step-indicator {
+      font-size: 0.85rem;
+      color: var(--bs-secondary);
+      font-weight: 500;
+  }
+  
+  .btn-form-nav {
+      background-color: var(--accent-color);
+      color: var(--contrast-color);
+      border: 2px solid var(--accent-color);
+      padding: 10px 25px;
+      border-radius: 50px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+  }
+  .btn-form-nav:hover {
+      background-color: var(--color-accent-yellow-darker);
+      border-color: var(--color-accent-yellow-darker);
+      transform: scale(1.03);
+  }
+  .btn-form-nav#prevButton {
+      background-color: transparent;
+      color: var(--bs-secondary);
+      border-color: var(--bs-secondary);
+  }
+   .btn-form-nav#prevButton:hover {
+      background-color: var(--bs-secondary);
+      color: var(--color-white);
+      border-color: var(--bs-secondary);
+   }
+   .btn-form-nav:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+   }
+  
+  .progress-container {
+    position: fixed;
+    top: 0; /* Position at the top */
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo barra */
+    z-index: 1041;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--accent-color);
+    transition: width 0.4s ease-out;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  /* Feedback Area */
+  #form-feedback {
+      margin-top: 1rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      display: none; /* Oculto por defecto */
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+  }
+   #form-feedback.success {
+      color: #0f5132;
+      background-color: #d1e7dd;
+      border: 1px solid #badbcc;
+   }
+    #form-feedback.error {
+      color: #842029;
+      background-color: #f8d7da;
+      border: 1px solid #f5c2c7;
+   }
+
+    /* Estilo para etiquetas de grupos requeridos no válidos */
+    .form-label.required-group.is-invalid-group {
+        color: var(--bs-danger); /* Rojo de Bootstrap */
+        font-weight: bold;
+    }
