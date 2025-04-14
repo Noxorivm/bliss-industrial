@@ -12,12 +12,6 @@
   --transition-speed-medium: 0.3s;
   --transition-speed-slow: 0.5s;
   --easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother easing */
-
-  /* Ensure Raleway and Inter fonts are linked in the HTML <head> */
-  /* Example:
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  */
 }
 
 /* BLISS Elegant B&W Color Scheme */
@@ -178,7 +172,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Trigger on hover of the title itself or its parent container (like a card) */
 .interactive-title:hover::after,
 .interactive-card:hover .interactive-title-card::after,
-.interactive-feature-item:hover .interactive-title::after {
+.interactive-feature-item:hover .interactive-title::after,
+.service-block:hover .interactive-title::after { /* Added service-block hover */
   left: 150%;
 }
 /* Dark background */
@@ -217,27 +212,33 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /* Detail Lists */
-.detail-list li, .detail-list-ordered li, .detail-list-negative li {
-    padding-left: 25px;
+.detail-list li, .detail-list-ordered li, .detail-list-negative li, .check-list li {
+    padding-left: 25px; /* Consistent padding */
     margin-bottom: 0.75rem;
     transition: transform var(--transition-speed-fast) ease-out;
     position: relative;
+    line-height: 1.6;
 }
-.detail-list li:hover, .detail-list-ordered li:hover, .detail-list-negative li:hover {
+.detail-list li:hover, .detail-list-ordered li:hover, .detail-list-negative li:hover, .check-list li:hover {
     transform: translateX(3px);
 }
-.detail-list i.bi-dot, .detail-list-negative i.bi-x {
+.detail-list i.bi-dot, .detail-list-negative i.bi-x, .check-list i.bi-check-lg {
     position: absolute;
-    left: -15px;
-    top: 5px;
+    left: 0; /* Align icon to the very left */
+    top: 5px; /* Adjust vertical alignment */
+    font-size: 1.1rem; /* Consistent icon size */
     color: var(--accent-color);
     transition: transform 0.2s ease;
 }
 .detail-list-negative i.bi-x {
     color: var(--color-medium-gray);
 }
-.detail-list li:hover i.bi-dot, .detail-list-negative li:hover i.bi-x {
-    transform: scale(1.5);
+.check-list i.bi-check-lg {
+    color: var(--bs-success); /* Use Bootstrap success color */
+    font-weight: bold;
+}
+.detail-list li:hover i.bi-dot, .detail-list-negative li:hover i.bi-x, .check-list li:hover i.bi-check-lg {
+    transform: scale(1.2); /* Slightly larger scale */
 }
 .detail-list-ordered {
     list-style: none;
@@ -248,7 +249,7 @@ h1, h2, h3, h4, h5, h6 {
     content: counter(detail-counter);
     counter-increment: detail-counter;
     position: absolute;
-    left: -10px;
+    left: -10px; /* Position number relative to text start */
     top: 0;
     font-weight: 700;
     color: var(--accent-color);
@@ -613,10 +614,9 @@ h1, h2, h3, h4, h5, h6 {
   pointer-events: none;
 }
 
-/* Darker Overlay */
 .hero-overlay {
   content: "";
-  background: linear-gradient(to bottom, rgba(17, 17, 17, 0.5), rgba(17, 17, 17, 0.9)); /* Gradient overlay */
+  background: linear-gradient(to bottom, rgba(17, 17, 17, 0.5), rgba(17, 17, 17, 0.9));
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -650,6 +650,14 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.7;
   font-weight: 300;
 }
+/* Hero CTA Subtext */
+.hero .hero-cta-subtext {
+  font-size: 0.9rem;
+  color: var(--color-medium-gray);
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /* Hero CTA Button */
 .hero .btn-get-started.cta-blanco-negro {
@@ -663,6 +671,9 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition-speed-medium) var(--easing-smooth);
   letter-spacing: 1px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: inline-flex; /* Align icon */
+  align-items: center;
+  gap: 8px;
 }
 
 .hero .btn-get-started.cta-blanco-negro:hover {
@@ -681,7 +692,7 @@ section,
 .section {
   scroll-margin-top: 90px;
   padding: 80px 0;
-  overflow: hidden;
+  overflow: hidden; /* Changed from clip to hidden */
 }
 
 .section.light-background {
@@ -714,6 +725,18 @@ section,
 .dark-background .section-title h2 {
     color: rgba(255, 255, 255, 0.5);
 }
+/* Align title text left within its container */
+.section-title.text-start {
+    text-align: left;
+}
+.section-title.text-start h2,
+.section-title.text-start p {
+    text-align: left;
+}
+/* Adjust lines for left-aligned titles */
+.section-title.text-start h2::before { display: none; } /* Hide left line */
+.section-title.text-start h2::after { margin-left: 0; } /* Remove left margin */
+
 
 .section-title h2::after,
 .section-title h2::before {
@@ -741,148 +764,68 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Ecosistema Section List Fix
+# Section 2: Qué Hacemos Por Ti? Specific Styles
 --------------------------------------------------------------*/
-#ecosistema .list-ticks {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 1rem;
+.que-hacemos-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.que-hacemos-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+.que-hacemos-item .icon i {
+    transition: transform 0.3s ease;
+}
+.que-hacemos-item:hover .icon i {
+    transform: scale(1.1) rotate(-5deg);
 }
 
-#ecosistema .list-ticks li {
-  padding-left: 30px;
-  position: relative;
-  margin-bottom: 1rem;
-  transition: transform var(--transition-speed-fast) var(--easing-smooth),
-              color var(--transition-speed-fast) var(--easing-smooth);
-  cursor: default;
-  color: var(--default-color);
-  line-height: 1.6;
+
+/*--------------------------------------------------------------
+# Section 5: Ecosistema BLISS Specific Styles
+--------------------------------------------------------------*/
+.service-block {
+    /* Add padding or margin if needed between blocks */
+}
+.service-block-logo {
+    max-height: 60px; /* Adjust as needed */
+    width: auto;
+    display: block; /* Prevent inline spacing issues */
+    margin-left: auto; /* Center if text is centered */
+    margin-right: auto; /* Center if text is centered */
+}
+/* Adjust alignment for non-centered text */
+.text-lg-start .service-block-logo {
+    margin-left: 0;
+    margin-right: 0;
 }
 
-#ecosistema .list-ticks li i {
-  position: absolute;
-  left: 0;
-  top: 5px;
-  font-size: 1.1rem;
-  color: var(--accent-color);
-  transition: transform var(--transition-speed-fast) var(--easing-smooth);
-}
-
-#ecosistema .list-ticks li:hover {
-  transform: translateX(5px);
-  color: var(--heading-color);
-}
-#ecosistema .list-ticks li:hover i {
-  transform: scale(1.1);
-}
-
-#ecosistema {
-    padding-bottom: 60px;
-}
-#soluciones {
-    padding-top: 60px;
+/* Ensure reversed row images don't overlap text on smaller screens */
+@media (max-width: 991px) {
+    .service-block.flex-row-reverse .col-lg-5 {
+        order: 1; /* Ensure text comes first */
+    }
+     .service-block.flex-row-reverse .col-lg-6 {
+        order: 2; /* Image comes second */
+    }
 }
 
 /*--------------------------------------------------------------
-# Service Card Enhancements (Soluciones Section)
+# Old/Unused Sections CSS (Can be removed or kept for reference)
 --------------------------------------------------------------*/
-.service-item.interactive-card {
-  background: var(--surface-color);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-speed-medium) var(--easing-smooth),
-              box-shadow var(--transition-speed-medium) var(--easing-smooth);
-  border: 1px solid var(--border-color-light);
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  padding: 2.5rem 1.5rem;
-}
 
-.service-item.interactive-card::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: linear-gradient(45deg, var(--accent-color), var(--color-accent-yellow-darker));
-    opacity: 0;
-    transition: opacity var(--transition-speed-medium) var(--easing-smooth);
-    z-index: -1;
-}
+/* Ecosistema Section List Fix (Replaced by detail-list) */
+/* #ecosistema .list-ticks { ... } */
 
-.service-item.interactive-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: var(--shadow-lg);
-}
-.service-item.interactive-card:hover::before {
-    opacity: 1;
-}
+/* Soluciones / Servicios Section (Replaced by interactive-card within Ecosistema) */
+/* .service-item.interactive-card { ... } */
 
-.service-item-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-}
+/* Why Bliss Section Enhancements (Features) (Keep styles, ensure classes applied) */
+/* .feature-item.interactive-feature-item { ... } */
 
-.service-logo {
-  height: 60px !important;
-  margin-bottom: 1.5rem !important;
-  transition: transform var(--transition-speed-medium) var(--easing-smooth);
-}
-
-.interactive-card:hover .service-logo {
-  transform: scale(1.1) rotate(-5deg);
-}
-
-.interactive-title-card {
-  font-size: 1.3rem !important;
-  font-weight: 700 !important;
-  margin-bottom: 1rem !important;
-}
-
-.service-item p.small {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--default-color);
-    flex-grow: 1;
-    margin-bottom: 1.5rem;
-}
-
-.btn-card-detail {
-  background: transparent;
-  border: 2px solid var(--color-dark-gray);
-  color: var(--color-dark-gray);
-  padding: 8px 20px;
-  border-radius: 50px;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 700;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex;
-  align-items: center;
-}
-.btn-card-detail i {
-  margin-left: 5px;
-  transition: transform var(--transition-speed-medium) var(--easing-smooth);
-}
-
-.interactive-card:hover .btn-card-detail {
-  background: var(--color-accent-yellow);
-  border-color: var(--accent-color);
-  color: var(--contrast-color);
-  transform: scale(1.05);
-}
-
-.interactive-card:hover .btn-card-detail i {
-  transform: translateX(4px);
-}
+/* Service Detail Sections Enhancements (Styles integrated/adapted) */
+/* .service-detail-section { ... } */
+/* .service-title-wrapper { ... } */
 
 /*--------------------------------------------------------------
 # Clients Section Enhancements
@@ -935,187 +878,6 @@ section,
     opacity: 1;
     width: 25px;
     border-radius: 5px;
-}
-
-
-/*--------------------------------------------------------------
-# Why Bliss Section Enhancements (Features)
---------------------------------------------------------------*/
-.feature-item.interactive-feature-item {
-  background: var(--surface-color);
-  border-radius: 1rem;
-  padding: 2rem;
-  border: 1px solid transparent;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.feature-item.interactive-feature-item:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent-color);
-}
-
-.feature-icon {
-  font-size: 3rem;
-  color: var(--accent-color);
-  margin-bottom: 1.5rem;
-  transition: transform var(--transition-speed-medium) var(--easing-smooth);
-  line-height: 1;
-}
-
-.feature-item.interactive-feature-item:hover .feature-icon {
-  transform: scale(1.1) rotate(-10deg);
-}
-
-.feature-item h5 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-}
-
-.feature-item p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--default-color);
-  opacity: 0.9;
-}
-
-
-/*--------------------------------------------------------------
-# Service Detail Sections Enhancements
---------------------------------------------------------------*/
-.service-detail-section {
-    padding: 100px 0;
-}
-.service-detail-section .display-5 {
-    font-weight: 900;
-}
-.interactive-subtitle {
-    font-size: 1.4rem;
-    font-weight: 700;
-    position: relative;
-    padding-left: 10px;
-    border-left: 3px solid var(--accent-color);
-    transition: border-color 0.3s ease;
-    margin-bottom: 1rem;
-}
-.interactive-subtitle i {
-    transition: transform 0.3s ease;
-}
-.interactive-subtitle:hover {
-    border-left-color: var(--color-accent-yellow-darker);
-}
-.interactive-subtitle:hover i {
-    transform: scale(1.1);
-}
-.detail-paragraph {
-    line-height: 1.7;
-    opacity: 0.9;
-}
-
-/* Service Detail Logo-Title Alignment Fix */
-.service-title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  flex-wrap: wrap;
-}
-/* Ensure image doesn't cause layout shifts */
-.service-title-wrapper img {
-    flex-shrink: 0;
-    height: 70px;
-    width: auto;
-}
-/* Adjust heading margin if needed within flex */
-.service-title-wrapper h2 {
-    margin-bottom: 0;
-    line-height: 1.2;
-}
-
-
-/* Main CTA Button in detail sections */
-.cta-main {
-    background: var(--color-black);
-    color: var(--color-white);
-    border: 2px solid var(--color-black);
-    padding: 12px 35px;
-    border-radius: 50px;
-    text-transform: uppercase;
-    font-weight: 700;
-    transition: all var(--transition-speed-medium) var(--easing-smooth);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-.cta-main i {
-    transition: transform var(--transition-speed-medium) var(--easing-smooth);
-}
-.cta-main:hover {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--color-black);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
-}
-.cta-main:hover i {
-    transform: translateX(5px);
-}
-
-
-/* Event Subscription Box */
-.event-subscription-box {
-    background-color: var(--color-light-gray);
-    border-top: 4px solid var(--accent-color);
-    transition: box-shadow 0.3s ease;
-    border-radius: 0.5rem;
-}
-.event-subscription-box:hover {
-    box-shadow: var(--shadow-md);
-}
-.cta-event {
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
-    border: 2px solid var(--accent-color);
-    border-radius: 50px;
-    padding: 10px 25px;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-}
-.cta-event .btn-text {
-    transition: transform 0.3s ease;
-    display: inline-block;
-}
-.cta-event .icon-send {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%) translateX(30px);
-    opacity: 0;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-}
-.cta-event:hover {
-    background-color: var(--color-accent-yellow-darker);
-    border-color: var(--color-accent-yellow-darker);
-    padding-right: 45px;
-}
-.cta-event:hover .btn-text {
-    transform: translateX(-10px);
-}
-.cta-event:hover .icon-send {
-    transform: translateY(-50%) translateX(0);
-    opacity: 1;
 }
 
 
@@ -1575,6 +1337,24 @@ section,
   [data-aos-delay] {
     transition-delay: 0 !important;
   }
+    /* Stack service blocks on mobile */
+    .service-block {
+        flex-direction: column !important; /* Override flex-row-reverse */
+    }
+    .service-block .col-lg-5,
+    .service-block .col-lg-6 {
+        width: 100%;
+        offset-lg-1: 0;
+        text-align: center !important; /* Center text on mobile */
+    }
+     .service-block img {
+        max-width: 80%; /* Control image size */
+        margin-bottom: 1.5rem;
+    }
+    .service-block-logo {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 /*--------------------------------------------------------------
