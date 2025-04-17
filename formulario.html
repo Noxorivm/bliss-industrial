@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Auditoría Industrial Gratuita - Paso a Paso | BLISS Industrial Services</title>
+  <title>Auditoría Industrial Gratuita - Paso a paso | BLISS Industrial Services</title>
   <meta name="description" content="Completa nuestra breve auditoría interactiva para recibir tu informe industrial personalizado y gratuito.">
   <meta name="robots" content="noindex, nofollow">
 
@@ -24,7 +24,7 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- Custom Styles for Interactive Form Page -->
-  <link href="assets/css/formulario-interactivo.css" rel="stylesheet"> <!-- Moveremos los estilos a un archivo separado -->
+  <link href="assets/css/formulario-interactivo.css" rel="stylesheet"> <!-- Estilos específicos -->
 
 </head>
 
@@ -48,6 +48,16 @@
           Paso 1
         </div>
         <div class="form-body">
+          <!-- ================================= -->
+          <!-- === Logo Añadido === -->
+          <!-- ================================= -->
+          <div class="text-center mb-4"> <!-- Contenedor para centrar -->
+             <img src="assets/img/logo.jfif" alt="BLISS Industrial Services Logo" class="form-logo-animated">
+          </div>
+          <!-- ================================= -->
+          <!-- === Fin Logo Añadido === -->
+          <!-- ================================= -->
+
           <!-- Contenedor dinámico para las preguntas -->
           <div id="questionContainer">
              <!-- El JS inyectará el HTML del paso aquí -->
@@ -88,7 +98,7 @@
           // === PASO 1: Datos de contacto ===
           {
             id: 'contacto',
-            title: 'Datos de contacto',
+            title: 'Paso 1: Datos de Contacto',
             html: `
               <h3 class="form-step-title mb-4">Empecemos por conocernos</h3>
               <div class="mb-3">
@@ -121,7 +131,7 @@
           // === PASO 2: Perfil del contacto ===
           {
             id: 'perfil',
-            title: 'Tu rol en la empresa',
+            title: 'Paso 2: Tu Rol en la Empresa',
             html: `
               <h3 class="form-step-title mb-4">¿Cuál es tu cargo principal? *</h3>
               <div class="form-check-group">
@@ -149,7 +159,7 @@
           // === PASO 3: Información empresa ===
           {
             id: 'empresa_info',
-            title: 'Sobre tu empresa',
+            title: 'Paso 3: Sobre tu Empresa',
             html: `
               <h3 class="form-step-title mb-4">Cuéntanos un poco más</h3>
               <div class="mb-4">
@@ -207,7 +217,7 @@
            // === PASO 4: Situación actual ===
           {
             id: 'situacion',
-            title: 'Situación actual',
+            title: 'Paso 4: Situación Actual',
             html: `
               <h3 class="form-step-title mb-4">¿Cómo gestionáis y qué retos tenéis?</h3>
               <div class="mb-4">
@@ -254,7 +264,7 @@
           // === PASO 5: Interés y prioridades ===
           {
              id: 'interes',
-             title: 'Intereses y prioridades',
+             title: 'Paso 5: Intereses y Prioridades',
              html: `
                 <h3 class="form-step-title mb-4">¿Qué buscáis y con qué urgencia?</h3>
                 <div class="mb-4">
@@ -301,7 +311,7 @@
            // === PASO 6: Envío ===
            {
             id: 'envio',
-            title: '¡Ya casi estamos!',
+            title: 'Paso 6: ¡Ya casi está!',
             html: `
                 <h3 class="form-step-title mb-4">Último paso</h3>
                 <p class="mb-4">Revisaremos toda la información que nos has proporcionado para generar tu auditoría gratuita y personalizada.</p>
@@ -381,15 +391,23 @@
                  if (input.type === 'text' && input.id.includes('_otro_texto')) {
                      const triggerId = input.id.replace('_texto', '');
                      const triggerElement = questionContainer.querySelector('#' + triggerId);
+                     const targetDiv = input.closest('.conditional-target'); // Get parent target div
+
                      if (triggerElement && triggerElement.checked) {
-                         input.closest('.conditional-target').style.display = 'block';
-                         input.closest('.conditional-target').style.maxHeight = '100px';
-                         input.closest('.conditional-target').style.opacity = '1';
-                         input.value = formData[name] || ''; // Restore text if available
+                        if (targetDiv) {
+                            targetDiv.style.display = 'block';
+                            targetDiv.style.maxHeight = '100px'; // Set a reasonable max height
+                            targetDiv.style.opacity = '1';
+                        }
+                        input.value = formData[name] || ''; // Restore text if available
                      } else {
-                         input.closest('.conditional-target').style.display = 'none';
-                         input.closest('.conditional-target').style.maxHeight = '0';
-                         input.closest('.conditional-target').style.opacity = '0';
+                         if(targetDiv) {
+                             targetDiv.style.maxHeight = '0';
+                             targetDiv.style.opacity = '0';
+                             // Optional: set display none after transition
+                             // setTimeout(() => { if(!triggerElement.checked) targetDiv.style.display = 'none'; }, 300);
+                         }
+                         // input.value = ''; // Don't clear if just loading the step
                      }
                  }
              });
@@ -420,9 +438,7 @@
 
         function saveStepData(index) {
             const stepInputs = questionContainer.querySelectorAll('input, textarea, select');
-            const stepId = formSteps[index].id;
-            // formData[stepId] = {}; // Don't overwrite, just add/update fields
-
+            // No reiniciamos formData[stepId], acumulamos en formData directamente
             stepInputs.forEach(input => {
                 const name = input.name;
                 const id = input.id;
@@ -430,59 +446,44 @@
 
                 // Handle checkbox arrays (name="sector[]")
                 if (name.endsWith('[]')) {
-                     const baseName = name.slice(0, -2); // e.g., 'sector'
-                     if (!formData[baseName]) {
-                         formData[baseName] = []; // Initialize array if it doesn't exist
-                     }
-                     if (input.type === 'checkbox' && input.checked) {
-                         // Check if it's the 'Otro' checkbox triggering a text field
-                         if (input.value === 'Otro') {
-                             const textInput = questionContainer.querySelector(`#${id}_texto`);
-                             if (textInput && textInput.value.trim() !== '') {
-                                 // Add both 'Otro' and the specified text
-                                 if (!formData[baseName].includes('Otro')) {
-                                     formData[baseName].push('Otro');
-                                 }
-                                 formData[`${baseName}_otro_texto`] = textInput.value.trim(); // Store text separately
-                             } else if (!formData[baseName].includes('Otro')) {
-                                 // Only add 'Otro' if checkbox is checked but text is empty
-                                  formData[baseName].push('Otro');
-                                  formData[`${baseName}_otro_texto`] = ''; // Ensure text field data is cleared/empty
-                             }
-                         } else {
-                             // Add regular checkbox value
-                             if (!formData[baseName].includes(value)) {
-                                 formData[baseName].push(value);
-                             }
-                         }
-                     } else if (input.type === 'checkbox' && !input.checked) {
-                         // Remove value if unchecked
-                         const valueIndex = formData[baseName].indexOf(value);
-                         if (valueIndex > -1) {
-                             formData[baseName].splice(valueIndex, 1);
-                         }
-                          // If 'Otro' is unchecked, clear the text field data
-                         if (value === 'Otro') {
-                             formData[`${baseName}_otro_texto`] = '';
-                         }
-                     }
+                    const baseName = name.slice(0, -2); // e.g., 'sector'
+                    if (!formData[baseName]) {
+                        formData[baseName] = []; // Initialize array if it doesn't exist
+                    }
+                    const valueIndex = formData[baseName].indexOf(value);
+
+                    if (input.type === 'checkbox' && input.checked) {
+                        if (valueIndex === -1) { // Add only if not already present
+                            formData[baseName].push(value);
+                        }
+                        // Handle 'Otro' text field
+                        if (value === 'Otro') {
+                            const textInput = questionContainer.querySelector(`#${id}_texto`);
+                            formData[`${baseName}_otro_texto`] = textInput ? textInput.value.trim() : '';
+                        }
+                    } else if (input.type === 'checkbox' && !input.checked) {
+                        if (valueIndex > -1) { // Remove if present
+                            formData[baseName].splice(valueIndex, 1);
+                        }
+                         // Clear 'Otro' text if 'Otro' checkbox is unchecked
+                        if (value === 'Otro') {
+                            formData[`${baseName}_otro_texto`] = '';
+                        }
+                    }
                 }
                 // Handle radio buttons
                 else if (input.type === 'radio') {
                     if (input.checked) {
-                         formData[name] = value;
-                          // If 'Otro' radio is checked, get the text
-                         if (value === 'Otro') {
-                             const textInput = questionContainer.querySelector(`#${id}_texto`);
-                             if (textInput) {
-                                 formData[`${name}_otro_texto`] = textInput.value.trim();
+                        formData[name] = value;
+                        if (value === 'Otro') {
+                            const textInput = questionContainer.querySelector(`#${id}_texto`);
+                            formData[`${name}_otro_texto`] = textInput ? textInput.value.trim() : '';
+                        } else {
+                             // Ensure _otro_texto is cleared if another radio is selected
+                             if (formData[`${name}_otro_texto`]) {
+                                 formData[`${name}_otro_texto`] = '';
                              }
-                         } else {
-                              // If another radio is checked, ensure the 'otro_texto' for this group is cleared
-                              if (formData[`${name}_otro_texto`]) {
-                                   formData[`${name}_otro_texto`] = '';
-                              }
-                         }
+                        }
                     }
                 }
                 // Handle single checkboxes (like WhatsApp preference)
@@ -491,35 +492,29 @@
                 }
                 // Handle other input types (text, email, tel, textarea)
                 else {
-                    // Don't save conditional text fields directly here unless they are visible and have value
-                    if (!id.includes('_otro_texto')) {
-                        formData[name] = value;
-                    } else {
-                        // Ensure conditional text field data is only saved if its trigger is active
-                        const triggerId = id.replace('_texto', '');
-                        const triggerElement = questionContainer.querySelector('#' + triggerId);
-                        if(triggerElement && !triggerElement.checked){
-                             formData[name] = ''; // Clear if trigger is not checked
-                        } else {
-                             formData[name] = value; // Save otherwise
-                        }
-                    }
+                     formData[name] = value;
                 }
             });
-             // Clean up empty arrays for checkboxes if nothing was selected
+
+             // Clean up empty arrays & ensure _otro_text is handled correctly
              Object.keys(formData).forEach(key => {
-                 if (Array.isArray(formData[key]) && formData[key].length === 0) {
-                     // Remove empty array if no other text is associated
-                      if (!formData[`${key}_otro_texto`]) {
-                           delete formData[key];
+                 if (key.endsWith('_otro_texto') && !formData[key.replace('_otro_texto','')]) {
+                      delete formData[key]; // Remove otro_texto if main 'Otro' option is not selected
+                 }
+                 if (Array.isArray(formData[key])) {
+                      if(formData[key].length === 0) {
+                           delete formData[key]; // Remove empty array
+                      } else if (!formData[key].includes('Otro')) {
+                           // Remove _otro_texto if 'Otro' is not in the final array
+                           delete formData[`${key}_otro_texto`];
                       }
                  }
              });
-            console.log("Paso " + (index+1) + " guardado:", JSON.stringify(formData)); // Log para depurar
+            console.log("Paso " + (index+1) + " guardado:", JSON.stringify(formData));
         }
 
         // ========================================================
-        // === VALIDATE STEP FUNCTION - UPDATED ===
+        // === VALIDATE STEP FUNCTION - REVISED ===
         // ========================================================
         function validateStep(index) {
             hideFeedback(); // Clear previous errors
@@ -562,7 +557,8 @@
                 });
 
                 // Find the group's label using the 'required-group' class or by proximity
-                const groupLabel = radiosInGroup[0]?.closest('.mb-3, .mb-4')?.querySelector('label.required-group');
+                const groupLabelContainer = radiosInGroup[0]?.closest('.mb-3, .mb-4'); // Get parent container
+                const groupLabel = groupLabelContainer?.querySelector('label.required-group'); // Find label inside
                 if (groupLabel) groupLabel.classList.remove('is-invalid-group');
 
                 if (!isGroupChecked) {
@@ -573,29 +569,29 @@
             });
 
             // 3. Required Checkbox Groups (Identified by label having .required-group)
-            const requiredCheckboxGroupLabels = stepElement.querySelectorAll('label.required-group');
-            requiredCheckboxGroupLabels.forEach(label => {
-                // Check if this label is for checkboxes (might also be for radios, handled above)
-                const groupDiv = label.nextElementSibling;
-                if (groupDiv && groupDiv.classList.contains('form-check-group')) {
-                    const checkboxesInGroup = groupDiv.querySelectorAll('input[type="checkbox"]');
-                    if (checkboxesInGroup.length > 0) { // Only proceed if it's a checkbox group
-                        let isGroupChecked = false;
-                         checkboxesInGroup.forEach(cb => {
-                             cb.classList.remove('is-invalid'); // Reset checkbox state
-                             if (cb.checked) isGroupChecked = true;
-                         });
+             const requiredCheckboxGroupLabels = stepElement.querySelectorAll('label.required-group');
+             requiredCheckboxGroupLabels.forEach(label => {
+                 // Find checkboxes associated with this label/group
+                 const groupDiv = label.nextElementSibling; // Assume div.form-check-group follows label
+                 if (groupDiv && groupDiv.classList.contains('form-check-group')) {
+                      const checkboxesInGroup = groupDiv.querySelectorAll('input[type="checkbox"]');
+                      if (checkboxesInGroup.length > 0 && !label.closest('.mb-4, .mb-3')?.querySelector('input[type="radio"]')) { // Ensure it's not a radio group label by mistake
+                          let isGroupChecked = false;
+                          checkboxesInGroup.forEach(cb => {
+                              cb.classList.remove('is-invalid'); // Reset checkbox state
+                              if (cb.checked) isGroupChecked = true;
+                          });
 
-                        label.classList.remove('is-invalid-group'); // Reset label state
+                          label.classList.remove('is-invalid-group'); // Reset label state
 
-                        if (!isGroupChecked) {
-                            isValid = false;
-                            label.classList.add('is-invalid-group'); // Mark label
-                             checkboxesInGroup.forEach(cb => cb.classList.add('is-invalid')); // Mark checkboxes
-                        }
-                    }
-                }
-            });
+                          if (!isGroupChecked) {
+                              isValid = false;
+                              label.classList.add('is-invalid-group'); // Mark label
+                              checkboxesInGroup.forEach(cb => cb.classList.add('is-invalid')); // Mark checkboxes
+                          }
+                      }
+                 }
+             });
 
 
             if (!isValid && !formFeedbackElement.textContent) { // Show general message only if specific ones weren't shown
@@ -608,6 +604,7 @@
         // === END VALIDATE STEP FUNCTION ===
         // ========================================================
 
+
         function attachConditionalListeners() {
             const triggers = questionContainer.querySelectorAll('.conditional-trigger');
             triggers.forEach(trigger => {
@@ -615,39 +612,39 @@
                 const targetElement = questionContainer.querySelector('#' + targetId);
 
                 if(targetElement){
+                    const textInput = targetElement.querySelector('input[type="text"]');
+                    // Initial state based on whether the trigger is checked
+                    if (trigger.checked) {
+                         targetElement.style.display = 'block';
+                         targetElement.style.maxHeight = '100px';
+                         targetElement.style.opacity = '1';
+                         if (textInput) textInput.required = true; // Make text required if 'Otro' is selected
+                     } else {
+                         targetElement.style.maxHeight = '0';
+                         targetElement.style.opacity = '0';
+                         if (textInput) textInput.required = false;
+                         // Optional: set display none after transition
+                         setTimeout(() => { if(!trigger.checked) targetElement.style.display = 'none'; }, 300);
+                     }
+
                     // Listener for change event
                     trigger.addEventListener('change', () => {
-                        const textInput = targetElement.querySelector('input[type="text"]');
                         if (trigger.checked) {
                             targetElement.style.display = 'block';
-                            requestAnimationFrame(() => { // Ensure display:block is applied before transition
-                                targetElement.style.maxHeight = '100px'; // Or calculate dynamically if needed
+                             if (textInput) textInput.required = true;
+                            requestAnimationFrame(() => {
+                                targetElement.style.maxHeight = '100px';
                                 targetElement.style.opacity = '1';
                                 if (textInput) textInput.focus();
                             });
                         } else {
+                             if (textInput) textInput.required = false;
                             targetElement.style.maxHeight = '0';
                             targetElement.style.opacity = '0';
-                            // Optional: set display:none after transition if needed
-                            // setTimeout(() => { targetElement.style.display = 'none'; }, 300);
+                            setTimeout(() => { if(!trigger.checked) targetElement.style.display = 'none'; }, 300);
                             if (textInput) textInput.value = ''; // Clear text if trigger is unchecked
                         }
                     });
-
-                    // Initial state check (in case of going back)
-                    const textInput = targetElement.querySelector('input[type="text"]');
-                     if (trigger.checked) {
-                            targetElement.style.display = 'block';
-                            targetElement.style.maxHeight = '100px';
-                            targetElement.style.opacity = '1';
-                            if (textInput) textInput.value = formData[textInput.name] || ''; // Restore value if available
-                     } else {
-                            targetElement.style.maxHeight = '0';
-                            targetElement.style.opacity = '0';
-                            // Optional: set display:none after transition if needed
-                            // setTimeout(() => { targetElement.style.display = 'none'; }, 0); // Hide immediately if not checked initially
-                     }
-
                 }
             });
         }
@@ -732,7 +729,9 @@
         // Event Listener para el botón "Anterior"
         prevButton.addEventListener('click', () => {
             if (currentStepIndex > 0) {
-                // No es necesario guardar datos al ir atrás, ya se guardaron al avanzar
+                // Guardar datos del paso actual ANTES de retroceder
+                // (Esto es importante si el usuario cambia algo y luego va atrás)
+                saveStepData(currentStepIndex);
                 currentStepIndex--;
                 loadStep(currentStepIndex);
             }

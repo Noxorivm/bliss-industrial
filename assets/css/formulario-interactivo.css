@@ -11,6 +11,23 @@ body.form-page-active {
       position: relative; /* Ensure it doesn't conflict with fixed overlay */
       z-index: 1; /* Below overlay */
   }
+  /* Secondary CTA Button Style (e.g., Salir) */
+  .cta-btn-secondary {
+      color: var(--nav-color);
+      border: 1px solid var(--nav-color);
+      padding: 6px 15px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+  }
+  .cta-btn-secondary:hover {
+      color: var(--color-white);
+      border-color: var(--color-white);
+      background-color: rgba(255, 255, 255, 0.1);
+  }
   
   .form-overlay {
     position: fixed;
@@ -55,6 +72,7 @@ body.form-page-active {
     font-weight: 700;
     font-size: 1.1rem; /* Slightly smaller */
     text-align: center;
+    flex-shrink: 0; /* Prevent header from shrinking */
   }
   
   .form-body {
@@ -75,6 +93,10 @@ body.form-page-active {
       margin-bottom: 0.75rem;
       color: var(--heading-color);
       display: block; /* Ensure label takes full width */
+  }
+  .form-body .form-label.required-group::after {
+      content: " *";
+      color: var(--bs-danger); /* Indicate required group */
   }
   
   .form-body .form-control,
@@ -114,6 +136,7 @@ body.form-page-active {
   
   .form-check {
       padding-left: 2em; /* Space for custom control */
+      position: relative; /* Needed for potential custom styling */
   }
   .form-check .form-check-input {
       float: left;
@@ -133,14 +156,26 @@ body.form-page-active {
   .form-check .form-check-label {
       cursor: pointer;
       font-weight: 400;
+      transition: color 0.2s ease;
+  }
+  .form-check:hover .form-check-label {
+      color: var(--heading-color); /* Darken label slightly on hover */
   }
   
-  /* Invalid state for radio/checkbox groups */
+  /* Invalid state for inputs and groups */
+  .form-label.is-invalid-group,
   .form-check-input.is-invalid ~ .form-check-label {
-      color: var(--bs-danger); /* Indicate error on label */
+      color: var(--bs-danger) !important; /* Indicate error on label - Force color */
   }
   .form-check-input.is-invalid {
-      border-color: var(--bs-danger);
+      border-color: var(--bs-danger) !important; /* Force border color */
+      background-color: #fff; /* Ensure background is white */
+  }
+  /* Ensure checked invalid state looks distinct */
+  .form-check-input.is-invalid:checked {
+      background-color: var(--bs-danger) !important; /* Make background red */
+      border-color: var(--bs-danger) !important;
+       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e"); /* White dot */
   }
   .form-control.is-invalid, .form-select.is-invalid {
        border-color: var(--bs-danger);
@@ -160,7 +195,7 @@ body.form-page-active {
     opacity: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out;
-    display: none; /* Start hidden for JS logic */
+    display: none; /* Start hidden */
   }
   .conditional-target input {
       margin-top: 0.25rem;
@@ -174,6 +209,7 @@ body.form-page-active {
     display: flex; /* Use flex for button alignment */
     justify-content: space-between; /* Space between prev/next */
     align-items: center;
+    flex-shrink: 0; /* Prevent footer from shrinking */
   }
   
   .step-indicator {
@@ -193,6 +229,7 @@ body.form-page-active {
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      font-size: 0.9rem; /* Slightly smaller button text */
   }
   .btn-form-nav:hover {
       background-color: var(--color-accent-yellow-darker);
@@ -213,6 +250,9 @@ body.form-page-active {
       opacity: 0.6;
       cursor: not-allowed;
    }
+    .btn-form-nav .spinner-border-sm {
+       margin-left: 5px;
+    }
   
   .progress-container {
     position: fixed;
@@ -252,9 +292,41 @@ body.form-page-active {
       background-color: #f8d7da;
       border: 1px solid #f5c2c7;
    }
-
-    /* Estilo para etiquetas de grupos requeridos no válidos */
-    .form-label.required-group.is-invalid-group {
-        color: var(--bs-danger); /* Rojo de Bootstrap */
-        font-weight: bold;
-    }
+  
+  
+   /*--------------------------------------------------------------
+   # Form Logo Animation Styles
+   --------------------------------------------------------------*/
+   .form-logo-animated {
+     display: block; /* Para aplicar márgenes automáticos */
+     margin: 0 auto 1.5rem auto; /* Centrado y margen inferior */
+     max-height: 55px; /* Tamaño del logo, ajusta si es necesario */
+     width: auto;
+     opacity: 0; /* Empieza invisible para fade-in */
+     animation: logoFadeIn 0.5s ease-out 0.2s forwards, logoFloat 3s ease-in-out infinite; /* Combina fade-in y animación loop */
+   }
+  
+   /* Animación Keyframes: Fade In */
+   @keyframes logoFadeIn {
+     from {
+       opacity: 0;
+       transform: scale(0.9);
+     }
+     to {
+       opacity: 1;
+       transform: scale(1);
+     }
+   }
+  
+   /* Animación Keyframes: Flotación Suave */
+   @keyframes logoFloat {
+     0% {
+       transform: translateY(0px);
+     }
+     50% {
+       transform: translateY(-4px); /* Sube un poco */
+     }
+     100% {
+       transform: translateY(0px);
+     }
+   }
