@@ -560,42 +560,6 @@ strong, b {
 
 }
 
-.header .cta-btn {
-  color: var(--color-black);
-  background: var(--accent-color);
-  border: 2px solid var(--accent-color);
-  font-size: 13px;
-  padding: 8px 20px; /* Slightly smaller padding */
-  margin: 0 0 0 15px;
-  border-radius: 50px;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 2px 5px rgba(250, 204, 21, 0.3);
-  order: 3;
-  white-space: nowrap;
-}
-.header .cta-btn:hover {
-  background: var(--color-accent-yellow-darker);
-  border-color: var(--color-accent-yellow-darker);
-  color: var(--color-black);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
-}
-
-@media (max-width: 1199px) {
-    .header .cta-btn {
-        order: 2;
-        margin: 0 15px 0 0;
-    }
-    .mobile-nav-toggle {
-        order: 3;
-        margin-left: 0;
-    }
-}
-
-
 /*--------------------------------------------------------------
 # Hero Section Enhancements
 --------------------------------------------------------------*/
@@ -660,8 +624,9 @@ strong, b {
   line-height: 1.6;
   font-weight: 300;
 }
-.hero .hero-subtitle strong { /* Ensure highlight within subtitle is bold */
-   font-weight: 700; /* Or 900 if needed */
+.hero .hero-subtitle strong {
+   font-weight: 700; /* More emphasis */
+   color: var(--color-white); /* Make highlight stand out more */
 }
 /* Hero CTA Subtext */
 .hero .hero-cta-subtext {
@@ -672,32 +637,6 @@ strong, b {
   margin-right: auto;
   margin-top: 1rem !important;
 }
-
-/* Hero CTA Button - Updated Style */
-.hero .cta-hero-audit {
-  background: var(--accent-color);
-  color: var(--contrast-color) !important; /* Ensure black text always */
-  border: 2px solid var(--accent-color);
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 12px 35px;
-  border-radius: 50px;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  letter-spacing: 1px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hero .cta-hero-audit:hover {
-  background: var(--color-white);
-  color: var(--color-black) !important; /* FORCE black text on hover */
-  border-color: var(--color-white);
-  transform: translateY(-3px) scale(1.03);
-   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
-}
-
 
 /*--------------------------------------------------------------
 # Global Sections
@@ -905,7 +844,7 @@ section,
     display: none;
 }
 @media (min-width: 992px) {
-    .contact#contact-final .col-lg-7 { /* Target only form col in final section */
+    .contact#contact-final .col-lg-7 {
         width: 66.66666667%;
         margin: 0 auto;
         flex: 0 0 auto;
@@ -1030,6 +969,7 @@ section,
     margin-top: 0;
 }
 
+
 /*--------------------------------------------------------------
 # General Button Styles & Specific CTAs
 --------------------------------------------------------------*/
@@ -1049,22 +989,37 @@ section,
     align-items: center;
     justify-content: center;
     gap: 8px;
-    text-decoration: none; /* Remove underline from links styled as buttons */
-    line-height: 1.5; /* Ensure proper line height */
+    text-decoration: none;
+    line-height: 1.5;
 }
 .cta-principal i {
     transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
+
+/* Default Hover (White background - For dark sections like Hero) */
 .cta-principal:hover {
     background: var(--color-white); /* Hover white */
     color: var(--color-black) !important; /* Ensure black text */
     border-color: var(--color-white);
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* White glow */
 }
+/* Keep icon movement */
 .cta-principal:hover i {
     transform: translateX(5px);
 }
+
+/* Hover para CTAs en fondos claros (Mantiene amarillo, oscurece) */
+.light-background .cta-principal:hover, /* Dentro de .light-background */
+.section:not(.dark-background):not(.light-background) .cta-principal:hover /* Dentro de section sin clase dark o light (fondo blanco por defecto) */
+ {
+    background: var(--color-accent-yellow-darker); /* Darker yellow */
+    border-color: var(--color-accent-yellow-darker);
+    color: var(--color-black) !important; /* Keep black text */
+    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3); /* Yellow glow */
+    /* transform is already applied in the default hover */
+}
+
 
 /* Style for Dark CTAs that use cta-principal structure */
 .cta-principal.cta-principal-dark {
@@ -1097,7 +1052,7 @@ section,
     white-space: nowrap;
 }
 .header .cta-btn:hover {
-    background: var(--color-white);
+    background: var(--color-white); /* Header is dark, so white hover is fine */
     color: var(--color-black) !important;
     border-color: var(--color-white);
     transform: translateY(-2px) scale(1.02);
@@ -1113,12 +1068,7 @@ section,
     /* Inherit from .cta-principal */
     padding: 12px 35px; /* Keep specific padding if needed */
     margin-top: 1rem;
-    /* Add specific :hover if different from cta-principal */
-}
-.contact .cta-form:hover {
-     /* Inherits hover from cta-principal */
-    /* background: var(--color-accent-yellow-darker); */ /* Old hover */
-    /* border-color: var(--color-accent-yellow-darker); */
+    /* Hover will be correctly handled by the specific rule for light backgrounds */
 }
 
 /* Ensure btn-card-detail keeps its specific style */
@@ -1148,7 +1098,7 @@ section,
 .btn-card-detail:hover i {
   transform: translateX(4px); /* Move arrow on hover */
 }
-/* Style for the Executive Newsletter Button */
+/* Style for the Executive Newsletter Button (Uses btn-card-detail base + yellow) */
 #executive-newsletter-btn {
     /* Inherit btn-card-detail style but with yellow background */
     background: var(--accent-color);
@@ -1156,9 +1106,11 @@ section,
     color: var(--contrast-color);
 }
 #executive-newsletter-btn:hover {
+     /* Hover specific to this button, darker yellow */
      background: var(--color-accent-yellow-darker);
      border-color: var(--color-accent-yellow-darker);
      color: var(--contrast-color);
+     transform: scale(1.05); /* Keep scale effect */
 }
 
 
