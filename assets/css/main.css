@@ -638,27 +638,30 @@ strong, b {
 }
 
 .hero .hero-title {
-  margin: 0 auto 15px auto; /* Reduced bottom margin */
-  font-size: clamp(2.2rem, 5.5vw, 3.5rem); /* Slightly smaller max */
+  margin: 0 auto 15px auto;
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem);
   font-weight: 900;
   text-transform: uppercase;
   color: var(--color-white);
-  line-height: 1.3; /* Adjusted */
+  line-height: 1.3;
   text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
-  max-width: 950px; /* Wider */
+  max-width: 950px;
 }
 .hero .hero-title strong {
-    font-weight: 900; /* Ensure strong tag inherits boldness */
+    font-weight: 900;
 }
 
 .hero .hero-subtitle {
   color: var(--color-light-gray);
-  margin: 0 auto 30px auto; /* Reduced bottom margin */
-  font-size: clamp(1rem, 2.2vw, 1.2rem); /* Slightly smaller max */
+  margin: 0 auto 30px auto;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
   max-width: 750px;
   opacity: 0.9;
-  line-height: 1.6; /* Adjusted */
+  line-height: 1.6;
   font-weight: 300;
+}
+.hero .hero-subtitle strong { /* Ensure highlight within subtitle is bold */
+   font-weight: 700; /* Or 900 if needed */
 }
 /* Hero CTA Subtext */
 .hero .hero-cta-subtext {
@@ -667,13 +670,13 @@ strong, b {
   max-width: 450px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1rem !important; /* Ensure spacing */
+  margin-top: 1rem !important;
 }
 
 /* Hero CTA Button - Updated Style */
 .hero .cta-hero-audit {
-  background: var(--accent-color); /* Start yellow */
-  color: var(--contrast-color); /* Start black text */
+  background: var(--accent-color);
+  color: var(--contrast-color) !important; /* Ensure black text always */
   border: 2px solid var(--accent-color);
   text-transform: uppercase;
   font-weight: 700;
@@ -688,11 +691,11 @@ strong, b {
 }
 
 .hero .cta-hero-audit:hover {
-  background: var(--color-white); /* Hover white */
-  color: var(--color-black); /* Hover black text */
+  background: var(--color-white);
+  color: var(--color-black) !important; /* FORCE black text on hover */
   border-color: var(--color-white);
   transform: translateY(-3px) scale(1.03);
-   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* White glow */
+   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
 }
 
 
@@ -703,7 +706,7 @@ section,
 .section {
   scroll-margin-top: 90px;
   padding: 80px 0;
-  overflow: hidden; /* Changed from clip to hidden */
+  overflow: hidden;
 }
 
 .section.light-background {
@@ -747,8 +750,8 @@ section,
     text-align: left;
 }
 /* Adjust lines for left-aligned titles */
-.section-title.text-start h2::before { display: none; } /* Hide left line */
-.section-title.text-start h2::after { margin-left: 0; } /* Remove left margin */
+.section-title.text-start h2::before { display: none; }
+.section-title.text-start h2::after { margin-left: 0; }
 
 
 .section-title h2::after,
@@ -798,22 +801,22 @@ section,
 # Section 5: Ecosistema BLISS Specific Styles
 --------------------------------------------------------------*/
 .service-block {
-    margin-bottom: 4rem; /* Add space between service blocks */
+    margin-bottom: 4rem;
 }
 /* Style for the Enlarged Service Titles */
 .service-block h3.h2 {
-     font-size: clamp(1.8rem, 4.5vw, 2.8rem); /* Match main section title size */
-     margin-bottom: 0.75rem !important; /* Adjust margin */
+     font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+     margin-bottom: 0.75rem !important;
      line-height: 1.3;
-     font-weight: 900; /* Match section title weight */
+     font-weight: 900;
      color: var(--heading-color);
 }
-/* Small inline logo placed before dynamic image */
+/* Small inline logo placed ABOVE dynamic image */
 .service-block-logo-inline {
-    max-height: 45px; /* Adjust size for inline logo */
+    max-height: 55px; /* Increased size */
     width: auto;
     opacity: 0.8;
-    margin-bottom: 1rem; /* Space below logo */
+    margin-bottom: 1rem;
 }
 
 /* Ensure reversed row images don't overlap text on smaller screens */
@@ -824,19 +827,19 @@ section,
     .service-block .col-lg-6 {
         offset-lg-1: 0;
         text-align: center !important;
-        flex-basis: auto; /* Reset basis */
+        flex-basis: auto;
         width: 100%;
     }
-     .service-block .interactive-image { /* Target the main image */
-        max-width: 85%; /* Control image size */
+     .service-block .interactive-image {
+        max-width: 85%;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 1.5rem; /* Space above image */
+        margin-top: 1.5rem;
     }
-    .service-block-logo-inline { /* Target the small logo */
+    .service-block-logo-inline {
         margin-left: auto;
         margin-right: auto;
-        display: block; /* Ensure centering works */
+        display: block;
     }
 }
 
@@ -860,7 +863,7 @@ section,
 
 .client-swiper .swiper-wrapper {
   display: flex;
-  justify-content: center; /* Re-enable if needed and loop:false */
+  /* justify-content: center; /* Keep commented if loop: true */
   align-items: center;
 }
 
@@ -898,15 +901,14 @@ section,
 /*--------------------------------------------------------------
 # Contact Section Enhancements (Final CTA)
 --------------------------------------------------------------*/
-.contact#contact-final .info-container { /* Target only final contact section info */
-    display: none; /* Hide info box in final CTA */
+.contact#contact-final .info-container {
+    display: none;
 }
-/* Adjust form width when info box is hidden on larger screens */
 @media (min-width: 992px) {
-    .contact#contact-final .col-lg-7 {
-        width: 66.66666667%; /* Example: 8 out of 12 columns */
-        margin: 0 auto; /* Center the form column */
-        flex: 0 0 auto; /* Override default flex grow */
+    .contact#contact-final .col-lg-7 { /* Target only form col in final section */
+        width: 66.66666667%;
+        margin: 0 auto;
+        flex: 0 0 auto;
     }
 }
 
@@ -1028,35 +1030,137 @@ section,
     margin-top: 0;
 }
 
+/*--------------------------------------------------------------
+# General Button Styles & Specific CTAs
+--------------------------------------------------------------*/
 
-/* Contact Form Submit Button */
-.cta-form {
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  border: 2px solid var(--accent-color);
-  padding: 12px 35px;
-  border-radius: 50px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 1rem;
+/* Base style for primary CTAs (Yellow background) */
+.cta-principal {
+    background: var(--accent-color);
+    color: var(--contrast-color) !important; /* Ensure black text */
+    border: 2px solid var(--accent-color);
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-speed-medium) var(--easing-smooth);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none; /* Remove underline from links styled as buttons */
+    line-height: 1.5; /* Ensure proper line height */
 }
-.cta-form i {
+.cta-principal i {
+    transition: transform var(--transition-speed-medium) var(--easing-smooth);
+}
+.cta-principal:hover {
+    background: var(--color-white); /* Hover white */
+    color: var(--color-black) !important; /* Ensure black text */
+    border-color: var(--color-white);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+.cta-principal:hover i {
+    transform: translateX(5px);
+}
+
+/* Style for Dark CTAs that use cta-principal structure */
+.cta-principal.cta-principal-dark {
+    background: var(--color-black);
+    color: var(--color-white) !important; /* White text */
+    border-color: var(--color-black);
+}
+.cta-principal.cta-principal-dark:hover {
+    background: var(--color-dark-gray); /* Darker gray hover */
+    color: var(--color-white) !important; /* White text */
+    border-color: var(--color-dark-gray);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Header CTA uses cta-principal now */
+.header .cta-btn {
+    /* Apply cta-principal styles */
+    background: var(--accent-color);
+    color: var(--contrast-color) !important;
+    border: 2px solid var(--accent-color);
+    padding: 8px 20px; /* Override padding if needed */
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-speed-medium) var(--easing-smooth);
+    margin: 0 0 0 15px;
+    order: 3;
+    white-space: nowrap;
+}
+.header .cta-btn:hover {
+    background: var(--color-white);
+    color: var(--color-black) !important;
+    border-color: var(--color-white);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+@media (max-width: 1199px) {
+    .header .cta-btn { order: 2; margin: 0 15px 0 0; }
+}
+
+
+/* Final Contact Form Button uses cta-principal now */
+.contact .cta-form {
+    /* Inherit from .cta-principal */
+    padding: 12px 35px; /* Keep specific padding if needed */
+    margin-top: 1rem;
+    /* Add specific :hover if different from cta-principal */
+}
+.contact .cta-form:hover {
+     /* Inherits hover from cta-principal */
+    /* background: var(--color-accent-yellow-darker); */ /* Old hover */
+    /* border-color: var(--color-accent-yellow-darker); */
+}
+
+/* Ensure btn-card-detail keeps its specific style */
+.btn-card-detail {
+  background: transparent;
+  border: 2px solid var(--color-dark-gray);
+  color: var(--color-dark-gray);
+  padding: 8px 20px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: all var(--transition-speed-medium) var(--easing-smooth);
+  display: inline-flex; /* Align icon properly */
+  align-items: center;
+}
+.btn-card-detail:hover {
+   background: var(--color-dark-gray);
+   border-color: var(--color-dark-gray);
+   color: var(--color-white);
+   transform: scale(1.05);
+}
+.btn-card-detail i {
+  margin-left: 5px;
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
-.cta-form:hover {
-  background: var(--color-accent-yellow-darker);
-  border-color: var(--color-accent-yellow-darker);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 5px 15px rgba(250, 204, 21, 0.4);
+.btn-card-detail:hover i {
+  transform: translateX(4px); /* Move arrow on hover */
 }
-.cta-form:hover i {
-  transform: translateX(5px);
+/* Style for the Executive Newsletter Button */
+#executive-newsletter-btn {
+    /* Inherit btn-card-detail style but with yellow background */
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--contrast-color);
 }
+#executive-newsletter-btn:hover {
+     background: var(--color-accent-yellow-darker);
+     border-color: var(--color-accent-yellow-darker);
+     color: var(--contrast-color);
+}
+
 
 /* PHP Form Messages */
 .php-email-form .loading,
@@ -1392,12 +1496,8 @@ section,
 }
 
 /*--------------------------------------------------------------
-# MISC / Removed Sections Styles
+# MISC Styles
 --------------------------------------------------------------*/
-/* Styles for .about, .testimonials, .team, .portfolio-details, .service-details */
-/* have been removed as they weren't present in the final HTML structure provided */
-/* Adjust or re-add if necessary */
-
 /* Ensure check list has correct icon alignment */
 .check-list li {
     padding-left: 30px; /* Ensure padding */
