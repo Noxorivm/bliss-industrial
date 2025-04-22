@@ -752,7 +752,7 @@ section,
 }
 /* Small inline logo placed ABOVE dynamic image */
 .service-block-logo-inline {
-    max-height: 55px; /* Increased size */
+    max-height: 155px; /* Increased size */
     width: auto;
     opacity: 0.8;
     margin-bottom: 1rem;
