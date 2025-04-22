@@ -101,6 +101,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+strong, b {
+   font-weight: 700; /* Ensure bold is sufficiently weighted */
+}
+
+
 .highlight {
   color: var(--accent-color);
 }
@@ -213,7 +218,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Detail Lists */
 .detail-list li, .detail-list-ordered li, .detail-list-negative li, .check-list li {
-    padding-left: 25px; /* Consistent padding */
+    padding-left: 30px; /* Consistent padding */
     margin-bottom: 0.75rem;
     transition: transform var(--transition-speed-fast) ease-out;
     position: relative;
@@ -222,13 +227,15 @@ h1, h2, h3, h4, h5, h6 {
 .detail-list li:hover, .detail-list-ordered li:hover, .detail-list-negative li:hover, .check-list li:hover {
     transform: translateX(3px);
 }
-.detail-list i.bi-dot, .detail-list-negative i.bi-x, .check-list i.bi-check-lg {
+.detail-list i.bi, .detail-list-negative i.bi-x, .check-list i.bi { /* Target generic bi icon */
     position: absolute;
     left: 0; /* Align icon to the very left */
     top: 5px; /* Adjust vertical alignment */
     font-size: 1.1rem; /* Consistent icon size */
-    color: var(--accent-color);
+    color: var(--accent-color); /* Default yellow */
     transition: transform 0.2s ease;
+    width: 20px; /* Ensure width for alignment */
+    text-align: center;
 }
 .detail-list-negative i.bi-x {
     color: var(--color-medium-gray);
@@ -237,19 +244,19 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--bs-success); /* Use Bootstrap success color */
     font-weight: bold;
 }
-.detail-list li:hover i.bi-dot, .detail-list-negative li:hover i.bi-x, .check-list li:hover i.bi-check-lg {
+.detail-list li:hover i.bi, .detail-list-negative li:hover i.bi-x, .check-list li:hover i.bi {
     transform: scale(1.2); /* Slightly larger scale */
 }
 .detail-list-ordered {
     list-style: none;
     counter-reset: detail-counter;
-    padding-left: 25px;
+    padding-left: 30px; /* Match other lists */
 }
 .detail-list-ordered li::before {
     content: counter(detail-counter);
     counter-increment: detail-counter;
     position: absolute;
-    left: -10px; /* Position number relative to text start */
+    left: 0px; /* Align number to the very left */
     top: 0;
     font-weight: 700;
     color: var(--accent-color);
@@ -558,7 +565,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--accent-color);
   border: 2px solid var(--accent-color);
   font-size: 13px;
-  padding: 8px 28px;
+  padding: 8px 20px; /* Slightly smaller padding */
   margin: 0 0 0 15px;
   border-radius: 50px;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
@@ -631,23 +638,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero .hero-title {
-  margin: 0 auto 25px auto;
-  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  margin: 0 auto 15px auto; /* Reduced bottom margin */
+  font-size: clamp(2.2rem, 5.5vw, 3.5rem); /* Slightly smaller max */
   font-weight: 900;
   text-transform: uppercase;
   color: var(--color-white);
-  line-height: 1.25;
+  line-height: 1.3; /* Adjusted */
   text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
-  max-width: 900px;
+  max-width: 950px; /* Wider */
+}
+.hero .hero-title strong {
+    font-weight: 900; /* Ensure strong tag inherits boldness */
 }
 
 .hero .hero-subtitle {
   color: var(--color-light-gray);
-  margin: 0 auto 35px auto;
-  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  margin: 0 auto 30px auto; /* Reduced bottom margin */
+  font-size: clamp(1rem, 2.2vw, 1.2rem); /* Slightly smaller max */
   max-width: 750px;
   opacity: 0.9;
-  line-height: 1.7;
+  line-height: 1.6; /* Adjusted */
   font-weight: 300;
 }
 /* Hero CTA Subtext */
@@ -657,13 +667,14 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 450px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 1rem !important; /* Ensure spacing */
 }
 
-/* Hero CTA Button */
-.hero .btn-get-started.cta-blanco-negro {
-  background: var(--color-white);
-  color: var(--color-black);
-  border: 2px solid var(--color-white);
+/* Hero CTA Button - Updated Style */
+.hero .cta-hero-audit {
+  background: var(--accent-color); /* Start yellow */
+  color: var(--contrast-color); /* Start black text */
+  border: 2px solid var(--accent-color);
   text-transform: uppercase;
   font-weight: 700;
   padding: 12px 35px;
@@ -671,17 +682,17 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition-speed-medium) var(--easing-smooth);
   letter-spacing: 1px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  display: inline-flex; /* Align icon */
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.hero .btn-get-started.cta-blanco-negro:hover {
-  background: var(--accent-color);
-  color: var(--color-black);
-  border-color: var(--accent-color);
+.hero .cta-hero-audit:hover {
+  background: var(--color-white); /* Hover white */
+  color: var(--color-black); /* Hover black text */
+  border-color: var(--color-white);
   transform: translateY(-3px) scale(1.03);
-   box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
+   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); /* White glow */
 }
 
 
@@ -720,10 +731,12 @@ section,
   margin: 0 0 15px 0;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-medium-gray);
+  color: var(--color-black); /* Updated color */
+  opacity: 0.8; /* Slight fade */
 }
 .dark-background .section-title h2 {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-white); /* Keep white on dark */
+    opacity: 0.7;
 }
 /* Align title text left within its container */
 .section-title.text-start {
@@ -785,47 +798,48 @@ section,
 # Section 5: Ecosistema BLISS Specific Styles
 --------------------------------------------------------------*/
 .service-block {
-    /* Add padding or margin if needed between blocks */
+    margin-bottom: 4rem; /* Add space between service blocks */
 }
-.service-block-logo {
-    max-height: 60px; /* Adjust as needed */
+/* Style for the Enlarged Service Titles */
+.service-block h3.h2 {
+     font-size: clamp(1.8rem, 4.5vw, 2.8rem); /* Match main section title size */
+     margin-bottom: 0.75rem !important; /* Adjust margin */
+     line-height: 1.3;
+     font-weight: 900; /* Match section title weight */
+     color: var(--heading-color);
+}
+/* Small inline logo placed before dynamic image */
+.service-block-logo-inline {
+    max-height: 45px; /* Adjust size for inline logo */
     width: auto;
-    display: block; /* Prevent inline spacing issues */
-    margin-left: auto; /* Center if text is centered */
-    margin-right: auto; /* Center if text is centered */
-}
-/* Adjust alignment for non-centered text */
-.text-lg-start .service-block-logo {
-    margin-left: 0;
-    margin-right: 0;
+    opacity: 0.8;
+    margin-bottom: 1rem; /* Space below logo */
 }
 
 /* Ensure reversed row images don't overlap text on smaller screens */
 @media (max-width: 991px) {
-    .service-block.flex-row-reverse .col-lg-5 {
-        order: 1; /* Ensure text comes first */
+    .service-block.flex-row-reverse .col-lg-5 { order: 1; }
+    .service-block.flex-row-reverse .col-lg-6 { order: 2; }
+    .service-block .col-lg-5,
+    .service-block .col-lg-6 {
+        offset-lg-1: 0;
+        text-align: center !important;
+        flex-basis: auto; /* Reset basis */
+        width: 100%;
     }
-     .service-block.flex-row-reverse .col-lg-6 {
-        order: 2; /* Image comes second */
+     .service-block .interactive-image { /* Target the main image */
+        max-width: 85%; /* Control image size */
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1.5rem; /* Space above image */
+    }
+    .service-block-logo-inline { /* Target the small logo */
+        margin-left: auto;
+        margin-right: auto;
+        display: block; /* Ensure centering works */
     }
 }
 
-/*--------------------------------------------------------------
-# Old/Unused Sections CSS (Can be removed or kept for reference)
---------------------------------------------------------------*/
-
-/* Ecosistema Section List Fix (Replaced by detail-list) */
-/* #ecosistema .list-ticks { ... } */
-
-/* Soluciones / Servicios Section (Replaced by interactive-card within Ecosistema) */
-/* .service-item.interactive-card { ... } */
-
-/* Why Bliss Section Enhancements (Features) (Keep styles, ensure classes applied) */
-/* .feature-item.interactive-feature-item { ... } */
-
-/* Service Detail Sections Enhancements (Styles integrated/adapted) */
-/* .service-detail-section { ... } */
-/* .service-title-wrapper { ... } */
 
 /*--------------------------------------------------------------
 # Clients Section Enhancements
@@ -846,7 +860,7 @@ section,
 
 .client-swiper .swiper-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Re-enable if needed and loop:false */
   align-items: center;
 }
 
@@ -882,8 +896,21 @@ section,
 
 
 /*--------------------------------------------------------------
-# Contact Section Enhancements
+# Contact Section Enhancements (Final CTA)
 --------------------------------------------------------------*/
+.contact#contact-final .info-container { /* Target only final contact section info */
+    display: none; /* Hide info box in final CTA */
+}
+/* Adjust form width when info box is hidden on larger screens */
+@media (min-width: 992px) {
+    .contact#contact-final .col-lg-7 {
+        width: 66.66666667%; /* Example: 8 out of 12 columns */
+        margin: 0 auto; /* Center the form column */
+        flex: 0 0 auto; /* Override default flex grow */
+    }
+}
+
+
 .contact .info-container {
     background: var(--color-light-gray);
     border-radius: 1rem;
@@ -1346,15 +1373,22 @@ section,
         width: 100%;
         offset-lg-1: 0;
         text-align: center !important; /* Center text on mobile */
+        flex-basis: auto; /* Reset basis */
     }
-     .service-block img {
-        max-width: 80%; /* Control image size */
-        margin-bottom: 1.5rem;
-    }
-    .service-block-logo {
+     .service-block .interactive-image { /* Target the main image */
+        max-width: 85%; /* Control image size */
         margin-left: auto;
         margin-right: auto;
+        margin-top: 1.5rem; /* Space above image */
     }
+    .service-block-logo-inline { /* Target the small logo */
+        margin-left: auto;
+        margin-right: auto;
+        display: block; /* Ensure centering works */
+    }
+     .contact#contact-final .col-lg-8 { /* Ensure final form takes full width */
+        width: 100%;
+     }
 }
 
 /*--------------------------------------------------------------
@@ -1363,3 +1397,22 @@ section,
 /* Styles for .about, .testimonials, .team, .portfolio-details, .service-details */
 /* have been removed as they weren't present in the final HTML structure provided */
 /* Adjust or re-add if necessary */
+
+/* Ensure check list has correct icon alignment */
+.check-list li {
+    padding-left: 30px; /* Ensure padding */
+}
+.check-list li i.bi { /* Target specifically icons in check-list */
+    position: absolute;
+    left: 0;
+    top: 5px;
+    font-size: 1.1rem;
+    color: var(--bs-success); /* Make sure color is correct */
+    font-weight: bold;
+     width: 20px;
+     text-align: center;
+     transition: transform 0.2s ease;
+}
+.check-list li:hover i.bi {
+    transform: scale(1.2);
+}
