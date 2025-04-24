@@ -1,0 +1,85 @@
+/*--------------------------------------------------------------
+# Dashboard Specific Styles
+--------------------------------------------------------------*/
+
+body.dashboard-body {
+    background-color: var(--color-light-gray); /* Fondo general */
+    padding-top: 80px; /* Ajustar según altura del header del dashboard */
+  }
+  
+  .dashboard-header {
+    background-color: var(--color-white); /* Header blanco */
+    border-bottom: 1px solid var(--border-color-light);
+  }
+  .sitename-dashboard {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      color: var(--heading-color);
+      font-size: 1.3rem;
+  }
+  
+  .dashboard-main {
+    padding: 30px 15px;
+  }
+  
+  .dashboard-title {
+      font-family: var(--heading-font);
+      font-weight: 900;
+      color: var(--heading-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+  }
+  
+  /* Estilos para la tabla DataTables */
+  #auditsTable {
+      font-size: 0.9rem; /* Texto tabla más pequeño */
+  }
+  #auditsTable thead th {
+      background-color: var(--color-light-gray); /* Fondo cabecera */
+      border-bottom-width: 2px;
+      font-weight: 600; /* Semi-bold */
+  }
+  #auditsTable_wrapper .dataTables_filter input {
+      border-radius: 50px; /* Input de búsqueda redondeado */
+      padding: 6px 12px;
+      border: 1px solid var(--border-color-light);
+      margin-left: 0.5em;
+  }
+  #auditsTable_wrapper .dataTables_length select {
+      border-radius: 5px;
+      padding: 6px 20px 6px 12px;
+      border: 1px solid var(--border-color-light);
+  }
+  .page-item.active .page-link {
+      background-color: var(--accent-color); /* Paginación activa amarilla */
+      border-color: var(--accent-color);
+  }
+  .page-link {
+      color: var(--accent-color); /* Links paginación amarillos */
+  }
+  .page-link:hover {
+      color: var(--color-accent-yellow-darker);
+  }
+  
+  /* Mejorar visualización responsive */
+  @media (max-width: 767px) {
+      .dashboard-title {
+          font-size: 1.5rem;
+      }
+       #auditsTable {
+          font-size: 0.85rem;
+      }
+      /* Ocultar columnas menos importantes en móvil (DataTables Responsive lo maneja, pero podemos forzar) */
+       /* #auditsTable th:nth-child(6), #auditsTable td:nth-child(6), */ /* Telefono */
+       /* #auditsTable th:nth-child(7), #auditsTable td:nth-child(7) { */ /* Cargo */
+          /* display: none; */
+       /* } */
+  }
+  
+  
+  .dashboard-footer {
+      margin-top: 30px;
+      padding: 15px 0;
+      background-color: var(--color-white);
+      border-top: 1px solid var(--border-color-light);
+  }
