@@ -744,18 +744,27 @@ section,
 .service-block {
     margin-bottom: 5rem; /* Increased margin between blocks */
 }
-/* Apply consistent padding to text columns */
-.service-block .service-block-text {
-    padding-left: 3rem;   /* Add padding on the left */
-    padding-right: 3rem;  /* Add padding on the right */
+/* Apply consistent padding to text columns for separation */
+@media (min-width: 992px) {
+  .service-block .service-block-text {
+      padding-left: 3rem;
+      padding-right: 3rem;
+  }
+  /* Apply consistent padding to image columns for separation */
+  .service-block .service-block-image {
+      padding-left: 2rem;
+      padding-right: 2rem;
+  }
 }
 
-/* Apply consistent padding to image columns */
-.service-block .service-block-image {
-    padding-left: 2rem;   /* Add padding on the left */
-    padding-right: 2rem;  /* Add padding on the right */
+/* Fix for logo color and size */
+.service-block-logo-inline {
+    max-height: 70px; /* Increased logo size */
+    width: auto;
+    opacity: 1 !important; /* Ensure full opacity */
+    filter: none !important; /* Ensure no filter */
+    margin-bottom: 1rem;
 }
-
 
 .service-block h3.h2 {
      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
@@ -764,13 +773,7 @@ section,
      font-weight: 900;
      color: var(--heading-color);
 }
-.service-block-logo-inline {
-    max-height: 55px; /* Adjusted size */
-    width: auto;
-    opacity: 1 !important; /* Ensure full opacity */
-    filter: none !important; /* Ensure no filter */
-    margin-bottom: 1rem;
-}
+
 
 /* Increase vertical spacing within text block */
 .service-block-text h4 {
@@ -790,7 +793,6 @@ section,
     .service-block.flex-row-reverse .col-lg-6.service-block-image { order: 2; } /* Image comes second */
 
     .service-block .col-lg-6 { /* Apply to both columns on mobile */
-        /* offset-lg-1: 0; */ /* Offset removed in HTML */
         text-align: center !important;
         flex-basis: auto; /* Reset basis */
         width: 100%;
@@ -1446,7 +1448,6 @@ section,
         flex-direction: column !important; /* Override flex-row-reverse */
     }
     .service-block .col-lg-6 { /* Apply to both columns on mobile */
-        /* offset-lg-1: 0; */ /* Offset removed in HTML */
         text-align: center !important;
         flex-basis: auto; /* Reset basis */
         width: 100%;
