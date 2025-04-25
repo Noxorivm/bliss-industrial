@@ -240,7 +240,7 @@ strong, b {
 .detail-list-negative i.bi-x {
     color: var(--color-medium-gray);
 }
-.check-list i.bi-check-lg {
+.check-list i.bi {
     color: var(--bs-success); /* Use Bootstrap success color */
     font-weight: bold;
 }
@@ -560,6 +560,7 @@ strong, b {
 
 }
 
+
 /*--------------------------------------------------------------
 # Hero Section Enhancements
 --------------------------------------------------------------*/
@@ -638,13 +639,14 @@ strong, b {
   margin-top: 1rem !important;
 }
 
+
 /*--------------------------------------------------------------
 # Global Sections
 --------------------------------------------------------------*/
 section,
 .section {
   scroll-margin-top: 90px;
-  padding: 80px 0;
+  padding: 90px 0; /* Increased default padding */
   overflow: hidden;
 }
 
@@ -661,7 +663,7 @@ section,
 # Section Title Enhancements
 --------------------------------------------------------------*/
 .section-title {
-  padding-bottom: 50px;
+  padding-bottom: 60px; /* Increased padding */
   text-align: center;
 }
 
@@ -673,11 +675,11 @@ section,
   margin: 0 0 15px 0;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-black); /* Updated color */
-  opacity: 0.8; /* Slight fade */
+  color: var(--color-black);
+  opacity: 0.8;
 }
 .dark-background .section-title h2 {
-    color: var(--color-white); /* Keep white on dark */
+    color: var(--color-white);
     opacity: 0.7;
 }
 /* Align title text left within its container */
@@ -740,9 +742,17 @@ section,
 # Section 5: Ecosistema BLISS Specific Styles
 --------------------------------------------------------------*/
 .service-block {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem; /* Increased margin between blocks */
 }
-/* Style for the Enlarged Service Titles */
+/* Added padding to the text column for more spacing */
+.service-block .service-block-text {
+    padding-right: 2rem; /* Add padding on the right */
+}
+.service-block.flex-row-reverse .service-block-text {
+    padding-right: 0; /* Remove right padding */
+    padding-left: 2rem; /* Add padding on the left for reversed rows */
+}
+
 .service-block h3.h2 {
      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
      margin-bottom: 0.75rem !important;
@@ -750,12 +760,24 @@ section,
      font-weight: 900;
      color: var(--heading-color);
 }
-/* Small inline logo placed ABOVE dynamic image */
 .service-block-logo-inline {
-    max-height: 155px; /* Increased size */
+    max-height: 55px; /* Adjusted size */
     width: auto;
-    opacity: 0.8;
+    opacity: 1; /* Ensure full opacity */
+    filter: none; /* Ensure no filter */
     margin-bottom: 1rem;
+}
+
+/* Increase vertical spacing within text block */
+.service-block-text h4 {
+    margin-bottom: 1.2rem !important;
+}
+.service-block-text p {
+    margin-bottom: 1.2rem; /* More space between paragraphs */
+    line-height: 1.7;
+}
+.service-block-text ul {
+     margin-bottom: 1.2rem; /* More space after list */
 }
 
 /* Ensure reversed row images don't overlap text on smaller screens */
@@ -764,12 +786,14 @@ section,
     .service-block.flex-row-reverse .col-lg-6 { order: 2; }
     .service-block .col-lg-5,
     .service-block .col-lg-6 {
-        offset-lg-1: 0;
+        /* offset-lg-1: 0; */ /* Offset removed in HTML */
         text-align: center !important;
         flex-basis: auto;
         width: 100%;
+        padding-left: 15px; /* Reset padding */
+        padding-right: 15px; /* Reset padding */
     }
-     .service-block .interactive-image {
+     .service-block .interactive-image { /* Target the main image */
         max-width: 85%;
         margin-left: auto;
         margin-right: auto;
@@ -841,17 +865,24 @@ section,
 # Contact Section Enhancements (Final CTA)
 --------------------------------------------------------------*/
 .contact#contact-final .info-container {
-    display: none;
+    display: none; /* Hide info block in final CTA */
 }
+/* Center the form in the final CTA section on large screens */
 @media (min-width: 992px) {
-    .contact#contact-final .col-lg-7 {
+    .contact#contact-final .col-lg-8 {
         width: 66.66666667%;
         margin: 0 auto;
         flex: 0 0 auto;
     }
 }
+/* Ensure full width on smaller screens */
+@media (max-width: 991px) {
+     .contact#contact-final .col-lg-8 {
+        width: 100%;
+     }
+}
 
-
+/* General Contact Info Block Style (if used elsewhere) */
 .contact .info-container {
     background: var(--color-light-gray);
     border-radius: 1rem;
@@ -995,29 +1026,33 @@ section,
 .cta-principal i {
     transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
-
-/* Default Hover (White background - For dark sections like Hero) */
+/* General Hover */
 .cta-principal:hover {
-    background: var(--color-white); /* Hover white */
-    color: var(--color-black) !important; /* Ensure black text */
-    border-color: var(--color-white);
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* White glow */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Default shadow */
 }
-/* Keep icon movement */
 .cta-principal:hover i {
     transform: translateX(5px);
 }
 
-/* Hover para CTAs en fondos claros (Mantiene amarillo, oscurece) */
-.light-background .cta-principal:hover, /* Dentro de .light-background */
-.section:not(.dark-background):not(.light-background) .cta-principal:hover /* Dentro de section sin clase dark o light (fondo blanco por defecto) */
+/* Hover for CTAs in dark sections (like Hero) */
+.dark-background .cta-principal:hover,
+.header .cta-btn:hover { /* Header also uses this hover */
+    background: var(--color-white);
+    color: var(--color-black) !important;
+    border-color: var(--color-white);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* White glow */
+}
+
+/* Hover for CTAs in light/default sections */
+.light-background .cta-principal:hover,
+.section:not(.dark-background):not(.light-background) .cta-principal:hover,
+.contact .cta-form:hover /* Ensure final form button gets correct hover */
  {
-    background: var(--color-accent-yellow-darker); /* Darker yellow */
+    background: var(--color-accent-yellow-darker);
     border-color: var(--color-accent-yellow-darker);
-    color: var(--color-black) !important; /* Keep black text */
+    color: var(--color-black) !important;
     box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3); /* Yellow glow */
-    /* transform is already applied in the default hover */
 }
 
 
@@ -1035,40 +1070,24 @@ section,
 }
 
 
-/* Header CTA uses cta-principal now */
+/* Header CTA Button Specific Overrides */
 .header .cta-btn {
-    /* Apply cta-principal styles */
-    background: var(--accent-color);
-    color: var(--contrast-color) !important;
-    border: 2px solid var(--accent-color);
-    padding: 8px 20px; /* Override padding if needed */
-    border-radius: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all var(--transition-speed-medium) var(--easing-smooth);
+    padding: 8px 20px; /* Specific padding for header */
     margin: 0 0 0 15px;
     order: 3;
     white-space: nowrap;
-}
-.header .cta-btn:hover {
-    background: var(--color-white); /* Header is dark, so white hover is fine */
-    color: var(--color-black) !important;
-    border-color: var(--color-white);
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 @media (max-width: 1199px) {
     .header .cta-btn { order: 2; margin: 0 15px 0 0; }
 }
 
 
-/* Final Contact Form Button uses cta-principal now */
+/* Final Contact Form Button (uses .cta-principal) */
 .contact .cta-form {
     /* Inherit from .cta-principal */
-    padding: 12px 35px; /* Keep specific padding if needed */
+    padding: 12px 35px;
     margin-top: 1rem;
-    /* Hover will be correctly handled by the specific rule for light backgrounds */
+    /* Hover is handled by the .light-background .cta-principal:hover rule */
 }
 
 /* Ensure btn-card-detail keeps its specific style */
@@ -1082,7 +1101,7 @@ section,
   font-size: 0.8rem;
   font-weight: 700;
   transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex; /* Align icon properly */
+  display: inline-flex;
   align-items: center;
 }
 .btn-card-detail:hover {
@@ -1096,21 +1115,19 @@ section,
   transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
 .btn-card-detail:hover i {
-  transform: translateX(4px); /* Move arrow on hover */
+  transform: translateX(4px);
 }
 /* Style for the Executive Newsletter Button (Uses btn-card-detail base + yellow) */
 #executive-newsletter-btn {
-    /* Inherit btn-card-detail style but with yellow background */
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: var(--contrast-color);
 }
 #executive-newsletter-btn:hover {
-     /* Hover specific to this button, darker yellow */
      background: var(--color-accent-yellow-darker);
      border-color: var(--color-accent-yellow-darker);
      color: var(--contrast-color);
-     transform: scale(1.05); /* Keep scale effect */
+     transform: scale(1.05);
 }
 
 
@@ -1427,44 +1444,24 @@ section,
     .service-block .col-lg-5,
     .service-block .col-lg-6 {
         width: 100%;
-        offset-lg-1: 0;
+        /* offset-lg-1: 0; */ /* Offset removed in HTML */
         text-align: center !important; /* Center text on mobile */
         flex-basis: auto; /* Reset basis */
+        padding-left: 15px; /* Reset padding */
+        padding-right: 15px; /* Reset padding */
     }
      .service-block .interactive-image { /* Target the main image */
-        max-width: 85%; /* Control image size */
+        max-width: 85%;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 1.5rem; /* Space above image */
+        margin-top: 1.5rem;
     }
-    .service-block-logo-inline { /* Target the small logo */
+    .service-block-logo-inline {
         margin-left: auto;
         margin-right: auto;
-        display: block; /* Ensure centering works */
+        display: block;
     }
      .contact#contact-final .col-lg-8 { /* Ensure final form takes full width */
         width: 100%;
      }
-}
-
-/*--------------------------------------------------------------
-# MISC Styles
---------------------------------------------------------------*/
-/* Ensure check list has correct icon alignment */
-.check-list li {
-    padding-left: 30px; /* Ensure padding */
-}
-.check-list li i.bi { /* Target specifically icons in check-list */
-    position: absolute;
-    left: 0;
-    top: 5px;
-    font-size: 1.1rem;
-    color: var(--bs-success); /* Make sure color is correct */
-    font-weight: bold;
-     width: 20px;
-     text-align: center;
-     transition: transform 0.2s ease;
-}
-.check-list li:hover i.bi {
-    transform: scale(1.2);
 }
