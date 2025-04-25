@@ -759,7 +759,7 @@ section,
 
 /* Fix for logo color and size */
 .service-block-logo-inline {
-    max-height: 70px; /* Increased logo size */
+    max-height: 120px; /* Increased logo size */
     width: auto;
     opacity: 1 !important; /* Ensure full opacity */
     filter: none !important; /* Ensure no filter */
