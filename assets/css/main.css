@@ -744,20 +744,18 @@ section,
 .service-block {
     margin-bottom: 5rem; /* Increased margin between blocks */
 }
-/* Added padding to the text column for more spacing */
+/* Apply consistent padding to text columns */
 .service-block .service-block-text {
     padding-left: 3rem;   /* Add padding on the left */
     padding-right: 3rem;  /* Add padding on the right */
 }
 
-/* Fix for logo color */
-.service-block-logo-inline {
-    max-height: 55px; /* Adjusted size */
-    width: auto;
-    opacity: 1 !important; /* Ensure full opacity */
-    filter: none !important; /* Ensure no filter */
-    margin-bottom: 1rem;
+/* Apply consistent padding to image columns */
+.service-block .service-block-image {
+    padding-left: 2rem;   /* Add padding on the left */
+    padding-right: 2rem;  /* Add padding on the right */
 }
+
 
 .service-block h3.h2 {
      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
@@ -766,7 +764,13 @@ section,
      font-weight: 900;
      color: var(--heading-color);
 }
-
+.service-block-logo-inline {
+    max-height: 55px; /* Adjusted size */
+    width: auto;
+    opacity: 1 !important; /* Ensure full opacity */
+    filter: none !important; /* Ensure no filter */
+    margin-bottom: 1rem;
+}
 
 /* Increase vertical spacing within text block */
 .service-block-text h4 {
@@ -783,15 +787,15 @@ section,
 /* Ensure reversed row images don't overlap text on smaller screens */
 @media (max-width: 991px) {
     .service-block.flex-row-reverse .col-lg-6.service-block-text { order: 1; } /* Ensure text comes first */
-    .service-block.flex-row-reverse .col-lg-6:not(.service-block-text) { order: 2; } /* Image comes second */
+    .service-block.flex-row-reverse .col-lg-6.service-block-image { order: 2; } /* Image comes second */
 
     .service-block .col-lg-6 { /* Apply to both columns on mobile */
         /* offset-lg-1: 0; */ /* Offset removed in HTML */
         text-align: center !important;
         flex-basis: auto; /* Reset basis */
         width: 100%;
-        padding-left: 15px; /* Reset padding */
-        padding-right: 15px; /* Reset padding */
+        padding-left: 15px !important; /* Reset padding */
+        padding-right: 15px !important; /* Reset padding */
     }
      .service-block .interactive-image { /* Target the main image */
         max-width: 85%;
@@ -826,7 +830,7 @@ section,
 
 .client-swiper .swiper-wrapper {
   display: flex;
-  justify-content: center; /* Center slides if loop is off */
+  justify-content: center; /* Center slides if loop is off and space allows */
   align-items: center;
 }
 
@@ -1441,14 +1445,13 @@ section,
     .service-block {
         flex-direction: column !important; /* Override flex-row-reverse */
     }
-    .service-block .col-lg-5,
-    .service-block .col-lg-6 {
-        width: 100%;
+    .service-block .col-lg-6 { /* Apply to both columns on mobile */
         /* offset-lg-1: 0; */ /* Offset removed in HTML */
-        text-align: center !important; /* Center text on mobile */
+        text-align: center !important;
         flex-basis: auto; /* Reset basis */
-        padding-left: 15px; /* Reset padding */
-        padding-right: 15px; /* Reset padding */
+        width: 100%;
+        padding-left: 15px !important; /* Reset padding */
+        padding-right: 15px !important; /* Reset padding */
     }
      .service-block .interactive-image { /* Target the main image */
         max-width: 85%;
