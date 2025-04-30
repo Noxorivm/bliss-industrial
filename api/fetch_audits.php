@@ -15,8 +15,8 @@ header('Content-Type: application/json');
 // --- Configuración DB (debe ser idéntica a guardar_auditoria.php) ---
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bliss_bd');
-define('DB_USER', 'bliss_user');
-define('DB_PASS', 'HiiJI7y)8jL@[s_G');
+define('DB_USER', 'phpmyadmin');
+define('DB_PASS', 'Bliss2025!');
 define('DB_TABLE', 'auditoria_bliss');
 
 // --- Conexión DB ---
