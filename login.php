@@ -1,10 +1,18 @@
 <?php
-session_start();
+// --- Habilitar Errores (SOLO PARA DEPURACIÓN) ---
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// --- Fin Habilitar Errores ---
+
+session_start(); // Iniciar sesión PRIMERO
+
 // Si ya está logueado, redirigir al dashboard
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    header('Location: dashboard/index.php');
+    header('Location: dashboard/index.php'); // Ruta relativa al dashboard
     exit;
 }
+
 $error_message = '';
 if (isset($_GET['error'])) {
     if ($_GET['error'] === 'invalid') {
@@ -26,32 +34,46 @@ if (isset($_GET['error'])) {
     <link href="assets/img/favicon.png" rel="icon">
     <style>
         /* Estilos rápidos para centrar */
+        html, body { height: 100%; margin: 0; } /* Asegurar altura completa */
         .login-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--color-light-gray);
+            background-color: var(--color-light-gray); /* Usar variable CSS */
         }
         .login-box {
             max-width: 400px;
             width: 100%;
             padding: 2.5rem;
-            background-color: var(--color-white);
+            background-color: var(--color-white); /* Usar variable CSS */
             border-radius: 0.5rem;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-md); /* Usar variable CSS */
         }
         .login-logo {
             max-height: 60px;
             margin-bottom: 1.5rem;
         }
+        /* Añadir estilo para el botón cta-main si no está en dashboard.css */
+         .cta-main {
+            background: var(--color-black); color: var(--color-white); border: 2px solid var(--color-black);
+            padding: 12px 35px; border-radius: 50px; text-transform: uppercase;
+            font-weight: 700; transition: all var(--transition-speed-medium) var(--easing-smooth);
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cta-main:hover {
+            background: var(--accent-color); border-color: var(--accent-color); color: var(--color-black);
+            transform: translateY(-3px) scale(1.02); box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
+        }
+        .cta-main:hover i { transform: translateX(5px); }
+
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-box text-center">
             <img src="assets/img/logo.jfif" alt="BLISS Logo" class="login-logo">
-            <h3 class="mb-4">Acceso al dashboard</h3>
+            <h3 class="mb-4">Acceso al Dashboard</h3>
 
             <?php if ($error_message): ?>
                 <div class="alert alert-danger" role="alert">

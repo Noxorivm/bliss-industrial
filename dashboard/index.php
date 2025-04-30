@@ -1,5 +1,12 @@
 <?php
+// --- Habilitar Errores (SOLO PARA DEPURACIÓN) ---
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// --- Fin Habilitar Errores ---
+
 // --- Incluir verificador de sesión al principio ---
+// Debe estar antes de CUALQUIER salida HTML
 require_once 'auth_check.php';
 ?>
 <!DOCTYPE html>
@@ -20,7 +27,11 @@ require_once 'auth_check.php';
     <!-- Vendor CSS -->
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> <!-- Ajustar ruta -->
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet"> <!-- Ajustar ruta -->
-    <link href="../assets/vendor/datatables/datatables.min.css" rel="stylesheet"> <!-- DataTables CSS -->
+    <!-- DataTables CSS (Bootstrap 5 Styling) -->
+    <link href="../assets/vendor/datatables/dataTables.bootstrap5.min.css" rel="stylesheet"> <!-- Ajustar ruta -->
+    <!-- DataTables Responsive CSS (Opcional pero recomendado) -->
+    <link href="../assets/vendor/datatables/responsive.bootstrap5.min.css" rel="stylesheet"> <!-- Ajustar ruta -->
+
 
     <!-- Main & Dashboard CSS -->
     <link href="../assets/css/main.css" rel="stylesheet"> <!-- Estilos generales (opcional aquí) -->
@@ -38,7 +49,7 @@ require_once 'auth_check.php';
         </a>
          <div class="ms-auto d-flex align-items-center">
              <span class="me-3 text-muted small">Hola, <?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
-             <a href="logout.php" class="btn btn-sm btn-outline-secondary">
+             <a href="logout.php" class="btn btn-sm btn-outline-secondary"> <!-- Ruta relativa correcta -->
                  <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
              </a>
          </div>
@@ -68,12 +79,11 @@ require_once 'auth_check.php';
                                     <th>Empleados</th>
                                     <th>Urgencia</th>
                                     <th>Inicio Deseado</th>
-                                    <!-- Añadir más th si seleccionaste más columnas en fetch_audits.php -->
-                                     <th>Acciones</th> <!-- Columna para futuros botones (Ver/Editar/Borrar) -->
+                                    <th>Acciones</th> <!-- Columna para futuros botones -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Los datos se cargarán aquí por DataTables -->
+                                <!-- DataTables cargará los datos aquí -->
                             </tbody>
                         </table>
                     </div>
@@ -92,27 +102,49 @@ require_once 'auth_check.php';
 
     <!-- Vendor JS Files -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> <!-- Ajustar ruta -->
-    <script src="../assets/vendor/jquery/jquery-3.7.1.min.js"></script> <!-- jQuery (necesario para DataTables) -->
-    <script src="../assets/vendor/datatables/datatables.min.js"></script> <!-- DataTables JS -->
+    <!-- jQuery (Necesario para DataTables) -->
+    <script src="../assets/vendor/datatables/jquery-3.7.1.min.js"></script> <!-- Ajusta versión si es diferente y ruta -->
+    <!-- DataTables Core JS -->
+    <script src="../assets/vendor/datatables/jquery.dataTables.min.js"></script> <!-- Ajustar ruta -->
+    <!-- DataTables Bootstrap 5 Integration JS -->
+    <script src="../assets/vendor/datatables/dataTables.bootstrap5.min.js"></script> <!-- Ajustar ruta -->
+    <!-- DataTables Responsive JS (Opcional pero recomendado) -->
+    <script src="../assets/vendor/datatables/dataTables.responsive.min.js"></script> <!-- Ajustar ruta -->
+    <script src="../assets/vendor/datatables/responsive.bootstrap5.min.js"></script> <!-- Ajustar ruta -->
+
 
     <!-- Dashboard Init Script -->
     <script>
         $(document).ready(function() {
             $('#auditsTable').DataTable({
+                processing: true, // Muestra indicador de procesamiento
+                // serverSide: true, // Descomentar si tienes MUCHOS datos y quieres paginación en servidor
                 ajax: {
                     url: '../api/fetch_audits.php', // Ruta al script PHP que devuelve JSON
-                    dataSrc: 'data' // La clave que contiene el array de datos en el JSON
+                    type: 'POST', // Usar POST si se implementa serverSide
+                    dataSrc: 'data', // La clave que contiene el array de datos en el JSON
+                    error: function (xhr, error, thrown) { // Manejo de errores AJAX
+                        console.error("Error cargando datos DataTables:", xhr.responseText);
+                        $('#auditsTable_processing').hide(); // Ocultar "procesando"
+                        alert('Error al cargar los datos de auditoría. Revisa la consola.');
+                    }
                 },
                 columns: [
                     { data: 'id' },
                     {
                         data: 'fecha_envio',
                         render: function (data, type, row) {
-                            // Formatear fecha si es necesario
                             if (type === 'display' || type === 'filter') {
-                                let date = new Date(data);
-                                return date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) + ' ' +
-                                       date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                                try {
+                                    let date = new Date(data.replace(' ', 'T') + 'Z'); // Intenta parsear como UTC
+                                    if (isNaN(date)) { // Si falla, intenta formato directo
+                                         date = new Date(data);
+                                    }
+                                     if (isNaN(date)) return data; // Si sigue fallando, muestra original
+                                    // Ajustar a zona horaria local si es necesario o mostrar UTC
+                                    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
+                                           date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                                } catch (e) { return data; } // Fallback
                             }
                             return data;
                         }
@@ -125,53 +157,30 @@ require_once 'auth_check.php';
                     { data: 'empresa_empleados' },
                     { data: 'urgencia_nivel' },
                     { data: 'cuando_empezar' },
-                     // Asegúrate que el número y orden de estas columnas coincida con tu <thead> y el JSON devuelto
                     {
-                        data: null, // Columna de acciones no viene de la DB directamente
+                        data: null,
                         render: function (data, type, row) {
-                            // Aquí irían los botones CRUD en el futuro
-                            // Por ahora, un botón simple de ejemplo (o dejar vacío)
-                            // return '<button class="btn btn-sm btn-info view-btn" data-id="' + row.id + '">Ver</button>';
-                            return '<a href="#" class="btn btn-sm btn-outline-primary disabled" title="Ver Detalles (Próximamente)"><i class="bi bi-eye"></i></a>'; // Botón deshabilitado
+                            // Enlace simple para ver detalles (redirigiría a una página futura)
+                            // return '<a href="view_audit.php?id=' + row.id + '" class="btn btn-sm btn-outline-primary" title="Ver Detalles"><i class="bi bi-eye"></i></a>';
+                             return '<button class="btn btn-sm btn-outline-primary view-btn disabled" data-id="' + row.id + '" title="Ver Detalles (Próximamente)"><i class="bi bi-eye"></i></button>'; // Botón deshabilitado por ahora
                         },
-                        orderable: false, // No permitir ordenar por esta columna
-                        searchable: false // No permitir buscar en esta columna
+                        orderable: false,
+                        searchable: false
                     }
                 ],
-                responsive: true, // Hacer tabla responsive
+                responsive: true,
                 language: { // Traducción DataTables
-                    "decimal":        "",
-                    "emptyTable":     "No hay auditorías registradas",
-                    "info":           "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                    "infoEmpty":      "Mostrando 0 a 0 de 0 entradas",
-                    "infoFiltered":   "(filtrado de _MAX_ entradas totales)",
-                    "infoPostFix":    "",
-                    "thousands":      ".",
-                    "lengthMenu":     "Mostrar _MENU_ entradas",
-                    "loadingRecords": "Cargando...",
-                    "processing":     "Procesando...",
-                    "search":         "Buscar:",
-                    "zeroRecords":    "No se encontraron coincidencias",
-                    "paginate": {
-                        "first":      "Primero",
-                        "last":       "Último",
-                        "next":       "Siguiente",
-                        "previous":   "Anterior"
-                    },
-                    "aria": {
-                        "sortAscending":  ": activar para ordenar columna ascendente",
-                        "sortDescending": ": activar para ordenar columna descendente"
-                    }
+                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json" // Usar traducción externa
                 },
-                order: [[1, 'desc']] // Ordenar por la columna de fecha (índice 1) descendente por defecto
+                order: [[1, 'desc']] // Ordenar por fecha (índice 1) descendente
             });
 
-            // --- Aquí añadirías listeners para botones Ver/Editar/Borrar en el futuro ---
-            // $('#auditsTable tbody').on('click', '.view-btn', function() {
-            //     var dataId = $(this).data('id');
-            //     alert('Ver detalles del ID: ' + dataId); // Acción de ejemplo
-            //     // Aquí abrirías un modal o irías a otra página con los detalles
-            // });
+             // Listener para el botón de Ver (ejemplo futuro)
+             $('#auditsTable tbody').on('click', '.view-btn:not(.disabled)', function() {
+                 var dataId = $(this).data('id');
+                 alert('ID seleccionado para ver: ' + dataId + '\n(Funcionalidad pendiente)');
+                 // window.location.href = 'view_audit.php?id=' + dataId;
+             });
         });
     </script>
 
