@@ -1,77 +1,107 @@
 <?php
-// Indicar que la respuesta serÃ¡ JSON
-header('Content-Type: application/json');
+// --- Habilitar Errores (SOLO PARA DEPURACIÓN - Comentar en producción) ---
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+// --- Fin Habilitar Errores ---
 
-// --- ConfiguraciÃ³n de la Base de Datos ---
-// !!! REEMPLAZA CON TUS CREDENCIALES REALES DE IONOS !!!
-define('DB_HOST', 'tu_host_ionos.db.es'); // Ej: db123456789.hosting-data.io
-define('DB_NAME', 'tu_nombre_db');       // Ej: db123456789
-define('DB_USER', 'tu_usuario_db');       // Ej: dbo123456789
-define('DB_PASS', 'tu_contraseÃ±a_db');   // Tu contraseÃ±a
+// --- Incluir Autoloader de Composer (para PHPMailer) ---
+$autoloader_path = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoloader_path)) {
+    http_response_code(500);
+    // Cambiar header a JSON antes de salir con error
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['success' => false, 'message' => 'Error crítico: No se encontró el archivo autoload.php. Ejecuta "composer install" en la raíz del proyecto. Ruta buscada: ' . realpath(__DIR__ . '/../') . '/vendor/autoload.php']);
+    exit;
+}
+require $autoloader_path;
 
-// --- Nombre de la tabla ---
-define('DB_TABLE', 'auditoria_bliss'); // Nombre sugerido
+// --- Usar clases de PHPMailer ---
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-// --- Recibir los datos JSON ---
+// Indicar que la respuesta será JSON y con UTF-8
+header('Content-Type: application/json; charset=utf-8');
+
+// --- Configuración DB y Email ---
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'bliss_bd');
+define('DB_USER', 'phpmyadmin');
+define('DB_PASS', 'Bliss2025!');
+define('DB_TABLE', 'auditoria_bliss');
+define('ADMIN_EMAIL', 'hola@blissindustrial.eu');
+
+// --- Recibir datos JSON ---
 $json_data = file_get_contents('php://input');
 $formData = json_decode($json_data, true);
 
-// --- ValidaciÃ³n bÃ¡sica ---
+// --- Validación básica ---
 if ($formData === null || !is_array($formData)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'No se recibieron datos vÃ¡lidos.']);
+    echo json_encode(['success' => false, 'message' => 'No se recibieron datos válidos (JSON).']);
     exit;
 }
 
-// --- Mapeo de datos y asignaciÃ³n a variables (con valores por defecto) ---
-// Paso 1
-$empresa_nombre = isset($formData['empresa_nombre']) ? trim($formData['empresa_nombre']) : null;
-$contacto_nombre = isset($formData['contacto_nombre']) ? trim($formData['contacto_nombre']) : null;
-$contacto_email = isset($formData['contacto_email']) ? trim($formData['contacto_email']) : null;
-$contacto_telefono = isset($formData['contacto_telefono']) ? trim($formData['contacto_telefono']) : '';
-$contacto_whatsapp = isset($formData['contacto_whatsapp']) && $formData['contacto_whatsapp'] === 'SÃ­' ? 1 : 0; // Guardar como 1 o 0
+// --- Función auxiliar ---
+function get_form_data($key, $default = null, $is_array = false) {
+    global $formData;
+    if (!isset($formData[$key])) { return $default; }
+    if ($is_array) { return is_array($formData[$key]) ? implode(', ', array_map('trim', array_map('strval', $formData[$key]))) : $default; }
+    return is_scalar($formData[$key]) ? trim(strval($formData[$key])) : $default;
+}
 
-// Paso 2
-$perfil_cargo = isset($formData['perfil_cargo']) ? trim($formData['perfil_cargo']) : null;
-$cargo_otro_texto = isset($formData['cargo_otro_texto']) ? trim($formData['cargo_otro_texto']) : '';
+// --- Mapeo de datos ---
+// ... (mapeo igual que antes) ...
+$empresa_nombre = get_form_data('empresa_nombre');
+$contacto_nombre = get_form_data('contacto_nombre');
+$contacto_email = get_form_data('contacto_email');
+$contacto_telefono = get_form_data('contacto_telefono', '');
+$contacto_whatsapp = get_form_data('contacto_whatsapp') === 'Sí' ? 1 : 0;
+$perfil_cargo = get_form_data('perfil_cargo');
+$cargo_otro_texto = get_form_data('cargo_otro_texto', '');
+$sectores = get_form_data('sector', '', true);
+$sector_otro_texto = get_form_data('sector_otro_texto', '');
+$empresa_empleados = get_form_data('empresa_empleados');
+$areas_mejora = get_form_data('areas_mejora', '', true);
+$sistemas = get_form_data('sistemas', '', true);
+$sis_otro_texto = get_form_data('sis_otro_texto', '');
+$retos = get_form_data('retos', '', true);
+$reto_otro_texto = get_form_data('reto_otro_texto', '');
+$soluciones = get_form_data('soluciones', '', true);
+$sol_otro_texto = get_form_data('sol_otro_texto', '');
+$cuando_empezar = get_form_data('cuando_empezar');
+$urgencia_nivel = get_form_data('urgencia_nivel');
+$como_recibir = get_form_data('como_recibir');
+$recibir_whatsapp = get_form_data('recibir_whatsapp') === 'Sí' ? 1 : 0;
+$ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
 
-// Paso 3
-$sectores = isset($formData['sector']) && is_array($formData['sector']) ? implode(', ', $formData['sector']) : ''; // Convertir array a string
-$sector_otro_texto = isset($formData['sector_otro_texto']) ? trim($formData['sector_otro_texto']) : '';
-$empresa_empleados = isset($formData['empresa_empleados']) ? trim($formData['empresa_empleados']) : null;
-$areas_mejora = isset($formData['areas_mejora']) && is_array($formData['areas_mejora']) ? implode(', ', $formData['areas_mejora']) : '';
 
-// Paso 4
-$sistemas = isset($formData['sistemas']) && is_array($formData['sistemas']) ? implode(', ', $formData['sistemas']) : '';
-$sis_otro_texto = isset($formData['sis_otro_texto']) ? trim($formData['sis_otro_texto']) : '';
-$retos = isset($formData['retos']) && is_array($formData['retos']) ? implode(', ', $formData['retos']) : '';
-$reto_otro_texto = isset($formData['reto_otro_texto']) ? trim($formData['reto_otro_texto']) : '';
-
-// Paso 5
-$soluciones = isset($formData['soluciones']) && is_array($formData['soluciones']) ? implode(', ', $formData['soluciones']) : '';
-$sol_otro_texto = isset($formData['sol_otro_texto']) ? trim($formData['sol_otro_texto']) : '';
-$cuando_empezar = isset($formData['cuando_empezar']) ? trim($formData['cuando_empezar']) : null;
-$urgencia_nivel = isset($formData['urgencia_nivel']) ? trim($formData['urgencia_nivel']) : null;
-
-// Paso 6
-$como_recibir = isset($formData['como_recibir']) ? trim($formData['como_recibir']) : null; // DeberÃ­a ser 'Email' por defecto
-$recibir_whatsapp = isset($formData['recibir_whatsapp']) && $formData['recibir_whatsapp'] === 'SÃ­' ? 1 : 0;
-
-// --- ValidaciÃ³n campos obligatorios (ejemplo) ---
-if (empty($empresa_nombre) || empty($contacto_nombre) || empty($contacto_email) || empty($perfil_cargo) || empty($empresa_empleados) || empty($cuando_empezar) || empty($urgencia_nivel) || empty($como_recibir)) {
-     http_response_code(400);
-     echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios.']);
-     exit;
+// --- Validación campos obligatorios ---
+// ... (validación igual que antes) ...
+$required_fields = [
+    'Empresa' => $empresa_nombre, 'Nombre Contacto' => $contacto_nombre, 'Email Contacto' => $contacto_email,
+    'Cargo' => $perfil_cargo, 'Tamaño Empresa' => $empresa_empleados, 'Áreas Mejora' => $areas_mejora,
+    'Sectores' => $sectores, 'Cuándo Empezar' => $cuando_empezar, 'Nivel Urgencia' => $urgencia_nivel,
+    'Cómo Recibir' => $como_recibir
+];
+$missing_fields = [];
+foreach ($required_fields as $label => $value) {
+    if ($value === null || $value === '') { $missing_fields[] = $label; }
+}
+if (!empty($missing_fields)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios (Servidor): ' . implode(', ', $missing_fields)]);
+    exit;
 }
 if (!filter_var($contacto_email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Correo electrÃ³nico invÃ¡lido.']);
+    echo json_encode(['success' => false, 'message' => 'Correo electrónico inválido (Servidor).']);
     exit;
 }
 
-
-// --- ConexiÃ³n a la Base de Datos (PDO) ---
-$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+// --- Conexión a la Base de Datos (PDO - ASEGÚRATE DEL CHARSET) ---
+$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4"; // charset=utf8mb4 es CLAVE
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -82,33 +112,34 @@ try {
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (\PDOException $e) {
     http_response_code(500);
-    error_log("Error conexiÃ³n DB auditoria: " . $e->getMessage());
+    error_log("Error conexión DB auditoria: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Error interno del servidor [DB Connect].']);
     exit;
 }
 
 // --- Preparar SQL INSERT ---
-// Ajusta los nombres de columna a los EXACTOS de tu tabla
+// ... (SQL INSERT igual que antes) ...
 $sql = "INSERT INTO " . DB_TABLE . " (
             empresa_nombre, contacto_nombre, contacto_email, contacto_telefono, contacto_whatsapp,
             perfil_cargo, cargo_otro_texto,
             sectores, sector_otro_texto, empresa_empleados, areas_mejora,
             sistemas, sis_otro_texto, retos, reto_otro_texto,
             soluciones, sol_otro_texto, cuando_empezar, urgencia_nivel,
-            como_recibir, recibir_whatsapp, fecha_envio
+            como_recibir, recibir_whatsapp, ip_address, fecha_envio
         ) VALUES (
             :empresa_nombre, :contacto_nombre, :contacto_email, :contacto_telefono, :contacto_whatsapp,
             :perfil_cargo, :cargo_otro_texto,
             :sectores, :sector_otro_texto, :empresa_empleados, :areas_mejora,
             :sistemas, :sis_otro_texto, :retos, :reto_otro_texto,
             :soluciones, :sol_otro_texto, :cuando_empezar, :urgencia_nivel,
-            :como_recibir, :recibir_whatsapp, NOW()
+            :como_recibir, :recibir_whatsapp, :ip_address, NOW()
         )";
 
 try {
     $stmt = $pdo->prepare($sql);
 
-    // Bind parameters
+    // --- Bind parameters ---
+    // ... (bindParam igual que antes) ...
     $stmt->bindParam(':empresa_nombre', $empresa_nombre);
     $stmt->bindParam(':contacto_nombre', $contacto_nombre);
     $stmt->bindParam(':contacto_email', $contacto_email);
@@ -130,20 +161,87 @@ try {
     $stmt->bindParam(':urgencia_nivel', $urgencia_nivel);
     $stmt->bindParam(':como_recibir', $como_recibir);
     $stmt->bindParam(':recibir_whatsapp', $recibir_whatsapp, PDO::PARAM_INT);
+    $stmt->bindParam(':ip_address', $ip_address);
 
     $stmt->execute();
 
-    // Ã‰xito
-    echo json_encode(['success' => true, 'message' => 'AuditorÃ­a enviada correctamente.']);
+    // --- Inserción en DB exitosa ---
 
-    // Opcional: Enviar notificaciÃ³n por email al admin
-    // mail($receiving_email_address, "Nueva AuditorÃ­a Recibida: " . $empresa_nombre, print_r($formData, true), "From: noreply@blissindustrial.eu");
+    // --- Enviar Notificación por Email usando PHPMailer ---
+    $mail = new PHPMailer(true);
+    $email_sent_successfully = false;
 
+    try {
+        // === Configuraciones del servidor SMTP (!!! REEMPLAZA CON TUS DATOS !!!) ===
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.ionos.es';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'tu_email@tu_dominio_en_ionos.es'; // <<<!!! TU EMAIL IONOS
+        $mail->Password   = 'tu_contraseña_de_ese_correo'; // <<<!!! TU CONTRASEÑA IONOS
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+        $mail->CharSet    = 'UTF-8';
+
+        // === Remitente y Destinatarios ===
+        $mail->setFrom('remitente_verificado@tu_dominio_en_ionos.es', 'Web Bliss - Auditoria'); // <<<!!! EMAIL VÁLIDO IONOS
+        $mail->addAddress(ADMIN_EMAIL, 'Admin Bliss');
+        $mail->addReplyTo($contacto_email, $contacto_nombre);
+
+        // === Contenido del Email ===
+        $mail->isHTML(false);
+        $mail->Subject = 'Nueva Auditoría Recibida: ' . ($empresa_nombre ?: 'Empresa no indicada');
+        // ... (construcción del emailBody igual que antes) ...
+        $emailBody = "Se ha recibido una nueva solicitud de auditoría:\n\n";
+        $emailBody .= "--- Datos de Contacto ---\n";
+        $emailBody .= "Empresa: " . ($empresa_nombre ?: 'N/A') . "\n";
+        $emailBody .= "Nombre Contacto: " . ($contacto_nombre ?: 'N/A') . "\n";
+        $emailBody .= "Email: " . ($contacto_email ?: 'N/A') . "\n";
+        $emailBody .= "Teléfono: " . ($contacto_telefono ?: 'N/A') . "\n";
+        $emailBody .= "Contacto WhatsApp: " . ($contacto_whatsapp ? 'Sí' : 'No') . "\n\n";
+        $emailBody .= "--- Perfil y Empresa ---\n";
+        $emailBody .= "Cargo: " . ($perfil_cargo ?: 'N/A') . ($cargo_otro_texto ? ' (' . htmlspecialchars($cargo_otro_texto) . ')' : '') . "\n";
+        $emailBody .= "Sectores: " . ($sectores ?: 'N/A') . ($sector_otro_texto ? ' (Otro: ' . htmlspecialchars($sector_otro_texto) . ')' : '') . "\n";
+        $emailBody .= "Nº Empleados: " . ($empresa_empleados ?: 'N/A') . "\n";
+        $emailBody .= "Áreas a mejorar: " . ($areas_mejora ?: 'N/A') . "\n\n";
+        $emailBody .= "--- Situación Actual ---\n";
+        $emailBody .= "Sistemas usados: " . ($sistemas ?: 'N/A') . ($sis_otro_texto ? ' (Otro: ' . htmlspecialchars($sis_otro_texto) . ')' : '') . "\n";
+        $emailBody .= "Retos actuales: " . ($retos ?: 'N/A') . ($reto_otro_texto ? ' (Otro: ' . htmlspecialchars($reto_otro_texto) . ')' : '') . "\n\n";
+        $emailBody .= "--- Intereses y Prioridades ---\n";
+        $emailBody .= "Soluciones de interés: " . ($soluciones ?: 'N/A') . ($sol_otro_texto ? ' (Otro: ' . htmlspecialchars($sol_otro_texto) . ')' : '') . "\n";
+        $emailBody .= "Cuándo empezar: " . ($cuando_empezar ?: 'N/A') . "\n";
+        $emailBody .= "Nivel de Urgencia: " . ($urgencia_nivel ?: 'N/A') . "\n\n";
+        $emailBody .= "--- Preferencias de Informe ---\n";
+        $emailBody .= "Recibir por Email: Sí\n";
+        $emailBody .= "Recibir también por WhatsApp: " . ($recibir_whatsapp ? 'Sí' : 'No') . "\n\n";
+        $emailBody .= "IP Origen: " . ($ip_address ?: 'N/A') . "\n";
+        $emailBody .= "Fecha Envío: " . date('Y-m-d H:i:s') . "\n";
+        $mail->Body = $emailBody;
+
+        if ($mail->send()) {
+            $email_sent_successfully = true;
+        } else {
+             error_log("PHPMailer Error en guardado auditoria: {$mail->ErrorInfo}");
+        }
+
+    } catch (Exception $e) {
+        error_log("PHPMailer Exception en guardado auditoria: {$mail->ErrorInfo}");
+    }
+
+    // --- Respuesta JSON final ---
+    http_response_code(200);
+    $response_message = 'Auditoría enviada correctamente.';
+    if (!$email_sent_successfully) {
+        $response_message .= ' (Aviso: Hubo un problema enviando la notificación por email.)';
+        error_log("Auditoría de $empresa_nombre guardada en DB, pero notificación email falló.");
+    }
+    echo json_encode(['success' => true, 'message' => $response_message]);
+    exit;
 
 } catch (\PDOException $e) {
     http_response_code(500);
-    error_log("Error INSERT DB auditoria: " . $e->getMessage() . " Data: " . print_r($formData, true));
-    echo json_encode(['success' => false, 'message' => 'Error interno del servidor [DB Insert].']);
+    error_log("Error INSERT DB auditoria: " . $e->getMessage() . " --- SQL: " . $sql . " --- Data: " . print_r($formData, true));
+    echo json_encode(['success' => false, 'message' => 'Error interno del servidor al guardar los datos. [Código: DBInsert]']);
     exit;
 }
 
