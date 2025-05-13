@@ -16,51 +16,42 @@
   /**
    * Mobile nav toggle
    */
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
-  const navmenu = document.querySelector('#navmenu'); // Get the navmenu itself
-  const body = document.body; // Cache body element
+  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle'); // Busca el contenedor de los iconos
+  const navmenu = document.querySelector('#navmenu');
+  const body = document.body;
 
   function mobileNavToggle() {
     body.classList.toggle('mobile-nav-active');
     const show = body.classList.contains('mobile-nav-active');
 
-    // Toggle icons visibility based on state
     const listIcon = document.querySelector('.mobile-nav-toggle.bi-list');
     const xIcon = document.querySelector('.mobile-nav-toggle.bi-x');
-    if (listIcon) listIcon.style.display = show ? 'none' : 'block';
-    if (xIcon) xIcon.style.display = show ? 'block' : 'none';
+    if (listIcon) listIcon.style.display = show ? 'none' : 'block'; // Muestra/oculta basado en el estado
+    if (xIcon) xIcon.style.display = show ? 'block' : 'none';   // Muestra/oculta basado en el estado
 
-    // Toggle navmenu visibility for smoother transitions
+
     if (navmenu) {
-       navmenu.style.display = show ? 'block' : 'none'; // Use display instead of visibility
-       // Force reflow for transition
-       // void navmenu.offsetWidth;
+       navmenu.style.display = show ? 'block' : 'none';
        navmenu.style.opacity = show ? '1' : '0';
     }
   }
 
   if (mobileNavToggleBtn) {
-      // Add listener to the primary toggle button (which includes both icons)
-      const mainToggleContainer = document.querySelector('.mobile-nav-toggle'); // Assuming the container holds both
-       if (mainToggleContainer) {
-           mainToggleContainer.addEventListener('click', (e) => {
-               // Prevent clicks on hidden icon from triggering toggle
-               if ((e.target.classList.contains('bi-list') && !body.classList.contains('mobile-nav-active')) ||
-                   (e.target.classList.contains('bi-x') && body.classList.contains('mobile-nav-active'))) {
+      // Asumimos que .mobile-nav-toggle es un solo elemento que cambia su icono internamente
+      // o que los iconos .bi-list y .bi-x están dentro de un contenedor .mobile-nav-toggle
+      // El código HTML actual tiene dos <i> separados, así que necesitamos un listener en ambos o en un contenedor
+      document.querySelectorAll('.mobile-nav-toggle').forEach(toggle => {
+           toggle.addEventListener('click', (e) => {
+               // Solo activa si se hace clic en el icono actualmente visible
+               if (e.target.style.display !== 'none') {
                    mobileNavToggle();
                }
            });
-       } else {
-           // Fallback if icons are separate (less ideal)
-           document.querySelectorAll('.mobile-nav-toggle').forEach(toggle => {
-               toggle.addEventListener('click', mobileNavToggle);
-           });
-       }
+       });
 
-      // Add click listener to the overlay (navmenu when active) to close
+
       if (navmenu) {
           navmenu.addEventListener('click', (e) => {
-              // Close only if clicking the background overlay itself, not a link inside ul
               if (e.target === navmenu && body.classList.contains('mobile-nav-active')) {
                   mobileNavToggle();
               }
@@ -72,12 +63,9 @@
    * Hide mobile nav on same-page/hash links
    */
   document.querySelectorAll('#navmenu a').forEach(navmenuLink => {
-    navmenuLink.addEventListener('click', (e) => { // Add event arg
-      // Check if it's a hash link on the same page
+    navmenuLink.addEventListener('click', (e) => {
       if (navmenuLink.pathname === window.location.pathname && navmenuLink.hash) {
           if (body.classList.contains('mobile-nav-active')) {
-            // Prevent default jump, allow smooth scroll to handle it
-            // e.preventDefault(); // Optional: Remove if smooth scroll works fine
             mobileNavToggle();
           }
       }
@@ -92,7 +80,7 @@
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
-      e.stopImmediatePropagation(); // Prevent closing nav when clicking dropdown
+      e.stopImmediatePropagation();
     });
   });
 
@@ -103,11 +91,10 @@
   const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-      // Optional: add a short delay before removing for smoother fade
       setTimeout(() => {
-        preloader.style.opacity = '0'; // Fade out
-        setTimeout(() => preloader.remove(), 500); // Remove after fade
-      }, 300); // 300ms delay before starting fade
+        preloader.style.opacity = '0';
+        setTimeout(() => preloader.remove(), 500);
+      }, 300);
     });
   }
 
@@ -123,10 +110,7 @@
   if (scrollTop) {
       scrollTop.addEventListener('click', (e) => {
         e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
   }
   window.addEventListener('load', toggleScrollTop);
@@ -137,13 +121,11 @@
    */
   function aosInit() {
     AOS.init({
-      duration: 800, // Slightly longer duration
-      easing: 'ease-out-cubic', // Smoother easing
-      once: true, // Animation happens only once
-      mirror: false // Animation doesn't reverse on scroll up
+      duration: 800,
+      easing: 'ease-out-cubic',
+      once: true,
+      mirror: false
     });
-    // Optional: Refresh AOS after dynamic content loads if needed
-    // setTimeout(() => { AOS.refresh(); }, 500);
   }
   window.addEventListener('load', aosInit);
 
@@ -160,8 +142,7 @@
   new PureCounter();
 
   /**
-   * Init Swipersliders (Generic - if you add more later)
-   * Specific Swiper for clients is now in HTML inline script
+   * Init Swipersliders (Generic)
    */
   function initSwipers() {
     document.querySelectorAll('.init-swiper').forEach(function (swiperElement) {
@@ -173,36 +154,26 @@
 
 
   /**
-   * Init Isotope Layout (Keep if you plan to use filtering)
+   * Init Isotope Layout
    */
   document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
-
     let initIsotope;
     imagesLoaded(isotopeItem.querySelector('.isotope-container'), function () {
       initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
-        itemSelector: '.isotope-item',
-        layoutMode: layout,
-        filter: filter,
-        sortBy: sort
+        itemSelector: '.isotope-item', layoutMode: layout, filter: filter, sortBy: sort
       });
     });
-
     isotopeItem.querySelectorAll('.isotope-filters li').forEach(function (filters) {
       filters.addEventListener('click', function () {
         isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
-        initIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-        if (typeof aosInit === 'function') {
-          aosInit(); // Re-trigger AOS animations if needed after filtering
-        }
+        initIsotope.arrange({ filter: this.getAttribute('data-filter') });
+        if (typeof aosInit === 'function') { aosInit(); }
       }, false);
     });
-
   });
 
   /**
@@ -214,11 +185,8 @@
       if (section) {
         setTimeout(() => {
           let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-          window.scrollTo({
-            top: section.offsetTop - parseInt(scrollMarginTop),
-            behavior: 'smooth'
-          });
-        }, 100); // Delay slightly to ensure layout stability
+          window.scrollTo({ top: section.offsetTop - parseInt(scrollMarginTop), behavior: 'smooth' });
+        }, 100);
       }
     }
   });
@@ -228,7 +196,7 @@
    */
   let navmenulinks = document.querySelectorAll('.navmenu a');
   function navmenuScrollspy() {
-      let position = window.scrollY + 200; // Offset for activation point
+      let position = window.scrollY + 200;
       navmenulinks.forEach(navmenulink => {
         if (!navmenulink.hash) return;
         let section = document.querySelector(navmenulink.hash);

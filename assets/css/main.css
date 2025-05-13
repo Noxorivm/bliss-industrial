@@ -176,9 +176,10 @@ strong, b {
 }
 /* Trigger on hover of the title itself or its parent container (like a card) */
 .interactive-title:hover::after,
-.interactive-card:hover .interactive-title-card::after,
+.interactive-card:hover .interactive-title-card::after, /* Aplicado a service-item */
+.prompt-card:hover .interactive-title-card::after, /* Aplicado a prompt-card */
 .interactive-feature-item:hover .interactive-title::after,
-.service-block:hover .interactive-title::after { /* Added service-block hover */
+.service-block:hover .interactive-title::after {
   left: 150%;
 }
 /* Dark background */
@@ -216,7 +217,7 @@ strong, b {
 }
 
 
-/* Detail Lists */
+/* Detail Lists (Usado en varias secciones) */
 .detail-list li, .detail-list-ordered li, .detail-list-negative li, .check-list li {
     padding-left: 30px; /* Consistent padding */
     margin-bottom: 0.75rem;
@@ -227,7 +228,9 @@ strong, b {
 .detail-list li:hover, .detail-list-ordered li:hover, .detail-list-negative li:hover, .check-list li:hover {
     transform: translateX(3px);
 }
-.detail-list i.bi, .detail-list-negative i.bi-x, .check-list i.bi { /* Target generic bi icon */
+.detail-list i.bi, /* Para iconos genéricos bi-* en .detail-list */
+.detail-list-negative i.bi-x,
+.check-list i.bi { /* Para iconos genéricos bi-* en .check-list */
     position: absolute;
     left: 0; /* Align icon to the very left */
     top: 5px; /* Adjust vertical alignment */
@@ -240,13 +243,16 @@ strong, b {
 .detail-list-negative i.bi-x {
     color: var(--color-medium-gray);
 }
-.check-list i.bi {
-    color: var(--bs-success); /* Use Bootstrap success color */
+.check-list i.bi { /* Bootstrap icons like bi-check-lg */
+    color: var(--bs-success);
     font-weight: bold;
 }
-.detail-list li:hover i.bi, .detail-list-negative li:hover i.bi-x, .check-list li:hover i.bi {
+.detail-list li:hover i.bi,
+.detail-list-negative li:hover i.bi-x,
+.check-list li:hover i.bi {
     transform: scale(1.2); /* Slightly larger scale */
 }
+
 .detail-list-ordered {
     list-style: none;
     counter-reset: detail-counter;
@@ -256,7 +262,7 @@ strong, b {
     content: counter(detail-counter);
     counter-increment: detail-counter;
     position: absolute;
-    left: 0px; /* Align number to the very left */
+    left: 0px; /* Alineado con el icono */
     top: 0;
     font-weight: 700;
     color: var(--accent-color);
@@ -560,7 +566,6 @@ strong, b {
 
 }
 
-
 /*--------------------------------------------------------------
 # Hero Section Enhancements
 --------------------------------------------------------------*/
@@ -626,8 +631,8 @@ strong, b {
   font-weight: 300;
 }
 .hero .hero-subtitle strong {
-   font-weight: 700; /* More emphasis */
-   color: var(--color-white); /* Make highlight stand out more */
+   font-weight: 700;
+   color: var(--color-white);
 }
 /* Hero CTA Subtext */
 .hero .hero-cta-subtext {
@@ -641,380 +646,11 @@ strong, b {
 
 
 /*--------------------------------------------------------------
-# Global Sections
---------------------------------------------------------------*/
-section,
-.section {
-  scroll-margin-top: 90px;
-  padding: 90px 0; /* Increased default padding */
-  overflow: hidden;
-}
-
-.section.light-background {
-  background-color: var(--color-light-gray);
-}
-
-.section.dark-background {
-  background-color: var(--color-black);
-}
-
-
-/*--------------------------------------------------------------
-# Section Title Enhancements
---------------------------------------------------------------*/
-.section-title {
-  padding-bottom: 60px; /* Increased padding */
-  text-align: center;
-}
-
-.section-title h2 {
-  font-size: 14px;
-  font-weight: 700;
-  padding: 0;
-  line-height: 1;
-  margin: 0 0 15px 0;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-black);
-  opacity: 0.8;
-}
-.dark-background .section-title h2 {
-    color: var(--color-white);
-    opacity: 0.7;
-}
-/* Align title text left within its container */
-.section-title.text-start {
-    text-align: left;
-}
-.section-title.text-start h2,
-.section-title.text-start p {
-    text-align: left;
-}
-/* Adjust lines for left-aligned titles */
-.section-title.text-start h2::before { display: none; }
-.section-title.text-start h2::after { margin-left: 0; }
-
-
-.section-title h2::after,
-.section-title h2::before {
-  content: "";
-  width: 80px;
-  height: 1px;
-  display: inline-block;
-  background: var(--accent-color);
-  opacity: 0.5;
-  margin: 0 10px;
-  vertical-align: middle;
-}
-
-.section-title p {
-  color: var(--heading-color);
-  margin: 0;
-  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  font-family: var(--heading-font);
-  line-height: 1.35;
-}
-.dark-background .section-title p {
-    color: var(--heading-color);
-}
-
-/*--------------------------------------------------------------
-# Section 2: Qué Hacemos Por Ti? Specific Styles
---------------------------------------------------------------*/
-.que-hacemos-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.que-hacemos-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-}
-.que-hacemos-item .icon i {
-    transition: transform 0.3s ease;
-}
-.que-hacemos-item:hover .icon i {
-    transform: scale(1.1) rotate(-5deg);
-}
-
-
-/*--------------------------------------------------------------
-# Section 5: Ecosistema BLISS Specific Styles
---------------------------------------------------------------*/
-.service-block {
-    margin-bottom: 5rem; /* Increased margin between blocks */
-}
-/* Apply consistent padding to text columns for separation */
-@media (min-width: 992px) {
-  .service-block .service-block-text {
-      padding-left: 3rem;
-      padding-right: 3rem;
-  }
-  /* Apply consistent padding to image columns for separation */
-  .service-block .service-block-image {
-      padding-left: 2rem;
-      padding-right: 2rem;
-  }
-}
-
-/* Fix for logo color and size */
-.service-block-logo-inline {
-    max-height: 120px; /* Increased logo size */
-    width: auto;
-    opacity: 1 !important; /* Ensure full opacity */
-    filter: none !important; /* Ensure no filter */
-    margin-bottom: 1rem;
-}
-
-.service-block h3.h2 {
-     font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-     margin-bottom: 0.75rem !important;
-     line-height: 1.3;
-     font-weight: 900;
-     color: var(--heading-color);
-}
-
-
-/* Increase vertical spacing within text block */
-.service-block-text h4 {
-    margin-bottom: 1.2rem !important;
-}
-.service-block-text p {
-    margin-bottom: 1.2rem; /* More space between paragraphs */
-    line-height: 1.7;
-}
-.service-block-text ul {
-     margin-bottom: 1.2rem; /* More space after list */
-}
-
-/* Ensure reversed row images don't overlap text on smaller screens */
-@media (max-width: 991px) {
-    .service-block.flex-row-reverse .col-lg-6.service-block-text { order: 1; } /* Ensure text comes first */
-    .service-block.flex-row-reverse .col-lg-6.service-block-image { order: 2; } /* Image comes second */
-
-    .service-block .col-lg-6 { /* Apply to both columns on mobile */
-        text-align: center !important;
-        flex-basis: auto; /* Reset basis */
-        width: 100%;
-        padding-left: 15px !important; /* Reset padding */
-        padding-right: 15px !important; /* Reset padding */
-    }
-     .service-block .interactive-image { /* Target the main image */
-        max-width: 85%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 1.5rem;
-    }
-    .service-block-logo-inline {
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-}
-
-
-/*--------------------------------------------------------------
-# Clients Section Enhancements
---------------------------------------------------------------*/
-.clients-section {
-    padding: 80px 0;
-}
-.client-logo-img {
-  max-height: 55px;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.6;
-  filter: grayscale(100%) contrast(90%);
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  margin: 0 auto;
-  display: block;
-}
-
-.client-swiper .swiper-wrapper {
-  display: flex;
-  justify-content: center; /* Center slides if loop is off and space allows */
-  align-items: center;
-}
-
-.swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: grab;
-}
-.swiper-slide:hover .client-logo-img {
-  opacity: 1;
-  filter: none;
-  transform: scale(1.1);
-}
-.swiper-pagination.client-pagination {
-    position: relative;
-    bottom: auto;
-    margin-top: 30px;
-}
-.swiper-pagination.client-pagination .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
-    background-color: var(--color-medium-gray);
-    opacity: 0.7;
-    transition: all var(--transition-speed-fast) ease-out;
-}
-.swiper-pagination.client-pagination .swiper-pagination-bullet-active {
-    background-color: var(--accent-color);
-    opacity: 1;
-    width: 25px;
-    border-radius: 5px;
-}
-
-
-/*--------------------------------------------------------------
-# Contact Section Enhancements (Final CTA)
---------------------------------------------------------------*/
-.contact#contact-final .info-container {
-    display: none; /* Hide info block in final CTA */
-}
-/* Center the form in the final CTA section on large screens */
-@media (min-width: 992px) {
-    .contact#contact-final .col-lg-8 {
-        width: 66.66666667%;
-        margin: 0 auto;
-        flex: 0 0 auto;
-    }
-}
-/* Ensure full width on smaller screens */
-@media (max-width: 991px) {
-     .contact#contact-final .col-lg-8 {
-        width: 100%;
-     }
-}
-
-/* General Contact Info Block Style (if used elsewhere) */
-.contact .info-container {
-    background: var(--color-light-gray);
-    border-radius: 1rem;
-    padding: 2.5rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.contact .info-item {
-   padding: 0;
-   margin-bottom: 2rem;
-   text-align: left;
-   background: none;
-   box-shadow: none;
-   display: flex;
-   align-items: center;
-}
-.contact .info-item:last-child {
-    margin-bottom: 0;
-}
-.contact .info-item i {
-  font-size: 1.8rem;
-  color: var(--accent-color);
-  background-color: rgba(250, 204, 21, 0.1);
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  border: none;
-  margin-right: 20px;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-.contact .info-item:hover i {
-    transform: scale(1.1);
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
-}
-.contact .info-item h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 5px 0;
-  color: var(--heading-color);
-}
-.contact .info-item p {
-  padding: 0;
-  margin-bottom: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-.contact .info-item a {
-    color: var(--default-color);
-}
-.contact .info-item a:hover {
-    color: var(--accent-color);
-}
-
-/* Contact Form Enhancements */
-.contact .php-email-form {
-    background-color: var(--color-white);
-    border-radius: 1rem;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color-light);
-    padding: 2.5rem;
-    height: 100%;
-}
-
-.contact .php-email-form .form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--heading-color);
-}
-
-.contact .php-email-form .form-control,
-.contact .php-email-form .form-select,
-.contact .php-email-form textarea {
-  font-size: 0.95rem;
-  padding: 12px 15px;
-  border-radius: 8px;
-  color: var(--default-color);
-  background-color: var(--color-light-gray);
-  border: 1px solid transparent;
-  transition: border-color var(--transition-speed-medium) ease, box-shadow var(--transition-speed-medium) ease, background-color var(--transition-speed-medium) ease;
-}
-
-.contact .php-email-form .form-control:focus,
-.contact .php-email-form .form-select:focus,
-.contact .php-email-form textarea:focus {
-  border-color: var(--accent-color);
-  background-color: var(--color-white);
-  box-shadow: 0 0 0 3px var(--color-accent-yellow-glow);
-  outline: none;
-}
-
-.contact .php-email-form select.form-select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px 12px;
-}
-
-/* Show/Hide "Otro Sector" Animation */
-#otroSectorDiv {
-    display: block;
-    transition: opacity 0.3s ease, max-height 0.3s ease, margin-top 0.3s ease;
-    overflow: hidden;
-    opacity: 0;
-    max-height: 0;
-    margin-top: 0;
-}
-
-
-/*--------------------------------------------------------------
 # General Button Styles & Specific CTAs
 --------------------------------------------------------------*/
-
-/* Base style for primary CTAs (Yellow background) */
 .cta-principal {
     background: var(--accent-color);
-    color: var(--contrast-color) !important; /* Ensure black text */
+    color: var(--contrast-color) !important;
     border: 2px solid var(--accent-color);
     padding: 12px 35px;
     border-radius: 50px;
@@ -1028,57 +664,49 @@ section,
     gap: 8px;
     text-decoration: none;
     line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(250, 204, 21, 0.25);
 }
 .cta-principal i {
     transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
-/* General Hover */
 .cta-principal:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Default shadow */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 .cta-principal:hover i {
     transform: translateX(5px);
 }
-
-/* Hover for CTAs in dark sections (like Hero) */
 .dark-background .cta-principal:hover,
-.header .cta-btn:hover { /* Header also uses this hover */
+.header .cta-btn:hover { /* Header CTA in dark background */
     background: var(--color-white);
     color: var(--color-black) !important;
     border-color: var(--color-white);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); /* White glow */
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
-
-/* Hover for CTAs in light/default sections */
+/* Specific hover for hero audit button (yellow hover) */
+.hero .cta-hero-audit:hover {
+    background: var(--color-accent-yellow-darker) !important;
+    border-color: var(--color-accent-yellow-darker) !important;
+    color: var(--contrast-color) !important;
+    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3) !important;
+}
 .light-background .cta-principal:hover,
-.section:not(.dark-background):not(.light-background) .cta-principal:hover,
-.contact .cta-form:hover /* Ensure final form button gets correct hover */
- {
+.section:not(.dark-background):not(.light-background) .cta-principal:hover {
     background: var(--color-accent-yellow-darker);
     border-color: var(--color-accent-yellow-darker);
     color: var(--color-black) !important;
-    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3); /* Yellow glow */
+    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
 }
-
-
-/* Style for Dark CTAs that use cta-principal structure */
 .cta-principal.cta-principal-dark {
-    background: var(--color-black);
-    color: var(--color-white) !important; /* White text */
-    border-color: var(--color-black);
+    background: var(--color-black); color: var(--color-white) !important; border-color: var(--color-black);
 }
 .cta-principal.cta-principal-dark:hover {
-    background: var(--color-dark-gray); /* Darker gray hover */
-    color: var(--color-white) !important; /* White text */
-    border-color: var(--color-dark-gray);
+    background: var(--color-dark-gray); color: var(--color-white) !important; border-color: var(--color-dark-gray);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
-
-
-/* Header CTA Button Specific Overrides */
-.header .cta-btn {
-    padding: 8px 20px; /* Specific padding for header */
+/* Header CTA Button Specifics */
+.header .cta-btn { /* This is the '.cta-principal' in the header */
+    padding: 8px 20px;
     margin: 0 0 0 15px;
     order: 3;
     white-space: nowrap;
@@ -1086,88 +714,109 @@ section,
 @media (max-width: 1199px) {
     .header .cta-btn { order: 2; margin: 0 15px 0 0; }
 }
-
-
-/* Final Contact Form Button (uses .cta-principal) */
-.contact .cta-form {
-    /* Inherit from .cta-principal */
-    padding: 12px 35px;
-    margin-top: 1rem;
-    /* Hover is handled by the .light-background .cta-principal:hover rule */
-}
-
-/* Ensure btn-card-detail keeps its specific style */
+/* Botón de "Más info" en los bloques de servicio del ecosistema */
 .btn-card-detail {
-  background: transparent;
-  border: 2px solid var(--color-dark-gray);
-  color: var(--color-dark-gray);
-  padding: 8px 20px;
-  border-radius: 50px;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 700;
-  transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex;
-  align-items: center;
+  background: transparent; border: 2px solid var(--color-dark-gray); color: var(--color-dark-gray);
+  padding: 8px 20px; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem;
+  font-weight: 700; transition: all var(--transition-speed-medium) var(--easing-smooth);
+  display: inline-flex; align-items: center; text-decoration: none;
 }
 .btn-card-detail:hover {
-   background: var(--color-dark-gray);
-   border-color: var(--color-dark-gray);
-   color: var(--color-white);
+   background: var(--color-dark-gray); border-color: var(--color-dark-gray); color: var(--color-white);
    transform: scale(1.05);
 }
-.btn-card-detail i {
-  margin-left: 5px;
-  transition: transform var(--transition-speed-medium) var(--easing-smooth);
-}
-.btn-card-detail:hover i {
-  transform: translateX(4px);
-}
-/* Style for the Executive Newsletter Button (Uses cta-principal base) */
-#executive-newsletter-btn {
-    /* Inherit cta-principal style */
-}
-#executive-newsletter-btn:hover {
-     /* Hover specific to this button, darker yellow */
-     background: var(--color-accent-yellow-darker);
-     border-color: var(--color-accent-yellow-darker);
-     color: var(--contrast-color);
-     transform: translateY(-3px) scale(1.02); /* Keep lift */
+.btn-card-detail i { margin-left: 5px; transition: transform var(--transition-speed-medium) var(--easing-smooth); }
+.btn-card-detail:hover i { transform: translateX(4px); }
+/* Executive Newsletter Button */
+#executive-newsletter-btn { /* Uses .cta-principal styling by default */ }
+#executive-newsletter-btn:hover { /* Specific hover if needed */
+     background: var(--color-accent-yellow-darker); border-color: var(--color-accent-yellow-darker);
+     color: var(--contrast-color); transform: translateY(-3px) scale(1.02);
      box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
 }
+#executive-newsletter-form-div {} /* Handled by inline style + JS */
 
 
-/* PHP Form Messages */
-.php-email-form .loading,
-.php-email-form .error-message,
-.php-email-form .sent-message {
-  padding: 15px;
-  margin: 15px 0 0 0;
-  border-radius: 8px;
-  font-weight: 500;
-  display: none;
-  text-align: center;
+/*--------------------------------------------------------------
+# Global Sections
+--------------------------------------------------------------*/
+section, .section { scroll-margin-top: 90px; padding: 90px 0; overflow: hidden; }
+.section.light-background { background-color: var(--color-light-gray); }
+.section.dark-background { background-color: var(--color-black); }
+
+/*--------------------------------------------------------------
+# Section Title Enhancements
+--------------------------------------------------------------*/
+.section-title { padding-bottom: 60px; text-align: center; }
+.section-title h2 { font-size: 14px; font-weight: 700; padding: 0; line-height: 1; margin: 0 0 15px 0; letter-spacing: 2px; text-transform: uppercase; color: var(--color-black); opacity: 0.8; }
+.dark-background .section-title h2 { color: var(--color-white); opacity: 0.7; }
+.section-title.text-start { text-align: left; }
+.section-title.text-start h2, .section-title.text-start p { text-align: left; }
+.section-title.text-start h2::before { display: none; }
+.section-title.text-start h2::after { margin-left: 0; }
+.section-title h2::after, .section-title h2::before { content: ""; width: 80px; height: 1px; display: inline-block; background: var(--accent-color); opacity: 0.5; margin: 0 10px; vertical-align: middle; }
+.section-title p { color: var(--heading-color); margin: 0; font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 900; text-transform: uppercase; font-family: var(--heading-font); line-height: 1.35; }
+.dark-background .section-title p { color: var(--heading-color); }
+
+/*--------------------------------------------------------------
+# Section 2: Qué Hacemos Por Ti? Specific Styles
+--------------------------------------------------------------*/
+.que-hacemos-item { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.que-hacemos-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.que-hacemos-item .icon i { transition: transform 0.3s ease; }
+.que-hacemos-item:hover .icon i { transform: scale(1.1) rotate(-5deg); }
+
+/*--------------------------------------------------------------
+# Section 5: Ecosistema BLISS Specific Styles
+--------------------------------------------------------------*/
+.service-block { margin-bottom: 5rem; }
+@media (min-width: 992px) {
+  .service-block .service-block-text { padding-left: 3rem; padding-right: 3rem; }
+  .service-block .service-block-image { padding-left: 2rem; padding-right: 2rem; }
 }
+.service-block-logo-inline { max-height: 120px; width: auto; display: inline-block; margin-right: 0.75rem; vertical-align: middle; opacity: 1 !important; filter: none !important; margin-bottom: 1rem; }
+.service-block h3.h2 { font-size: clamp(1.8rem, 4.5vw, 2.8rem); margin-bottom: 0.75rem !important; line-height: 1.3; font-weight: 900; color: var(--heading-color); }
+.service-block-text h4 { margin-bottom: 1.2rem !important; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.4;}
+.service-block-text p { margin-bottom: 1.2rem; line-height: 1.7; }
+.service-block-text ul { margin-bottom: 1.2rem; }
+@media (max-width: 991px) {
+    .service-block.flex-row-reverse .col-lg-6.service-block-text { order: 1; }
+    .service-block.flex-row-reverse .col-lg-6.service-block-image { order: 2; }
+    .service-block .col-lg-6 { text-align: center !important; flex-basis: auto; width: 100%; padding-left: 15px !important; padding-right: 15px !important; }
+    .service-block .interactive-image { max-width: 85%; margin-left: auto; margin-right: auto; margin-top: 1.5rem; }
+    .service-block-logo-inline { margin-left: auto; margin-right: auto; display: block; }
+}
+
+/*--------------------------------------------------------------
+# Clients Section Enhancements
+--------------------------------------------------------------*/
+.clients-section { padding: 80px 0; }
+.client-logo-img { max-height: 55px; width: auto; object-fit: contain; opacity: 0.6; filter: grayscale(100%) contrast(90%); transition: all var(--transition-speed-medium) var(--easing-smooth); margin: 0 auto; display: block; }
+.client-swiper .swiper-wrapper { display: flex; justify-content: center; align-items: center; }
+.swiper-slide { display: flex; justify-content: center; align-items: center; cursor: grab; }
+.swiper-slide:hover .client-logo-img { opacity: 1; filter: none; transform: scale(1.1); }
+.swiper-pagination.client-pagination { position: relative; bottom: auto; margin-top: 30px; }
+.swiper-pagination.client-pagination .swiper-pagination-bullet { width: 10px; height: 10px; background-color: var(--color-medium-gray); opacity: 0.7; transition: all var(--transition-speed-fast) ease-out; }
+.swiper-pagination.client-pagination .swiper-pagination-bullet-active { background-color: var(--accent-color); opacity: 1; width: 25px; border-radius: 5px; }
+
+/*--------------------------------------------------------------
+# Contact Section (Formulario Final) Enhancements
+--------------------------------------------------------------*/
+.contact#contact-final .info-container { display: none; }
+@media (min-width: 992px) { .contact#contact-final .col-lg-8 { width: 66.66666667%; margin: 0 auto; flex: 0 0 auto; } }
+@media (max-width: 991px) { .contact#contact-final .col-lg-8 { width: 100%; } }
+.contact .php-email-form { background-color: var(--color-white); border-radius: 1rem; box-shadow: var(--shadow-md); border: 1px solid var(--border-color-light); padding: 2.5rem; height: 100%; }
+.contact .php-email-form .form-label { font-weight: 500; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--heading-color); }
+.contact .php-email-form .form-control, .contact .php-email-form .form-select, .contact .php-email-form textarea { font-size: 0.95rem; padding: 12px 15px; border-radius: 8px; color: var(--default-color); background-color: var(--color-light-gray); border: 1px solid transparent; transition: border-color var(--transition-speed-medium) ease, box-shadow var(--transition-speed-medium) ease, background-color var(--transition-speed-medium) ease; }
+.contact .php-email-form .form-control:focus, .contact .php-email-form .form-select:focus, .contact .php-email-form textarea:focus { border-color: var(--accent-color); background-color: var(--color-white); box-shadow: 0 0 0 3px var(--color-accent-yellow-glow); outline: none; }
+.contact .php-email-form select.form-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px 12px; }
+/* PHP Form Messages */
+.php-email-form .loading, .php-email-form .error-message, .php-email-form .sent-message { padding: 15px; margin: 15px 0 0 0; border-radius: 8px; font-weight: 500; display: none; text-align: center; }
 .php-email-form .loading { background: var(--color-light-gray); }
 .php-email-form .error-message { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 .php-email-form .sent-message { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-
-@keyframes php-email-form-loading {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.php-email-form .loading:before {
-  content: "";
-  display: inline-block;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  margin: 0 10px -6px 0;
-  border: 3px solid var(--accent-color);
-  border-top-color: var(--color-light-gray);
-  animation: php-email-form-loading 1s linear infinite;
-}
-
+@keyframes php-email-form-loading { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.php-email-form .loading:before { content: ""; display: inline-block; border-radius: 50%; width: 24px; height: 24px; margin: 0 10px -6px 0; border: 3px solid var(--accent-color); border-top-color: var(--color-light-gray); animation: php-email-form-loading 1s linear infinite; }
 
 /*--------------------------------------------------------------
 # Footer Enhancements
@@ -1468,4 +1117,215 @@ section,
      .contact#contact-final .col-lg-8 { /* Ensure final form takes full width */
         width: 100%;
      }
+}
+
+/*--------------------------------------------------------------
+# Prompts Section Styles
+--------------------------------------------------------------*/
+.prompts-section {
+  background-color: var(--color-white);
+}
+
+.prompt-card {
+  background: var(--surface-color);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  border: 1px solid var(--border-color-light);
+  transition: all var(--transition-speed-medium) var(--easing-smooth);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.prompt-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, var(--accent-color), var(--color-accent-yellow-darker));
+    opacity: 0;
+    transition: opacity var(--transition-speed-medium) var(--easing-smooth);
+    z-index: 0;
+}
+
+.prompt-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+.prompt-card:hover::before {
+    opacity: 1;
+}
+
+.prompt-card-icon,
+.prompt-card h4.interactive-title-card,
+.prompt-card p {
+    position: relative;
+    z-index: 1;
+}
+
+
+.prompt-card-icon {
+  font-size: 2.8rem;
+  color: var(--accent-color);
+  margin-bottom: 1.25rem;
+  transition: transform var(--transition-speed-medium) var(--easing-smooth);
+}
+
+.prompt-card:hover .prompt-card-icon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+.prompt-card h4.interactive-title-card { /* Asegúrate que los h4 en las prompt cards tengan esta clase */
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--heading-color);
+}
+
+.prompt-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--default-color);
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+/*--------------------------------------------------------------
+# Prompt Modal Styles
+--------------------------------------------------------------*/
+.prompt-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1055; /* Encima de otros elementos, incluso header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+}
+
+.prompt-modal.visible {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.prompt-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(17, 17, 17, 0.85); /* Usar --color-black con opacidad */
+  cursor: pointer;
+}
+
+.prompt-modal-content {
+  position: relative;
+  background-color: var(--surface-color);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 700px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Clip content */
+  transform: translateY(-20px) scale(0.98); /* Empezar ligeramente arriba y pequeño */
+  transition: transform 0.3s var(--easing-smooth), opacity 0.3s var(--easing-smooth);
+  opacity: 0; /* Empezar invisible para fade in */
+}
+.prompt-modal.visible .prompt-modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+
+.prompt-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-medium-gray);
+  cursor: pointer;
+  padding: 0.5rem; /* Área de click más grande */
+  z-index: 10;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.prompt-modal-close:hover {
+  color: var(--color-black);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.prompt-modal-title {
+  font-size: 1.4rem; /* Ajustar tamaño */
+  font-weight: 700;
+  padding: 1.25rem 3.5rem 1.25rem 1.5rem; /* Padding para dejar espacio al botón X */
+  border-bottom: 1px solid var(--border-color-light);
+  margin: 0;
+  flex-shrink: 0; /* Evitar que se encoja */
+  color: var(--heading-color);
+}
+
+.prompt-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto; /* Scroll si el prompt es largo */
+  flex-grow: 1;
+}
+
+.prompt-modal-body pre {
+  background-color: var(--color-light-gray);
+  padding: 1.25rem; /* Más padding */
+  border-radius: 0.5rem;
+  white-space: pre-wrap;       /* Wrap long lines */
+  word-wrap: break-word;      /* Break long words */
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; /* Fuentes monoespaciadas comunes */
+  font-size: 0.95rem;
+  line-height: 1.7; /* Mejorar legibilidad */
+  color: var(--color-dark-gray);
+  border: 1px solid var(--border-color-light);
+  margin: 0;
+}
+.prompt-modal-body code {
+    font-family: inherit;
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: inherit; /* Asegurar que hereda el tamaño */
+}
+
+
+.prompt-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color-light);
+  text-align: right;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Estilo del botón de copiar (usa .cta-main) */
+#copyPromptButton {
+  /* Hereda de .cta-main si se le aplica esa clase en el HTML */
+  /* O puedes darle estilos específicos aquí */
+}
+
+.copy-feedback {
+  font-size: 0.9rem;
+  color: var(--bs-success); /* Bootstrap success color */
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.copy-feedback.visible {
+  opacity: 1;
 }
