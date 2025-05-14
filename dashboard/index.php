@@ -7,7 +7,7 @@ require_once 'auth_check.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Auditorías BLISS</title>
+    <title>Dashboard - AuditorÃ­as BLISS</title>
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Favicons, Fonts -->
@@ -49,7 +49,7 @@ require_once 'auth_check.php';
          <div class="ms-auto d-flex align-items-center">
              <span class="me-3 text-muted small">Hola, <?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
              <a href="logout.php" class="btn btn-sm btn-outline-secondary">
-                 <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+                 <i class="bi bi-box-arrow-right me-1"></i> Cerrar SesiÃ³n
              </a>
          </div>
       </div>
@@ -58,21 +58,21 @@ require_once 'auth_check.php';
     <main class="dashboard-main">
         <!-- ... (contenido principal del dashboard igual que antes) ... -->
         <div class="container-fluid">
-            <h1 class="dashboard-title">Auditorías Recibidas</h1>
+            <h1 class="dashboard-title">AuditorÃ­as Recibidas</h1>
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Listado de Auditorías</h5>
-                    <p class="card-subtitle mb-3 text-muted small">Resultados ordenados por fecha de envío (más recientes primero). Usa la búsqueda para filtrar.</p>
+                    <h5 class="card-title">Listado de AuditorÃ­as</h5>
+                    <p class="card-subtitle mb-3 text-muted small">Resultados ordenados por fecha de envÃ­o (mÃ¡s recientes primero). Usa la bÃºsqueda para filtrar.</p>
                     <div class="table-responsive">
                         <table id="auditsTable" class="table table-striped table-bordered table-hover" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Fecha Envío</th>
+                                    <th>Fecha EnvÃ­o</th>
                                     <th>Empresa</th>
                                     <th>Contacto</th>
                                     <th>Email</th>
-                                    <th>Teléfono</th>
+                                    <th>TelÃ©fono</th>
                                     <th>Cargo</th>
                                     <th>Empleados</th>
                                     <th>Urgencia</th>
@@ -92,7 +92,7 @@ require_once 'auth_check.php';
     <footer class="dashboard-footer text-center py-3">
         <!-- ... (contenido del footer igual que antes) ... -->
         <div class="container">
-            <small class="text-muted">© <?php echo date("Y"); ?> BLISS Industrial Services. Dashboard interno.</small>
+            <small class="text-muted">Â® <?php echo date("Y"); ?> BLISS Industrial Services. Dashboard interno.</small>
         </div>
     </footer>
 
@@ -119,10 +119,10 @@ require_once 'auth_check.php';
 
     <!-- Dashboard Init Script -->
     <script>
-        // ... (script de inicialización de DataTables igual que antes) ...
+        // ... (script de inicializaciï¿½n de DataTables igual que antes) ...
          if (typeof jQuery === 'undefined') {
-            console.error('ERROR: jQuery no se ha cargado. DataTables no funcionará.');
-             document.body.innerHTML = '<div class="alert alert-danger m-5">Error crítico: No se pudo cargar jQuery. Contacta al administrador.</div>';
+            console.error('ERROR: jQuery no se ha cargado. DataTables no funcionarï¿½.');
+             document.body.innerHTML = '<div class="alert alert-danger m-5">Error crï¿½tico: No se pudo cargar jQuery. Contacta al administrador.</div>';
         } else {
             $(document).ready(function() {
                 console.log("jQuery cargado, inicializando DataTables...");

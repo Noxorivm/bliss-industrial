@@ -1,24 +1,24 @@
 <?php
-// --- Habilitar Errores (SOLO PARA DEPURACIÓN - Comentar en producción) ---
+// --- Habilitar Errores (SOLO PARA DEPURACIï¿½N - Comentar en producciï¿½n) ---
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 // --- Fin Habilitar Errores ---
 
-// Incluir el verificador de sesión PRIMERO
+// Incluir el verificador de sesiï¿½n PRIMERO
 require_once '../dashboard/auth_check.php'; // Ajusta ruta si es necesario
 
-// Indicar que la respuesta será JSON y con UTF-8
+// Indicar que la respuesta serï¿½ JSON y con UTF-8
 header('Content-Type: application/json; charset=utf-8');
 
-// --- Configuración DB ---
+// --- Configuraciï¿½n DB ---
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bliss_bd');
 define('DB_USER', 'phpmyadmin');
 define('DB_PASS', 'Bliss2025!');
 define('DB_TABLE', 'auditoria_bliss');
 
-// --- Conexión DB (ASEGÚRATE QUE CHARSET ESTÁ PRESENTE) ---
+// --- Conexiï¿½n DB (ASEGï¿½RATE QUE CHARSET ESTï¿½ PRESENTE) ---
 $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4"; // charset=utf8mb4 es CLAVE
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -30,7 +30,7 @@ try {
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (\PDOException $e) {
     http_response_code(500);
-    error_log("Error conexión DB fetch_audits: " . $e->getMessage());
+    error_log("Error conexiÃ³n DB fetch_audits: " . $e->getMessage());
     // Devolver error en formato JSON
     echo json_encode(['data' => [], 'error' => 'Error interno del servidor [DB Connect].']);
     exit;
@@ -48,7 +48,7 @@ $sql = "SELECT
             empresa_empleados,
             urgencia_nivel,
             cuando_empezar
-            -- Añade más columnas si las necesitas en la tabla --
+            -- Aï¿½ade mï¿½s columnas si las necesitas en la tabla --
         FROM " . DB_TABLE . "
         ORDER BY fecha_envio DESC";
 
@@ -57,14 +57,14 @@ try {
     $results = $stmt->fetchAll();
 
     // DataTables espera un objeto con una clave "data"
-    // Asegurarse que los datos se devuelven como UTF-8 (json_encode lo hace por defecto si PHP está bien configurado)
+    // Asegurarse que los datos se devuelven como UTF-8 (json_encode lo hace por defecto si PHP estï¿½ bien configurado)
     echo json_encode(['data' => $results]);
 
 } catch (\PDOException $e) {
     http_response_code(500);
     error_log("Error fetching audits: " . $e->getMessage());
     // Devolver error en formato JSON
-    echo json_encode(['data' => [], 'error' => 'Error al obtener los datos de auditoría.']);
+    echo json_encode(['data' => [], 'error' => 'Error al obtener los datos de auditorï¿½a.']);
     exit;
 }
 ?>
