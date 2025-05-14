@@ -38,22 +38,9 @@ require_once 'auth_check.php';
 </head>
 <body class="dashboard-body">
 
-    <!-- Header del Dashboard -->
-    <header id="header" class="header dashboard-header fixed-top bg-light shadow-sm">
-       <!-- ... (contenido del header igual que antes) ... -->
-      <div class="container-fluid container-xl position-relative d-flex align-items-center">
-        <a href="index.php" class="logo d-flex align-items-center me-auto">
-          <img src="../assets/img/logo.jfif" alt="BLISS Logo">
-          <span class="ms-2 d-none d-sm-inline sitename-dashboard">Dashboard BLISS</span>
-        </a>
-         <div class="ms-auto d-flex align-items-center">
-             <span class="me-3 text-muted small">Hola, <?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></span>
-             <a href="logout.php" class="btn btn-sm btn-outline-secondary">
-                 <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
-             </a>
-         </div>
-      </div>
-    </header>
+    <!-- === Header del Dashboard (Desde Include) === -->
+    <?php include_once 'includes/header_dashboard.php'; ?>
+    <!-- ========================================= -->
 
     <main class="dashboard-main">
         <!-- ... (contenido principal del dashboard igual que antes) ... -->

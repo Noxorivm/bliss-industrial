@@ -150,3 +150,43 @@ body.dashboard-body {
       max-height: 60px;
       margin-bottom: 1.5rem;
   }
+
+  /*--------------------------------------------------------------
+# Dashboard Navigation Styles
+--------------------------------------------------------------*/
+.dashboard-nav ul {
+  gap: 0.5rem; /* Espacio entre elementos del menú */
+}
+.dashboard-nav .nav-link {
+  color: var(--default-color);
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  font-size: 0.9rem;
+}
+.dashboard-nav .nav-link i {
+    font-size: 1rem; /* Tamaño de los iconos del menú */
+}
+.dashboard-nav .nav-link:hover {
+  color: var(--heading-color);
+  background-color: var(--color-light-gray);
+}
+.dashboard-nav .nav-link.active {
+  color: var(--accent-color);
+  font-weight: 700;
+  background-color: rgba(var(--color-accent-yellow-rgb, 250, 204, 21), 0.1); /* Fondo amarillo suave */
+}
+/* Adaptar en móvil si es necesario */
+@media (max-width: 767px) {
+    .dashboard-nav {
+        display: none; /* Ocultar nav de texto en móviles pequeños, se podría hacer un dropdown */
+    }
+    .sitename-dashboard {
+        display: none !important; /* Ocultar texto "Dashboard BLISS" en móvil */
+    }
+}
+/* Necesitarás definir --color-accent-yellow-rgb si no lo tienes */
+:root {
+  --color-accent-yellow-rgb: 250, 204, 21; /* Asegúrate que esto esté en tu :root en main.css o dashboard.css */
+}
