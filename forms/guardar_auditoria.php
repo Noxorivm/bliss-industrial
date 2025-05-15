@@ -4,6 +4,7 @@
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
 // --- Fin Habilitar Errores ---
+require_once '../config/database.php';
 
 // --- Incluir Autoloader de Composer (para PHPMailer) ---
 $autoloader_path = __DIR__ . '/../vendor/autoload.php';
@@ -23,12 +24,7 @@ use PHPMailer\PHPMailer\Exception;
 // Indicar que la respuesta será JSON y con UTF-8 (después de posible error de autoload)
 header('Content-Type: application/json; charset=utf-8');
 
-// --- Definiciones (DB, Email, reCAPTCHA Secret Key) ---
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'bliss_bd');
-define('DB_USER', 'sergi');
-define('DB_PASS', 'Bliss2025!'); // Contraseña para bliss_user
-define('DB_TABLE', 'auditoria_bliss');
+// --- Definiciones (reCAPTCHA Secret Key) ---
 define('ADMIN_EMAIL', 'hola@blissindustrial.eu');
 define('RECAPTCHA_SECRET_KEY', '6Lfl_jcrAAAAAKIimDKPMcoGEZvxQKsLCX611Q4N'); // TU CLAVE SECRETA
 

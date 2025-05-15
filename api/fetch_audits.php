@@ -1,70 +1,55 @@
 <?php
-// --- Habilitar Errores (SOLO PARA DEPURACI�N - Comentar en producci�n) ---
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+// --- Habilitar Errores (SOLO PARA DEPURACIÓN - Comentar en producción) ---
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // --- Fin Habilitar Errores ---
 
-// Incluir el verificador de sesi�n PRIMERO
-require_once '../dashboard/auth_check.php'; // Ajusta ruta si es necesario
+// Incluir el verificador de sesión PRIMERO
+require_once '../dashboard/auth_check.php';
+// Incluir configuración de base de datos y getPDO()
+require_once '../config/database.php';
 
-// Indicar que la respuesta ser� JSON y con UTF-8
+// Indicar que la respuesta será JSON y con UTF-8
 header('Content-Type: application/json; charset=utf-8');
 
-// --- Configuraci�n DB ---
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'bliss_bd');
-define('DB_USER', 'phpmyadmin');
-define('DB_PASS', 'Bliss2025!');
-define('DB_TABLE', 'auditoria_bliss');
-
-// --- Conexi�n DB (ASEG�RATE QUE CHARSET EST� PRESENTE) ---
-$dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4"; // charset=utf8mb4 es CLAVE
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+// --- NO SE NECESITAN define() para DB aquí porque vienen de database.php ---
+// define('DB_HOST', 'localhost');
+// define('DB_NAME', 'bliss_bd');
+// define('DB_USER', 'bliss_user');
+// define('DB_PASS', 'HiiJI7y)8jL@[s_G');
+// define('DB_TABLE', 'auditoria_bliss'); // <-- ESTA LÍNEA SE ELIMINA O YA NO SE USA ASÍ
 
 try {
-    $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+    $pdo = getPDO(); // Obtener la instancia de PDO desde database.php
 } catch (\PDOException $e) {
     http_response_code(500);
     error_log("Error conexión DB fetch_audits: " . $e->getMessage());
-    // Devolver error en formato JSON
     echo json_encode(['data' => [], 'error' => 'Error interno del servidor [DB Connect].']);
     exit;
 }
 
-// --- Consulta SQL ---
+// --- Consulta SQL (Usar la constante correcta DB_TABLE_AUDITORIA) ---
 $sql = "SELECT
-            id,
-            fecha_envio,
-            empresa_nombre,
-            contacto_nombre,
-            contacto_email,
-            contacto_telefono,
-            perfil_cargo,
-            empresa_empleados,
-            urgencia_nivel,
-            cuando_empezar
-            -- A�ade m�s columnas si las necesitas en la tabla --
-        FROM " . DB_TABLE . "
+            id, fecha_envio, empresa_nombre, contacto_nombre, contacto_email,
+            contacto_telefono, contacto_whatsapp, perfil_cargo, cargo_otro_texto,
+            sectores, sector_otro_texto, empresa_empleados, areas_mejora,
+            sistemas, sis_otro_texto, retos, reto_otro_texto,
+            soluciones, sol_otro_texto, cuando_empezar, urgencia_nivel,
+            como_recibir, recibir_whatsapp, ip_address
+        FROM " . DB_TABLE_AUDITORIA . " -- <<<--- CAMBIO AQUÍ: Usar DB_TABLE_AUDITORIA
         ORDER BY fecha_envio DESC";
 
 try {
     $stmt = $pdo->query($sql);
     $results = $stmt->fetchAll();
 
-    // DataTables espera un objeto con una clave "data"
-    // Asegurarse que los datos se devuelven como UTF-8 (json_encode lo hace por defecto si PHP est� bien configurado)
     echo json_encode(['data' => $results]);
 
 } catch (\PDOException $e) {
     http_response_code(500);
     error_log("Error fetching audits: " . $e->getMessage());
-    // Devolver error en formato JSON
-    echo json_encode(['data' => [], 'error' => 'Error al obtener los datos de auditor�a.']);
+    echo json_encode(['data' => [], 'error' => 'Error al obtener los datos de auditoría.']);
     exit;
 }
 ?>

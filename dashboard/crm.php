@@ -5,7 +5,7 @@
 // error_reporting(E_ALL);
 // --- Fin Habilitar Errores ---
 
-require_once 'auth_check.php'; // Verificar sesión
+require_once 'auth_check.php'; // Verificar sesión (asumimos que está en /dashboard/)
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,13 +30,13 @@ require_once 'auth_check.php'; // Verificar sesión
 
     <!-- Main & Dashboard CSS -->
     <link href="../assets/css/main.css" rel="stylesheet">
-    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet"> <!-- Asegúrate que aquí están los estilos de .cta-principal -->
 
 </head>
 <body class="dashboard-body">
 
     <!-- Header del Dashboard (Desde Include) -->
-    <?php include_once 'includes/header_dashboard.php'; ?>
+    <?php include_once 'includes/header_dashboard.php'; // Ruta correcta si 'includes' está dentro de 'dashboard' ?>
 
     <main class="dashboard-main">
         <div class="container-fluid">
@@ -168,21 +168,23 @@ require_once 'auth_check.php'; // Verificar sesión
     <script>
         if (typeof jQuery === 'undefined') {
             console.error('ERROR CRÍTICO: jQuery no se ha cargado. El CRM no funcionará.');
-            // Considera mostrar un mensaje más amigable al usuario aquí
+            document.body.innerHTML = '<div class="alert alert-danger m-5 text-center">Error crítico: No se pudo cargar jQuery. El dashboard no funcionará.</div>';
         } else {
             $(document).ready(function() {
+                console.log("jQuery cargado, inicializando DataTables para CRM...");
                 let clientsDataTable;
                 try {
                    clientsDataTable = $('#clientsTable').DataTable({
                         processing: true,
                         ajax: {
-                            url: '../api/fetch_crm_clientes.php', // Nuevo script PHP
+                            url: '../api/fetch_crm_clientes.php', // Script PHP para obtener clientes
                             type: 'POST', // O GET
-                            dataSrc: 'data',
+                            dataSrc: 'data', // Clave en el JSON que contiene los datos
                             error: function (xhr, error, thrown) {
-                                console.error("Error AJAX al cargar clientes:", xhr.responseText);
+                                console.error("Error AJAX al cargar clientes:", xhr.status, xhr.statusText, error, thrown);
+                                console.error("Respuesta del servidor:", xhr.responseText);
                                 $('#clientsTable_processing').hide();
-                                $('#clientsTable tbody').html('<tr><td colspan="9" class="text-center text-danger">Error al cargar los clientes.</td></tr>');
+                                $('#clientsTable tbody').html('<tr><td colspan="9" class="text-center text-danger">Error al cargar los clientes. Revise la consola y los logs del servidor.</td></tr>');
                             }
                         },
                         columns: [
@@ -193,12 +195,25 @@ require_once 'auth_check.php'; // Verificar sesión
                             { data: 'telefono_contacto', render: function(data){ return data ? `<a href="tel:${data}">${data}</a>` : ''; } },
                             { data: 'origen_lead' },
                             { data: 'estado_lead' },
-                            { data: 'fecha_creacion', className: 'text-nowrap', render: function (data) { if (!data) return ''; try { let date = new Date(data.replace(' ', 'T')+'Z'); if (isNaN(date)) date = new Date(data); if (isNaN(date)) return data; return date.toLocaleDateString('es-ES', {day:'2-digit',month:'2-digit',year:'numeric'}); } catch(e){ return data; }}},
+                            { 
+                                data: 'fecha_creacion', 
+                                className: 'text-nowrap', 
+                                render: function (data) { 
+                                    if (!data) return ''; 
+                                    try { 
+                                        let date = new Date(data.replace(' ', 'T')+'Z'); 
+                                        if (isNaN(date)) date = new Date(data); 
+                                        if (isNaN(date)) return data; 
+                                        return date.toLocaleDateString('es-ES', {day:'2-digit',month:'2-digit',year:'numeric'}); 
+                                    } catch(e){ return data; }
+                                }
+                            },
                             {
                                 data: null,
                                 render: function (data, type, row) {
-                                     // Enlace para ver detalles del cliente (futura página o modal)
-                                     return `<a href="crm_cliente_detalle.php?id=${row.id}" class="btn btn-sm btn-outline-primary" title="Ver/Añadir Interacciones"><i class="bi bi-person-lines-fill"></i></a>`;
+                                     return `<a href="crm_cliente_detalle.php?id=${row.id}" class="btn btn-sm btn-outline-primary" title="Ver/Editar Cliente y Añadir Interacciones"><i class="bi bi-pencil-square"></i></a>`;
+                                     // O un botón para un modal de edición más simple si prefieres no cambiar de página
+                                     // return `<button type="button" class="btn btn-sm btn-outline-success edit-client-btn" data-id="${row.id}" title="Editar Cliente"><i class="bi bi-pencil"></i></button>`;
                                 },
                                 orderable: false, searchable: false, className: 'text-center actions-column'
                             }
@@ -217,8 +232,13 @@ require_once 'auth_check.php'; // Verificar sesión
                     e.preventDefault();
                     const feedbackDiv = $('#addClientFormFeedback');
                     feedbackDiv.html('').removeClass('alert alert-danger alert-success');
+                    
+                    const submitButton = $(this).find('button[type="submit"]');
+                    const originalButtonText = submitButton.html();
+                    submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...').prop('disabled', true);
 
-                    // === FORMA ALTERNATIVA Y MÁS ROBUSTA DE RECOLECTAR DATOS ===
+
+                    // Recolectar datos del formulario
                     const form = $(this);
                     const clientData = {};
                     form.find('input, select, textarea').each(function() {
@@ -226,47 +246,61 @@ require_once 'auth_check.php'; // Verificar sesión
                         const name = input.attr('name');
                         let value = input.val();
 
-                        if (name) { // Asegurarse de que el campo tiene un nombre
-                            if (input.is(':checkbox')) { // Para checkboxes
-                                clientData[name] = input.is(':checked') ? value : ''; // Envía valor si está marcado, sino vacío
-                            } else if (input.is(':radio')) { // Para radio buttons
+                        if (name) {
+                            if (input.is(':checkbox')) {
+                                clientData[name] = input.is(':checked') ? value : '';
+                            } else if (input.is(':radio')) {
                                 if (input.is(':checked')) {
                                     clientData[name] = value;
                                 }
-                            } else { // Para otros inputs (text, email, select, textarea)
-                                clientData[name] = value || ''; // Envía valor o string vacío
+                            } else {
+                                clientData[name] = value || '';
                             }
                         }
                     });
-                    // ==============================================================
 
-                    console.log("Datos a enviar:", clientData); // Para depurar qué se está enviando
+                    console.log("Datos a enviar (CRM):", clientData);
 
                     $.ajax({
-                        url: '../api/crear_crm_cliente.php',
+                        url: '../api/crear_crm_cliente.php', // Script PHP para crear cliente
                         type: 'POST',
-                        data: JSON.stringify(clientData), // Enviar como JSON
+                        data: JSON.stringify(clientData),
                         contentType: 'application/json; charset=utf-8',
                         dataType: 'json',
                         success: function(response) {
                             if (response.success) {
-                                feedbackDiv.html('Cliente añadido con éxito: ' + (response.message || '') + (response.new_client_id ? ' (ID: ' + response.new_client_id + ')' : '')).addClass('alert alert-success');
-                                $('#addClientModal').modal('hide');
-                                $('#addClientForm')[0].reset();
-                                if (clientsDataTable) { // Asegurarse que la tabla existe
-                                    clientsDataTable.ajax.reload();
+                                feedbackDiv.html('Cliente añadido con éxito' + (response.new_client_id ? ` (ID: ${response.new_client_id})` : '')).addClass('alert alert-success').fadeIn();
+                                setTimeout(() => {
+                                    $('#addClientModal').modal('hide');
+                                    $('#addClientForm')[0].reset();
+                                    feedbackDiv.fadeOut().html('').removeClass('alert alert-success');
+                                }, 2000); // Cerrar modal y resetear después de 2 segundos
+
+                                if (clientsDataTable) {
+                                    clientsDataTable.ajax.reload(); // Recargar la tabla
                                 }
                             } else {
-                                feedbackDiv.html('Error: ' + (response.message || 'No se pudo añadir el cliente.')).addClass('alert alert-danger');
+                                feedbackDiv.html('Error: ' + (response.message || 'No se pudo añadir el cliente.')).addClass('alert alert-danger').fadeIn();
                             }
                         },
                         error: function(xhr, status, error) {
                             console.error("Error AJAX al crear cliente:", xhr.responseText);
-                            feedbackDiv.html('Error en el servidor al añadir cliente. Detalles: ' + (xhr.responseText || error)).addClass('alert alert-danger');
+                            feedbackDiv.html('Error en el servidor al añadir cliente. Detalles: ' + (xhr.responseText || error)).addClass('alert alert-danger').fadeIn();
+                        },
+                        complete: function() {
+                            submitButton.html(originalButtonText).prop('disabled', false);
                         }
                     });
                 });
-        }
+
+                // Limpiar feedback del modal cuando se cierra
+                $('#addClientModal').on('hidden.bs.modal', function () {
+                    $('#addClientFormFeedback').html('').removeClass('alert alert-danger alert-success').hide();
+                    $('#addClientForm')[0].reset();
+                });
+
+            }); // Fin $(document).ready
+        } // Fin else (jQuery definido)
     </script>
 
 </body>
