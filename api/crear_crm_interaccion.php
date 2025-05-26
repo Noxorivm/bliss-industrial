@@ -1,7 +1,10 @@
 <?php
-// ... (inicio, auth_check, include config/database.php igual que antes) ...
+// --- Habilitar Errores (SOLO PARA DEPURACIÓN) ---
+// ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+// --- Fin Habilitar Errores ---
+
 require_once '../dashboard/auth_check.php';
-require_once '../config/database.php'; // Asegúrate que define DB_TABLE_INTERACCIONES
+require_once '../config/database.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -14,15 +17,18 @@ if ($formData === null || !is_array($formData) || !isset($formData['cliente_id_i
     exit;
 }
 
-// Mapeo con tus posibles nombres de input del modal
-$cliente_id = filter_var($formData['cliente_id_interaction'], FILTER_VALIDATE_INT);
-$fecha_interaccion_input = isset($formData['fecha_interaccion']) ? trim($formData['fecha_interaccion']) : date('Y-m-d H:i:s'); // Del input datetime-local
+// --- ESTABLECER FECHA/HORA EN EL SERVIDOR (Zona Horaria Madrid) ---
+date_default_timezone_set('Europe/Madrid');
+$fecha_interaccion_mysql = date('Y-m-d H:i:s'); // Fecha y hora actual del servidor
+
+// Mapeo de datos (ya no se recibe 'fecha_interaccion' del form)
+$cliente_id = filter_var($formData['cliente_id_interaction'] ?? null, FILTER_VALIDATE_INT);
 $tipo_interaccion_input = isset($formData['tipo_interaccion']) ? trim($formData['tipo_interaccion']) : null;
-$descripcion_input = isset($formData['descripcion']) ? trim($formData['descripcion']) : null; // Este será 'resumen_interaccion' en la DB
-$resultado_input = isset($formData['resultado']) ? trim($formData['resultado']) : '';       // Este será 'proximo_paso' en la DB (si así lo mapeaste)
-$proximo_paso_input = isset($formData['proximo_paso']) ? trim($formData['proximo_paso']) : ''; // Este será 'proximo_paso'
+$descripcion_input = isset($formData['descripcion']) ? trim($formData['descripcion']) : null; // Este se guardará en 'resumen_interaccion'
+$resultado_actual_input = isset($formData['resultado_interaccion']) ? trim($formData['resultado_interaccion']) : ''; // Del campo "Resultado de esta interacción"
+$proximo_paso_input = isset($formData['proximo_paso']) ? trim($formData['proximo_paso']) : '';
 $fecha_proximo_paso_input = isset($formData['fecha_proximo_paso']) && !empty($formData['fecha_proximo_paso']) ? trim($formData['fecha_proximo_paso']) : null;
-$usuario_actual = $_SESSION['username'] ?? 'Sistema'; // Asumo que quieres el usuario de la sesión actual
+$usuario_actual_sesion = $_SESSION['username'] ?? 'Sistema'; // Usuario logueado
 
 // Validación
 if (!$cliente_id || empty($tipo_interaccion_input) || empty($descripcion_input)) {
@@ -30,40 +36,31 @@ if (!$cliente_id || empty($tipo_interaccion_input) || empty($descripcion_input))
     echo json_encode(['success' => false, 'message' => 'Faltan campos obligatorios (Cliente ID, Tipo, Descripción).']);
     exit;
 }
-try {
-    $dt = new DateTime($fecha_interaccion_input);
-    $fecha_interaccion_mysql = $dt->format('Y-m-d H:i:s');
-} catch (Exception $e) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Formato de fecha de interacción inválido.']);
-    exit;
-}
 
 try {
     $pdo = getPDO();
-    // --- Consulta SQL INSERT con TUS nombres de columna ---
+    // --- Consulta SQL INSERT con nombres de columna de TU tabla ---
+    // Asegúrate que 'resultado_interaccion' sea el nombre correcto de tu columna para guardar el resultado
+    // 'creado_en' se asume que tiene DEFAULT CURRENT_TIMESTAMP en la DB
     $sql = "INSERT INTO " . DB_TABLE_INTERACCIONES . "
-                (cliente_id, usuario_crm_id, tipo_interaccion, fecha_interaccion, resumen_interaccion, proximo_paso, fecha_proximo_paso, creado_en)
+                (cliente_id, usuario_crm_id, tipo_interaccion, fecha_interaccion, resumen_interaccion, resultado_interaccion, proximo_paso, fecha_proximo_paso)
             VALUES
-                (:cliente_id, :usuario_crm_id, :tipo_interaccion, :fecha_interaccion, :resumen_interaccion, :proximo_paso, :fecha_proximo_paso, NOW())";
-            // Nota: 'creado_en' usualmente se maneja con DEFAULT CURRENT_TIMESTAMP en la DB,
-            // pero lo incluyo aquí por si tu tabla no lo tiene así y lo quieres explícito.
-            // Si tu tabla sí tiene DEFAULT, puedes quitar creado_en de la lista de columnas y :creado_en de VALUES y el bindParam.
+                (:cliente_id, :usuario_crm_id, :tipo_interaccion, :fecha_interaccion, :resumen_interaccion, :resultado_interaccion, :proximo_paso, :fecha_proximo_paso)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':cliente_id', $cliente_id, PDO::PARAM_INT);
-    $stmt->bindParam(':usuario_crm_id', $usuario_actual); // Asumiendo que quieres guardar el usuario actual del dashboard
+    $stmt->bindParam(':usuario_crm_id', $usuario_actual_sesion);
     $stmt->bindParam(':tipo_interaccion', $tipo_interaccion_input);
-    $stmt->bindParam(':fecha_interaccion', $fecha_interaccion_mysql);
-    $stmt->bindParam(':resumen_interaccion', $descripcion_input); // Mapea 'descripcion' del form a 'resumen_interaccion'
-    $stmt->bindParam(':proximo_paso', $proximo_paso_input);       // Mapea 'proximo_paso' del form
-    $stmt->bindParam(':fecha_proximo_paso', $fecha_proximo_paso_input); // Mapea 'fecha_proximo_paso' del form
-    // No necesitamos bindParam para 'creado_en' si usa NOW() o DEFAULT en la DB
+    $stmt->bindParam(':fecha_interaccion', $fecha_interaccion_mysql); // Usar fecha del servidor
+    $stmt->bindParam(':resumen_interaccion', $descripcion_input);    // Guardar 'descripcion' del form en 'resumen_interaccion'
+    $stmt->bindParam(':resultado_interaccion', $resultado_actual_input); // Guardar 'resultado_interaccion_actual' del form
+    $stmt->bindParam(':proximo_paso', $proximo_paso_input);
+    $stmt->bindParam(':fecha_proximo_paso', $fecha_proximo_paso_input);
 
     $stmt->execute();
     $new_interaction_id = $pdo->lastInsertId();
 
-    http_response_code(201);
+    http_response_code(201); // Created
     echo json_encode(['success' => true, 'message' => 'Interacción guardada.', 'new_interaction_id' => $new_interaction_id]);
 
 } catch (\PDOException $e) {

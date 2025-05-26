@@ -22,14 +22,10 @@ require_once 'auth_check.php';
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 
     <!-- =============================================== -->
-    <!-- === DataTables CSS - VERIFICA NOMBRES/RUTAS === -->
+    <!-- === DataTables CSS - CARGA SIMPLIFICADA === -->
     <!-- =============================================== -->
-    <!-- Estilo Principal Bootstrap 5 para DataTables -->
-    <link href="../assets/vendor/datatables/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <!-- Estilo Responsive para DataTables con Bootstrap 5 -->
-    <link href="../assets/vendor/datatables/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="../assets/vendor/datatables/datatables.min.css" rel="stylesheet"> <!-- Solo el archivo principal minificado -->
     <!-- =============================================== -->
-
 
     <!-- Main & Dashboard CSS -->
     <link href="../assets/css/main.css" rel="stylesheet">
@@ -83,7 +79,6 @@ require_once 'auth_check.php';
         </div>
     </footer>
 
-
     <!-- Vendor JS Files -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -91,22 +86,14 @@ require_once 'auth_check.php';
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <!-- =========================================================== -->
-    <!-- === DataTables JS - VERIFICA NOMBRES Y EXISTENCIA ARCHIVOS === -->
+    <!-- === DataTables JS - CARGA SIMPLIFICADA === -->
     <!-- =========================================================== -->
-    <!-- DataTables Core JS (Puede llamarse datatables.min.js O jquery.dataTables.min.js) -->
     <script src="../assets/vendor/datatables/datatables.min.js"></script>
-    <!-- DataTables Bootstrap 5 Integration JS -->
-    <script src="../assets/vendor/datatables/dataTables.bootstrap5.min.js"></script>
-    <!-- DataTables Responsive JS -->
-    <script src="../assets/vendor/datatables/dataTables.responsive.min.js"></script>
-    <!-- DataTables Responsive Bootstrap 5 Integration JS -->
-    <script src="../assets/vendor/datatables/responsive.bootstrap5.min.js"></script>
     <!-- =========================================================== -->
-
 
     <!-- Dashboard Init Script -->
     <script>
-        // ... (script de inicializaci�n de DataTables igual que antes) ...
+        // ... (script de inicialización de DataTables igual que antes) ...
          if (typeof jQuery === 'undefined') {
             console.error('ERROR: jQuery no se ha cargado. DataTables no funcionar�.');
              document.body.innerHTML = '<div class="alert alert-danger m-5">Error cr�tico: No se pudo cargar jQuery. Contacta al administrador.</div>';

@@ -4,10 +4,10 @@
  *
  * To rebuild or modify this file with the latest versions of the included
  * software please visit:
- *   https://datatables.net/download/#bs5/jq-3.7.0/dt-2.2.2/r-3.0.4
+ *   https://datatables.net/download/#bs5/jq-3.7.0/dt-2.3.1/r-3.0.4
  *
  * Included libraries:
- *   jQuery 3.7.0, DataTables 2.2.2, Responsive 3.0.4
+ *   jQuery 3.7.0, DataTables 2.3.1, Responsive 3.0.4
  */
 
 /*!
@@ -10716,7 +10716,7 @@ return jQuery;
 } );
 
 
-/*! DataTables 2.2.2
+/*! DataTables 2.3.1
  * © SpryMedia Ltd - datatables.net/license
  */
 
@@ -10807,15 +10807,19 @@ return jQuery;
 			var defaults = DataTable.defaults;
 			var $this = $(this);
 			
-			
-			/* Sanity check */
+			// Sanity check
 			if ( this.nodeName.toLowerCase() != 'table' )
 			{
 				_fnLog( null, 0, 'Non-table node initialisation ('+this.nodeName+')', 2 );
 				return;
 			}
 			
-			$(this).trigger( 'options.dt', oInit );
+			// Special case for options
+			if (oInit.on && oInit.on.options) {
+				_fnListener($this, 'options', oInit.on.options);	
+			}
+			
+			$this.trigger( 'options.dt', oInit );
 			
 			/* Backwards compatibility for the defaults */
 			_fnCompatOpts( defaults );
@@ -10954,6 +10958,9 @@ return jQuery;
 				"caption",
 				"layout",
 				"orderDescReverse",
+				"orderIndicators",
+				"orderHandler",
+				"titleRow",
 				"typeDetect",
 				[ "iCookieDuration", "iStateDuration" ], // backwards compat
 				[ "oSearch", "oPreviousSearch" ],
@@ -10981,6 +10988,13 @@ return jQuery;
 			_fnCallbackReg( oSettings, 'aoPreDrawCallback',    oInit.fnPreDrawCallback );
 			
 			oSettings.rowIdFn = _fnGetObjectDataFn( oInit.rowId );
+			
+			// Add event listeners
+			if (oInit.on) {
+				Object.keys(oInit.on).forEach(function (key) {
+					_fnListener($this, key, oInit.on[key]);
+				});
+			}
 			
 			/* Browser support detection */
 			_fnBrowserDetect( oSettings );
@@ -11042,7 +11056,7 @@ return jQuery;
 			/* HTML5 attribute detection - build an mData object automatically if the
 			 * attributes are found
 			 */
-			var rowOne = $this.children('tbody').find('tr').eq(0);
+			var rowOne = $this.children('tbody').find('tr:first-child').eq(0);
 			
 			if ( rowOne.length ) {
 				var a = function ( cell, name ) {
@@ -11201,6 +11215,13 @@ return jQuery;
 	 */
 	DataTable.ext = _ext = {
 		/**
+		 * DataTables build type (expanded by the download builder)
+		 *
+		 *  @type string
+		 */
+		builder: "bs5/jq-3.7.0/dt-2.3.1/r-3.0.4",
+	
+		/**
 		 * Buttons. For use with the Buttons extension for DataTables. This is
 		 * defined here so other extensions can define buttons regardless of load
 		 * order. It is _not_ used by DataTables core.
@@ -11212,20 +11233,20 @@ return jQuery;
 	
 	
 		/**
+		 * ColumnControl buttons and content
+		 *
+		 *  @type object
+		 */
+		ccContent: {},
+	
+	
+		/**
 		 * Element class names
 		 *
 		 *  @type object
 		 *  @default {}
 		 */
 		classes: {},
-	
-	
-		/**
-		 * DataTables build type (expanded by the download builder)
-		 *
-		 *  @type string
-		 */
-		builder: "bs5/jq-3.7.0/dt-2.2.2/r-3.0.4",
 	
 	
 		/**
@@ -12591,6 +12612,26 @@ return jQuery;
 		}
 		if ( typeof init.scrollX === 'boolean' ) {
 			init.scrollX = init.scrollX ? '100%' : '';
+		}
+	
+		// Objects for ordering
+		if ( typeof init.bSort === 'object' ) {
+			init.orderIndicators = init.bSort.indicators !== undefined ? init.bSort.indicators : true;
+			init.orderHandler = init.bSort.handler !== undefined ? init.bSort.handler : true;
+			init.bSort = true;
+		}
+		else if (init.bSort === false) {
+			init.orderIndicators = false;
+			init.orderHandler = false;
+		}
+		else if (init.bSort === true) {
+			init.orderIndicators = true;
+			init.orderHandler = true;
+		}
+	
+		// Which cells are the title cells?
+		if (typeof init.bSortCellsTop === 'boolean') {
+			init.titleRow = init.bSortCellsTop;
 		}
 	
 		// Column search objects are in an array, so it needs to be converted
@@ -13970,7 +14011,7 @@ return jQuery;
 	 * @param {*} settings DataTables settings
 	 * @param {*} source Source layout array
 	 * @param {*} incColumns What columns should be included
-	 * @returns Layout array
+	 * @returns Layout array in column index order
 	 */
 	function _fnHeaderLayout( settings, source, incColumns )
 	{
@@ -14254,7 +14295,9 @@ return jQuery;
 	
 		_fnDraw( settings );
 	
-		settings._drawHold = false;
+		settings.api.one('draw', function () {
+			settings._drawHold = false;
+		});
 	}
 	
 	
@@ -14266,10 +14309,9 @@ return jQuery;
 		var zero = oLang.sZeroRecords;
 		var dataSrc = _fnDataSource( settings );
 	
-		if (
-			(settings.iDraw < 1 && dataSrc === 'ssp') ||
-			(settings.iDraw <= 1 && dataSrc === 'ajax')
-		) {
+		// Make use of the fact that settings.json is only set once the initial data has
+		// been loaded. Show loading when that isn't the case
+		if ((dataSrc === 'ssp' || dataSrc === 'ajax') && ! settings.json) {
 			zero = oLang.sLoadingRecords;
 		}
 		else if ( oLang.sEmptyTable && settings.fnRecordsTotal() === 0 )
@@ -14639,6 +14681,7 @@ return jQuery;
 		var rows = $(thead).children('tr');
 		var row, cell;
 		var i, k, l, iLen, shifted, column, colspan, rowspan;
+		var titleRow = settings.titleRow;
 		var isHeader = thead && thead.nodeName.toLowerCase() === 'thead';
 		var layout = [];
 		var unique;
@@ -14667,6 +14710,7 @@ return jQuery;
 					cell.nodeName.toUpperCase() == 'TH'
 				) {
 					var cols = [];
+					var jqCell = $(cell);
 	
 					// Get the col and rowspan attributes from the DOM and sanitise them
 					colspan = cell.getAttribute('colspan') * 1;
@@ -14687,7 +14731,7 @@ return jQuery;
 					if ( write ) {
 						if (unique) {
 							// Allow column options to be set from HTML attributes
-							_fnColumnOptions( settings, shifted, $(cell).data() );
+							_fnColumnOptions( settings, shifted, jqCell.data() );
 							
 							// Get the width for the column. This can be defined from the
 							// width attribute, style attribute or `columns.width` option
@@ -14704,7 +14748,14 @@ return jQuery;
 								// Column title handling - can be user set, or read from the DOM
 								// This happens before the render, so the original is still in place
 								if ( columnDef.sTitle !== null && ! columnDef.autoTitle ) {
-									cell.innerHTML = columnDef.sTitle;
+									if (
+										(titleRow === true && i === 0) || // top row
+										(titleRow === false && i === rows.length -1) || // bottom row
+										(titleRow === i) || // specific row
+										(titleRow === null)
+									) {
+										cell.innerHTML = columnDef.sTitle;
+									}
 								}
 	
 								if (! columnDef.sTitle && unique) {
@@ -14722,12 +14773,12 @@ return jQuery;
 							// Fall back to the aria-label attribute on the table header if no ariaTitle is
 							// provided.
 							if (! columnDef.ariaTitle) {
-								columnDef.ariaTitle = $(cell).attr("aria-label") || columnDef.sTitle;
+								columnDef.ariaTitle = jqCell.attr("aria-label") || columnDef.sTitle;
 							}
 	
 							// Column specific class names
 							if ( columnDef.className ) {
-								$(cell).addClass( columnDef.className );
+								jqCell.addClass( columnDef.className );
 							}
 						}
 	
@@ -14739,9 +14790,26 @@ return jQuery;
 								.appendTo(cell);
 						}
 	
-						if ( isHeader && $('span.dt-column-order', cell).length === 0) {
+						if (
+							settings.orderIndicators &&
+							isHeader &&
+							jqCell.filter(':not([data-dt-order=disable])').length !== 0 &&
+							jqCell.parent(':not([data-dt-order=disable])').length !== 0 &&
+							$('span.dt-column-order', cell).length === 0
+						) {
 							$('<span>')
 								.addClass('dt-column-order')
+								.appendTo(cell);
+						}
+	
+						// We need to wrap the elements in the header in another element to use flexbox
+						// layout for those elements
+						var headerFooter = isHeader ? 'header' : 'footer';
+	
+						if ( $('span.dt-column-' + headerFooter, cell).length === 0) {
+							$('<div>')
+								.addClass('dt-column-' + headerFooter)
+								.append(cell.childNodes)
 								.appendTo(cell);
 						}
 					}
@@ -14893,6 +14961,11 @@ return jQuery;
 	
 		// Allow plug-ins and external processes to modify the data
 		_fnCallbackFire( oSettings, null, 'preXhr', [oSettings, data, baseAjax], true );
+	
+		// Custom Ajax option to submit the parameters as a JSON string
+		if (baseAjax.submitAs === 'json' && typeof data === 'object') {
+			baseAjax.data = JSON.stringify(data);
+		}
 	
 		if ( typeof ajax === 'function' )
 		{
@@ -16394,24 +16467,30 @@ return jQuery;
 	function _fnSortInit( settings ) {
 		var target = settings.nTHead;
 		var headerRows = target.querySelectorAll('tr');
-		var legacyTop = settings.bSortCellsTop;
+		var titleRow = settings.titleRow;
 		var notSelector = ':not([data-dt-order="disable"]):not([data-dt-order="icon-only"])';
 		
 		// Legacy support for `orderCellsTop`
-		if (legacyTop === true) {
+		if (titleRow === true) {
 			target = headerRows[0];
 		}
-		else if (legacyTop === false) {
+		else if (titleRow === false) {
 			target = headerRows[ headerRows.length - 1 ];
 		}
+		else if (titleRow !== null) {
+			target = headerRows[titleRow];
+		}
+		// else - all rows
 	
-		_fnSortAttachListener(
-			settings,
-			target,
-			target === settings.nTHead
-				? 'tr'+notSelector+' th'+notSelector+', tr'+notSelector+' td'+notSelector
-				: 'th'+notSelector+', td'+notSelector
-		);
+		if (settings.orderHandler) {
+			_fnSortAttachListener(
+				settings,
+				target,
+				target === settings.nTHead
+					? 'tr'+notSelector+' th'+notSelector+', tr'+notSelector+' td'+notSelector
+					: 'th'+notSelector+', td'+notSelector
+			);
+		}
 	
 		// Need to resolve the user input array into our internal structure
 		var order = [];
@@ -16426,7 +16505,9 @@ return jQuery;
 			var run = false;
 			var columns = column === undefined
 				? _fnColumnsFromHeader( e.target )
-				: [column];
+				: Array.isArray(column)
+					? column
+					: [column];
 	
 			if ( columns.length ) {
 				for ( var i=0, ien=columns.length ; i<ien ; i++ ) {
@@ -17049,16 +17130,19 @@ return jQuery;
 	
 				// A column name was stored and should be used for restore
 				if (typeof col[0] === 'string') {
+					// Find the name from the current list of column names
 					var idx = currentNames.indexOf(col[0]);
 	
-					// Find the name from the current list of column names, or fallback to index 0
-					set[0] = idx >= 0
-						? idx
-						: 0;
+					if (idx < 0) {
+						// If the column was not found ignore it and continue
+						return;
+					}
+	
+					set[0] = idx;
 				}
 				else if (set[0] >= columns.length) {
-					// If a column name, but it is out of bounds, set to 0
-					set[0] = 0;
+					// If the column index is out of bounds ignore it and continue
+					return;
 				}
 	
 				settings.aaSorting.push(set);
@@ -17468,6 +17552,23 @@ return jQuery;
 			for (i=0 ; i<data.length ; i++) {
 				arr.push(data[i]);
 			}
+		}
+	}
+	
+	/**
+	 * Add one or more listeners to the table
+	 *
+	 * @param {*} that JQ for the table
+	 * @param {*} name Event name
+	 * @param {*} src Listener(s)
+	 */
+	function _fnListener(that, name, src) {
+		if (!Array.isArray(src)) {
+			src = [src];
+		}
+	
+		for (i=0 ; i<src.length ; i++) {
+			that.on(name + '.dt', src[i]);
 		}
 	}
 	
@@ -18127,12 +18228,24 @@ return jQuery;
 		['footer', 'aoFooter'],
 	].forEach(function (item) {
 		_api_register( 'table().' + item[0] + '.structure()' , function (selector) {
-			var indexes = this.columns(selector).indexes().flatten();
+			var indexes = this.columns(selector).indexes().flatten().toArray();
 			var ctx = this.context[0];
-			
-			return _fnHeaderLayout(ctx, ctx[item[1]], indexes);
-		} );
-	})
+			var structure = _fnHeaderLayout(ctx, ctx[item[1]], indexes);
+	
+			// The structure is in column index order - but from this method we want the return to be
+			// in the columns() selector API order. In order to do that we need to map from one form
+			// to the other
+			var orderedIndexes = indexes.slice().sort(function (a, b) {
+				return a - b;
+			});
+	
+			return structure.map(function (row) {
+				return indexes.map(function (colIdx) {
+					return row[orderedIndexes.indexOf(colIdx)];
+				});
+			});
+		});
+	});
 	
 	
 	_api_registerPlural( 'tables().containers()', 'table().container()' , function () {
@@ -18481,7 +18594,7 @@ return jQuery;
 	{
 		var
 			out = [], res,
-			a, i, ien, j, jen,
+			i, ien,
 			selectorType = typeof selector;
 	
 		// Can't just check for isArray here, as an API or jQuery instance might be
@@ -18491,22 +18604,15 @@ return jQuery;
 		}
 	
 		for ( i=0, ien=selector.length ; i<ien ; i++ ) {
-			// Only split on simple strings - complex expressions will be jQuery selectors
-			a = selector[i] && selector[i].split && ! selector[i].match(/[[(:]/) ?
-				selector[i].split(',') :
-				[ selector[i] ];
+			res = selectFn( typeof selector[i] === 'string' ? selector[i].trim() : selector[i] );
 	
-			for ( j=0, jen=a.length ; j<jen ; j++ ) {
-				res = selectFn( typeof a[j] === 'string' ? (a[j]).trim() : a[j] );
+			// Remove empty items
+			res = res.filter( function (item) {
+				return item !== null && item !== undefined;
+			});
 	
-				// Remove empty items
-				res = res.filter( function (item) {
-					return item !== null && item !== undefined;
-				});
-	
-				if ( res && res.length ) {
-					out = out.concat( res );
-				}
+			if ( res && res.length ) {
+				out = out.concat( res );
 			}
 		}
 	
@@ -18535,6 +18641,7 @@ return jQuery;
 		}
 	
 		return $.extend( {
+			columnOrder: 'implied',
 			search: 'none',
 			order: 'current',
 			page: 'all'
@@ -19296,23 +19403,60 @@ return jQuery;
 	
 	var __column_header = function ( settings, column, row ) {
 		var header = settings.aoHeader;
-		var target = row !== undefined
-			? row
-			: settings.bSortCellsTop // legacy support
-				? 0
-				: header.length - 1;
+		var titleRow = settings.titleRow;
+		var target = null;
+	
+		if (row !== undefined) {
+			target = row;
+		}
+		else if (titleRow === true) { // legacy orderCellsTop support
+			target = 0;
+		}
+		else if (titleRow === false) {
+			target = header.length - 1;
+		}
+		else if (titleRow !== null) {
+			target = titleRow;
+		}
+		else {
+			// Automatic - find the _last_ unique cell from the top that is not empty (last for
+			// backwards compatibility)
+			for (var i=0 ; i<header.length ; i++) {
+				if (header[i][column].unique && $('span.dt-column-title', header[i][column].cell).text()) {
+					target = i;
+				}
+			}
+	
+			if (target === null) {
+				target = 0;
+			}
+		}
 	
 		return header[target][column].cell;
 	};
+	
+	var __column_header_cells = function (header) {
+		var out = [];
+	
+		for (var i=0 ; i<header.length ; i++) {
+			for (var j=0 ; j<header[i].length ; j++) {
+				var cell = header[i][j].cell;
+	
+				if (!out.includes(cell)) {
+					out.push(cell);
+				}
+			}
+		}
+	
+		return out;
+	}
 	
 	var __column_selector = function ( settings, selector, opts )
 	{
 		var
 			columns = settings.aoColumns,
-			names = _pluck( columns, 'sName' ),
-			titles = _pluck( columns, 'sTitle' ),
-			cells = DataTable.util.get('[].[].cell')(settings.aoHeader),
-			nodes = _unique( _flatten([], cells) );
+			names, titles,
+			nodes = __column_header_cells(settings.aoHeader);
 		
 		var run = function ( s ) {
 			var selInt = _intVal( s );
@@ -19384,12 +19528,21 @@ return jQuery;
 						} );
 	
 					case 'name':
+						// Don't get names, unless needed, and only get once if it is
+						if (!names) {
+							names = _pluck( columns, 'sName' );
+						}
+	
 						// match by name. `names` is column index complete and in order
 						return names.map( function (name, i) {
 							return name === match[1] ? i : null;
 						} );
 	
 					case 'title':
+						if (!titles) {
+							titles = _pluck( columns, 'sTitle' );
+						}
+	
 						// match by column title
 						return titles.map( function (title, i) {
 							return title === match[1] ? i : null;
@@ -19428,7 +19581,11 @@ return jQuery;
 				[];
 		};
 	
-		return _selector_run( 'column', selector, run, settings, opts );
+		var selected = _selector_run( 'column', selector, run, settings, opts );
+	
+		return opts.columnOrder && opts.columnOrder === 'index'
+			? selected.sort(function (a, b) { return a - b; })
+			: selected; // implied
 	};
 	
 	
@@ -19549,6 +19706,12 @@ return jQuery;
 	_api_registerPlural( 'columns().init()', 'column().init()', function () {
 		return this.iterator( 'column', function ( settings, column ) {
 			return settings.aoColumns[column];
+		}, 1 );
+	} );
+	
+	_api_registerPlural( 'columns().names()', 'column().name()', function () {
+		return this.iterator( 'column', function ( settings, column ) {
+			return settings.aoColumns[column].sName;
 		}, 1 );
 	} );
 	
@@ -19978,7 +20141,10 @@ return jQuery;
 		// otherwise a 2D array was passed in
 	
 		return this.iterator( 'table', function ( settings ) {
-			settings.aaSorting = Array.isArray(order) ? order.slice() : order;
+			var resolved = [];
+			_fnSortResolve(settings, resolved, order);
+	
+			settings.aaSorting = resolved;
 		} );
 	} );
 	
@@ -20104,7 +20270,7 @@ return jQuery;
 			var fixed = settings.searchFixed;
 	
 			if (! name) {
-				return Object.keys(fixed)
+				return Object.keys(fixed);
 			}
 			else if (search === undefined) {
 				return fixed[name];
@@ -20171,10 +20337,10 @@ return jQuery;
 				var fixed = settings.aoColumns[colIdx].searchFixed;
 	
 				if (! name) {
-					return Object.keys(fixed)
+					return Object.keys(fixed);
 				}
 				else if (search === undefined) {
-					return fixed[name];
+					return fixed[name] || null;
 				}
 				else if (search === null) {
 					delete fixed[name];
@@ -20626,14 +20792,9 @@ return jQuery;
 				jqTable.append( tfoot );
 			}
 	
-			// Clean up the header
-			$(thead).find('span.dt-column-order').remove();
-			$(thead).find('span.dt-column-title').each(function () {
-				var title = $(this).html();
-				$(this).parent().append(title);
-				$(this).remove();
-			});
-	
+			// Clean up the header / footer
+			cleanHeader(thead, 'header');
+			cleanHeader(tfoot, 'footer');
 			settings.colgroup.remove();
 	
 			settings.aaSorting = [];
@@ -20655,7 +20816,6 @@ return jQuery;
 					orderClasses.isDesc
 				)
 				.css('width', '')
-				.removeAttr('data-dt-column')
 				.removeAttr('aria-sort');
 	
 			// Add the TR elements back into the table in their original order
@@ -20736,6 +20896,19 @@ return jQuery;
 			: resolved;
 	} );
 	
+	// Needed for header and footer, so pulled into its own function
+	function cleanHeader(node, className) {
+		$(node).find('span.dt-column-order').remove();
+		$(node).find('span.dt-column-title').each(function () {
+			var title = $(this).html();
+			$(this).parent().parent().append(title);
+			$(this).remove();
+		});
+		$(node).find('div.dt-column-' + className).remove();
+	
+		$('th, td', node).removeAttr('data-dt-column');
+	}
+	
 	/**
 	 * Version string for plug-ins to check compatibility. Allowed format is
 	 * `a.b.c-d` where: a:int, b:int, c:int, d:string(dev|beta|alpha). `d` is used
@@ -20744,7 +20917,7 @@ return jQuery;
 	 *  @type string
 	 *  @default Version number
 	 */
-	DataTable.version = "2.2.2";
+	DataTable.version = "2.3.1";
 	
 	/**
 	 * Private data store, containing all of the settings objects that are
@@ -21351,6 +21524,10 @@ return jQuery;
 		"bSortCellsTop": null,
 	
 	
+		/** Specify which row is the title row in the header. Replacement for bSortCellsTop */
+		titleRow: null,
+	
+	
 		/**
 		 * Enable or disable the addition of the classes `sorting\_1`, `sorting\_2` and
 		 * `sorting\_3` to the columns which are currently being sorted on. This is
@@ -21629,6 +21806,13 @@ return jQuery;
 			},
 	
 			/**
+			 * Page length options
+			 */
+			lengthLabels: {
+				'-1': 'All'
+			},
+	
+			/**
 			 * This string is shown in preference to `zeroRecords` when the table is
 			 * empty of data (regardless of filtering). Note that this is an optional
 			 * parameter - if it is not given, the value of `zeroRecords` will be used
@@ -21898,7 +22082,10 @@ return jQuery;
 		/**
 		 * For server-side processing - use the data from the DOM for the first draw
 		 */
-		iDeferLoading: null
+		iDeferLoading: null,
+	
+		/** Event listeners */
+		on: null
 	};
 	
 	_fnHungarianMap( DataTable.defaults );
@@ -22725,10 +22912,7 @@ return jQuery;
 	
 		/**
 		 * Indicate that if multiple rows are in the header and there is more than
-		 * one unique cell per column, if the top one (true) or bottom one (false)
-		 * should be used for sorting / title by DataTables.
-		 * Note that this parameter will be set by the initialisation routine. To
-		 * set a default use {@link DataTable.defaults}.
+		 * one unique cell per column. Replaced by titleRow
 		 */
 		"bSortCellsTop": null,
 	
@@ -22853,7 +23037,19 @@ return jQuery;
 		resizeObserver: null,
 	
 		/** Keep a record of the last size of the container, so we can skip duplicates */
-		containerWidth: -1
+		containerWidth: -1,
+	
+		/** Reverse the initial order of the data set on desc ordering */
+		orderDescReverse: null,
+	
+		/** Show / hide ordering indicators in headers */
+		orderIndicators: true,
+	
+		/** Default ordering listener */
+		orderHandler: true,
+	
+		/** Title row indicator */
+		titleRow: null
 	};
 	
 	/**
@@ -23683,7 +23879,7 @@ return jQuery;
 					cell.addClass(classes.order.none);
 				}
 	
-				var legacyTop = settings.bSortCellsTop;
+				var titleRow = settings.titleRow;
 				var headerRows = cell.closest('thead').find('tr');
 				var rowIdx = cell.parent().index();
 	
@@ -23693,11 +23889,10 @@ return jQuery;
 					cell.attr('data-dt-order') === 'disable' ||
 					cell.parent().attr('data-dt-order') === 'disable' ||
 	
-					// Legacy support for `orderCellsTop`. If it is set, then cells
-					// which are not in the top or bottom row of the header (depending
-					// on the value) do not get the sorting classes applied to them
-					(legacyTop === true && rowIdx !== 0) ||
-					(legacyTop === false && rowIdx !== headerRows.length - 1)
+					// titleRow support, for defining a specific row in the header
+					(titleRow === true && rowIdx !== 0) ||
+					(titleRow === false && rowIdx !== headerRows.length - 1) ||
+					(typeof titleRow === 'number' && rowIdx !== titleRow)
 				) {
 					return;
 				}
@@ -23707,7 +23902,7 @@ return jQuery;
 				// `DT` namespace will allow the event to be removed automatically
 				// on destroy, while the `dt` namespaced event is the one we are
 				// listening for
-				$(settings.nTable).on( 'order.dt.DT column-visibility.dt.DT', function ( e, ctx ) {
+				$(settings.nTable).on( 'order.dt.DT column-visibility.dt.DT', function ( e, ctx, column ) {
 					if ( settings !== ctx ) { // need to check this this is the host
 						return;               // table, not a nested one
 					}
@@ -23715,6 +23910,16 @@ return jQuery;
 					var sorting = ctx.sortDetails;
 	
 					if (! sorting) {
+						return;
+					}
+	
+					var orderedColumns = _pluck(sorting, 'col');
+	
+					// This handler is only needed on column visibility if the column is part of the
+					// ordering. If it isn't, then we can bail out to save performance. It could be a
+					// separate event handler, but this is a balance between code reuse / size and performance
+					// console.log(e, e.name, column, orderedColumns, orderedColumns.includes(column))
+					if (e.type === 'column-visibility' && ! orderedColumns.includes(column)) {
 						return;
 					}
 	
@@ -23726,8 +23931,8 @@ return jQuery;
 					var ariaType = '';
 					var indexes = columns.indexes();
 					var sortDirs = columns.orderable(true).flatten();
-					var orderedColumns = _pluck(sorting, 'col');
 					var tabIndex = settings.iTabIndex;
+					var canOrder = ctx.orderHandler && orderable;
 	
 					cell
 						.removeClass(
@@ -23735,8 +23940,8 @@ return jQuery;
 							orderClasses.isDesc
 						)
 						.toggleClass( orderClasses.none, ! orderable )
-						.toggleClass( orderClasses.canAsc, orderable && sortDirs.includes('asc') )
-						.toggleClass( orderClasses.canDesc, orderable && sortDirs.includes('desc') );
+						.toggleClass( orderClasses.canAsc, canOrder && sortDirs.includes('asc') )
+						.toggleClass( orderClasses.canDesc, canOrder && sortDirs.includes('desc') );
 	
 					// Determine if all of the columns that this cell covers are included in the
 					// current ordering
@@ -24495,12 +24700,17 @@ return jQuery;
 		} );
 	
 		for ( i=0 ; i<lengths.length ; i++ ) {
-			select[0][ i ] = new Option(
-				typeof language[i] === 'number' ?
+			// Attempt to look up the length from the i18n options
+			var label = settings.api.i18n('lengthLabels.' + lengths[i], null);
+	
+			if (label === null) {
+				// If not present, fallback to old style
+				label = typeof language[i] === 'number' ?
 					settings.fnFormatNumber( language[i] ) :
-					language[i],
-				lengths[i]
-			);
+					language[i];
+			}
+	
+			select[0][ i ] = new Option(label, lengths[i]);
 		}
 	
 		// add for and id to label and input

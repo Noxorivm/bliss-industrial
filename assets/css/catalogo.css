@@ -1,0 +1,133 @@
+/*--------------------------------------------------------------
+# Catalogo Section Specific Styles
+--------------------------------------------------------------*/
+
+/* Estilos para los filtros del catálogo */
+.card-body .form-label { /* Ajuste para etiquetas de filtro */
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.card-body .form-control-sm,
+.card-body .form-select-sm {
+    font-size: 0.875rem; /* Tamaño de fuente para inputs de filtro */
+}
+
+/* Estilos para las tarjetas de automatización */
+.catalogo-item-trigger { /* Esta es la tarjeta clickeable */
+  background: var(--surface-color);
+  border-radius: 0.75rem; /* Radio de borde más sutil que .prompt-card */
+  padding: 1.25rem;
+  border: 1px solid var(--border-color-light);
+  transition: all var(--transition-speed-medium) var(--easing-smooth);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Alinear texto a la izquierda para mejor lectura */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.catalogo-item-trigger::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, var(--accent-color), var(--color-accent-yellow-darker));
+    opacity: 0;
+    transition: opacity var(--transition-speed-medium) var(--easing-smooth);
+    z-index: 0;
+}
+
+.catalogo-item-trigger:hover {
+  transform: translateY(-6px); /* Menos elevación que prompt-card */
+  box-shadow: var(--shadow-md);
+}
+.catalogo-item-trigger:hover::before {
+    opacity: 1;
+}
+
+/* Asegurar contenido sobre el borde */
+.catalogo-item-trigger .prompt-card-icon, /* Reutilizar clase si el icono es similar */
+.catalogo-item-trigger h4,
+.catalogo-item-trigger p,
+.catalogo-item-trigger .mt-auto { /* Contenedor de badges y precio */
+    position: relative;
+    z-index: 1;
+}
+
+.catalogo-item-trigger .prompt-card-icon {
+  font-size: 2.2rem;
+  color: var(--accent-color);
+  margin-bottom: 0.75rem;
+  transition: transform var(--transition-speed-medium) var(--easing-smooth);
+  text-align: center; /* Centrar icono si es lo deseado */
+}
+
+.catalogo-item-trigger:hover .prompt-card-icon {
+  transform: scale(1.05);
+}
+
+.catalogo-item-trigger h4 { /* Reutilizar .interactive-title-card */
+  font-size: 1.15rem; /* Un poco más pequeño */
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--heading-color);
+}
+
+.catalogo-item-trigger p.small { /* Descripción corta */
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--default-color);
+  flex-grow: 1;
+  margin-bottom: 0.75rem;
+}
+
+.catalogo-item-trigger .catalogo-price {
+    font-weight: 700;
+    font-size: 1rem; /* Ajustar tamaño */
+    color: var(--accent-color);
+}
+.catalogo-item-trigger .badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.3em 0.5em;
+}
+.catalogo-item-trigger .mt-auto {
+    border-top: 1px solid var(--border-color-light);
+    padding-top: 0.75rem;
+}
+
+/* Estilos para el modal de detalles del catálogo */
+#automationDetailsModal .modal-header {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    border-bottom: none;
+    padding: 1rem 1.5rem; /* Ajustar padding */
+}
+#automationDetailsModal .modal-header .btn-close {
+    filter: brightness(0) invert(1); /* Botón X blanco sobre amarillo */
+}
+#automationDetailsModal .modal-title {
+    font-family: var(--heading-font);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+#automationDetailsModal .modal-body {
+    font-size: 0.95rem;
+    padding: 1.5rem;
+}
+#automationDetailsModal .modal-body p strong {
+    color: var(--heading-color);
+}
+#automationDetailsModal .modal-body hr {
+    margin: 1rem 0;
+    border-top: 1px solid var(--border-color-light);
+    opacity: 0.25;
+}
+#automationDetailsModal .modal-footer {
+    border-top: 1px solid var(--border-color-light);
+    padding: 1rem 1.5rem;
+}
