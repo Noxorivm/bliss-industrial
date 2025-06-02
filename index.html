@@ -424,6 +424,19 @@
       </div>
     </footer>
 
+     <!-- ======= Sticky CTA - Auditoría Gratuita ======= -->
+     <a href="formulario.html" class="sticky-cta" id="stickyCtaButton" title="Solicita tu Auditoría Gratuita Ahora">
+      <i class="bi bi-card-checklist"></i> <!-- Icono de checklist o similar -->
+      <span>Auditoría Gratuita</span>
+  </a>
+
+  <!-- ======= Sticky CTA - WhatsApp ======= -->
+  <a href="https://wa.me/34635116794" class="sticky-whatsapp" id="stickyWhatsAppButton" target="_blank" rel="noopener noreferrer" title="Contactar por WhatsApp">
+    <i class="bi bi-whatsapp"></i>
+</a>
+<!-- ======= End Sticky CTA WhatsApp ======= -->
+  <!-- ======= End Sticky CTA ======= -->
+
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center" aria-label="Volver arriba"><i class="bi bi-arrow-up-short"></i></a>
     <div id="preloader"><div class="preloader-spinner"></div></div>
 
@@ -445,5 +458,6 @@
       if (executiveBtn && executiveFormDiv) { executiveBtn.addEventListener('click', () => { const isVisible = executiveFormDiv.style.maxHeight && executiveFormDiv.style.maxHeight !== '0px'; if (isVisible) { executiveFormDiv.style.maxHeight = '0'; executiveFormDiv.style.opacity = '0'; } else { executiveFormDiv.style.display = 'block'; requestAnimationFrame(() => { executiveFormDiv.style.maxHeight = executiveFormDiv.scrollHeight + 'px'; executiveFormDiv.style.opacity = '1'; }); const emailInput = executiveFormDiv.querySelector('input[type="email"]'); if(emailInput) setTimeout(() => emailInput.focus(), 100); } }); }
       // El JavaScript del Modal de Prompts se elimina ya que la sección Prompts se ha eliminado.
     </script>
+
 </body>
 </html>

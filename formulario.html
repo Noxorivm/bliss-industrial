@@ -4,11 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Auditoría Industrial Gratuita - Paso a Paso | BLISS Industrial Services</title>
+  <title>Auditoría Industrial Gratuita - Paso a paso | BLISS Industrial Services</title>
   <meta name="description" content="Completa nuestra breve auditoría interactiva para recibir tu informe industrial personalizado y gratuito.">
   <meta name="robots" content="noindex, nofollow">
 
-  <!-- Favicons, Fonts, Vendor CSS (igual que index.html) -->
+  <!-- Favicons, Fonts, Vendor CSS -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -26,14 +26,17 @@
   <!-- Custom Styles for Interactive Form Page -->
   <link href="assets/css/formulario-interactivo.css" rel="stylesheet">
 
-  <!-- === Script API Google reCAPTCHA === -->
+  <!-- =================================================================== -->
+  <!-- === POSIBLE CARGA DE API RECAPTCHA - COMENTADA/ELIMINADA === -->
+  <!-- Si tenías algo como esto, asegúrate que esté comentado o eliminado:
   <script src="https://www.google.com/recaptcha/api.js?onload=onloadRecaptchaCallback&render=explicit" async defer></script>
-  <!-- =================================== -->
+  -->
+  <!-- =================================================================== -->
+
 </head>
 
 <body class="form-page-active">
 
-    <!-- Header (Semi-transparente e inaccesible) -->
     <header id="header" class="header d-flex align-items-center fixed-top form-page-header">
       <div class="container-fluid container-xl position-relative d-flex align-items-center">
         <a href="index.html" class="logo d-flex align-items-center me-auto">
@@ -43,11 +46,10 @@
       </div>
     </header>
 
-    <!-- Overlay y Caja del Formulario -->
     <div class="form-overlay visible" id="formOverlay">
       <div class="form-box" data-aos="fade-up" data-aos-delay="100">
         <div class="form-header" id="formHeader">
-          Paso 1
+          Paso 1 <!-- Se actualizará por JS -->
         </div>
         <div class="form-body">
           <div class="text-center mb-4">
@@ -57,9 +59,15 @@
              <!-- El JS inyectará el HTML del paso aquí -->
           </div>
            <div id="form-feedback"></div>
+           <!-- =================================================================== -->
+           <!-- === POSIBLE WIDGET RECAPTCHA - COMENTADO/ELIMINADO === -->
+           <!-- Si tenías algo como esto, asegúrate que esté comentado o eliminado:
+           <div class="g-recaptcha mt-3" data-sitekey="TU_CLAVE_DE_SITIO_RECAPTCHA"></div>
+           -->
+           <!-- =================================================================== -->
         </div>
         <div class="form-footer">
-           <span class="step-indicator" id="stepIndicator">Paso 1 / 6</span>
+           <span class="step-indicator" id="stepIndicator">Paso 1 / N</span> <!-- Se actualizará -->
            <button class="btn btn-form-nav" id="prevButton" type="button" style="display: none;">
                <i class="bi bi-arrow-left-short"></i> Anterior
            </button>
@@ -70,52 +78,29 @@
       </div>
     </div>
 
-    <!-- Barra de Progreso -->
     <div class="progress-container">
       <div class="progress-bar-fill" id="progressBarFill"></div>
     </div>
 
-
-    <!-- Vendor JS Files -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script> AOS.init({ duration: 600, easing: 'ease-out-cubic', once: true }); </script>
 
-
-    <!-- Inline Script for Form Logic -->
     <script>
-      // === Callback para reCAPTCHA cuando se carga la API ===
-      let recaptchaWidgetId;
-      function onloadRecaptchaCallback() {
-          console.log("API reCAPTCHA cargada y lista.");
-          // Si el último paso ya está visible al cargar, renderizar reCAPTCHA
-          if (currentStepIndex === formSteps.length - 1) {
-              renderRecaptchaForLastStep();
-          }
-      }
-      function renderRecaptchaForLastStep() {
-        const recaptchaContainer = document.getElementById('recaptcha-auditoria-widget');
-        if (recaptchaContainer && typeof grecaptcha !== 'undefined' && grecaptcha.render && recaptchaContainer.innerHTML.trim() === '') {
-            try {
-                recaptchaWidgetId = grecaptcha.render('recaptcha-auditoria-widget', {
-                    'sitekey' : '6Lfl_jcrAAAAAPrDnydD1t9YWUK58lgEc_NU5jtY', // TU CLAVE DE SITIO
-                    'callback' : 'recaptchaAuditoriaCallback',
-                    'expired-callback': 'recaptchaAuditoriaExpiredCallback'
-                });
-                console.log("reCAPTCHA renderizado en paso de auditoría.");
-            } catch (e) {
-                console.error("Error renderizando reCAPTCHA:", e);
-                showFeedback("Error al cargar el verificador de seguridad (reCAPTCHA). Intenta recargar.", "error");
-            }
-        }
-      }
-      // ==========================================================
-
       document.addEventListener("DOMContentLoaded", () => {
+        // ===================================================================
+        // === POSIBLE FUNCIÓN CALLBACK RECAPTCHA - COMENTADA/ELIMINADA ===
+        // function onloadRecaptchaCallback() {
+        //   console.log("reCAPTCHA cargado (si estuviera activo).");
+        //   // Aquí es donde el error "currentStepIndex is not defined" podría ocurrir
+        //   // si esta función se llama y currentStepIndex no está en su scope.
+        // }
+        // ===================================================================
+
         const formSteps = [
-          // === PASO 1: Datos de contacto ===
+          // PASO 1: Datos de contacto
           {
-            id: 'contacto',
+            id: 'contacto_inicial', // Cambiado ID para evitar colisión con la sección de index.html
             title: 'Paso 1: Datos de Contacto',
             html: `
               <h3 class="form-step-title mb-4">Empecemos por conocernos</h3>
@@ -350,7 +335,7 @@
            }
         ];
 
-        let currentStepIndex = 0;
+        let currentStepIndex = 0; // Variable que causaba el error, ahora definida en el scope correcto
         const formData = {};
 
         const formOverlay = document.getElementById('formOverlay');
@@ -364,13 +349,14 @@
         const formFeedbackElement = document.getElementById('form-feedback');
 
         function loadStep(index) {
+          if (index >= 0 && index < formSteps.length) {
             const step = formSteps[index];
             formHeaderElement.textContent = step.title;
             questionContainer.innerHTML = step.html;
             stepIndicatorElement.textContent = `Paso ${index + 1} / ${formSteps.length}`;
 
-            const currentStepInputs = questionContainer.querySelectorAll('input, textarea, select');
-            currentStepInputs.forEach(input => {
+             const currentStepInputs = questionContainer.querySelectorAll('input, textarea, select');
+             currentStepInputs.forEach(input => {
                  const name = input.name;
                  if (name.endsWith('[]')) {
                      const baseName = name.slice(0, -2);
@@ -395,25 +381,18 @@
                      const triggerId = input.id.replace('_texto', '');
                      const triggerElement = questionContainer.querySelector('#' + triggerId);
                      const targetDiv = input.closest('.conditional-target');
-                     if (triggerElement && triggerElement.checked && targetDiv) {
-                        targetDiv.style.display = 'block';
-                        targetDiv.style.maxHeight = '100px';
-                        targetDiv.style.opacity = '1';
+                     if (triggerElement && triggerElement.checked) {
+                        if (targetDiv) { targetDiv.style.display = 'block'; targetDiv.style.maxHeight = '100px'; targetDiv.style.opacity = '1';}
                         input.value = formData[name] || '';
-                     } else if (targetDiv) {
-                         targetDiv.style.maxHeight = '0';
-                         targetDiv.style.opacity = '0';
-                         setTimeout(() => { if(targetDiv && (!triggerElement || !triggerElement.checked)) targetDiv.style.display = 'none'; }, 300);
+                     } else {
+                         if(targetDiv) { targetDiv.style.maxHeight = '0'; targetDiv.style.opacity = '0'; /* setTimeout(() => { if(!triggerElement.checked) targetDiv.style.display = 'none'; }, 300); */}
                      }
                  }
-            });
-
+             });
             const progress = ((index + 1) / formSteps.length) * 100;
             progressBarFillElement.style.width = `${progress}%`;
-
             if (index === formSteps.length - 1) {
                 nextButton.innerHTML = `<span id="buttonText">Recibir mi auditoría gratuita</span> <i class="bi bi-check-lg"></i>`;
-                renderRecaptchaForLastStep(); // Asegurarse que se renderiza
             } else {
                 nextButton.innerHTML = `<span id="buttonText">Siguiente</span> <i class="bi bi-arrow-right-short"></i>`;
             }
@@ -421,13 +400,104 @@
             attachConditionalListeners();
             hideFeedback();
             nextButton.disabled = false;
+          }
         }
 
-        function saveStepData(index) { /* ... (Igual que la versión anterior) ... */ }
-        function validateStep(index) { /* ... (Igual que la versión anterior) ... */ }
-        function attachConditionalListeners() { /* ... (Igual que la versión anterior) ... */ }
-        function showFeedback(message, type = 'error') { /* ... */ }
-        function hideFeedback() { /* ... */ }
+        function saveStepData(index) {
+            const stepInputs = questionContainer.querySelectorAll('input, textarea, select');
+            stepInputs.forEach(input => {
+                const name = input.name; const id = input.id; let value = input.value.trim();
+                if (name.endsWith('[]')) {
+                    const baseName = name.slice(0, -2);
+                    if (!formData[baseName]) formData[baseName] = [];
+                    const valueIndex = formData[baseName].indexOf(value);
+                    if (input.type === 'checkbox' && input.checked) {
+                        if (valueIndex === -1) formData[baseName].push(value);
+                        if (value === 'Otro') { const textInput = questionContainer.querySelector(`#${id}_texto`); formData[`${baseName}_otro_texto`] = textInput ? textInput.value.trim() : ''; }
+                    } else if (input.type === 'checkbox' && !input.checked) {
+                        if (valueIndex > -1) formData[baseName].splice(valueIndex, 1);
+                        if (value === 'Otro') formData[`${baseName}_otro_texto`] = '';
+                    }
+                }
+                else if (input.type === 'radio') {
+                    if (input.checked) { formData[name] = value; if (value === 'Otro') { const textInput = questionContainer.querySelector(`#${id}_texto`); formData[`${name}_otro_texto`] = textInput ? textInput.value.trim() : ''; } else { if (formData[`${name}_otro_texto`]) formData[`${name}_otro_texto`] = ''; } }
+                }
+                else if (input.type === 'checkbox') { formData[name] = input.checked ? input.value : ''; }
+                else { formData[name] = value; }
+            });
+             Object.keys(formData).forEach(key => {
+                 if (key.endsWith('_otro_texto') && !formData[key.replace('_otro_texto','')]?.includes('Otro') && formData[key.replace('_otro_texto','')] !== 'Otro' ) { delete formData[key]; }
+                 if (Array.isArray(formData[key])) { if(formData[key].length === 0) { delete formData[key]; } else if (!formData[key].includes('Otro')) { delete formData[`${key}_otro_texto`]; } }
+             });
+            console.log("Paso " + (currentStepIndex+1) + " guardado:", JSON.stringify(formData));
+        }
+
+        function validateStep(index) {
+            hideFeedback(); let isValid = true; const stepElement = questionContainer;
+            const requiredTextInputs = stepElement.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]), textarea[required], select[required]');
+            requiredTextInputs.forEach(input => {
+                input.classList.remove('is-invalid'); const label = stepElement.querySelector(`label[for="${input.id}"]`); if (label) label.classList.remove('is-invalid-group');
+                if (!input.value.trim()) { isValid = false; input.classList.add('is-invalid'); }
+                else if (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value.trim())) { isValid = false; input.classList.add('is-invalid'); showFeedback('Por favor, introduce un correo electrónico válido.', 'error');}
+            });
+            const requiredRadioGroups = new Set();
+            stepElement.querySelectorAll('input[type="radio"][required]').forEach(radio => { requiredRadioGroups.add(radio.name); });
+            requiredRadioGroups.forEach(groupName => {
+                const radiosInGroup = stepElement.querySelectorAll(`input[type="radio"][name="${groupName}"]`); let isGroupChecked = false;
+                radiosInGroup.forEach(radio => { radio.classList.remove('is-invalid'); if (radio.checked) isGroupChecked = true; });
+                const groupLabelContainer = radiosInGroup[0]?.closest('.mb-3, .mb-4'); const groupLabel = groupLabelContainer?.querySelector('label.required-group') || groupLabelContainer?.querySelector('label[for="' + radiosInGroup[0].id + '"]');
+                if (groupLabel) groupLabel.classList.remove('is-invalid-group');
+                if (!isGroupChecked) { isValid = false; radiosInGroup.forEach(radio => radio.classList.add('is-invalid')); if (groupLabel) groupLabel.classList.add('is-invalid-group');}
+            });
+            const requiredCheckboxGroupLabels = stepElement.querySelectorAll('label.required-group');
+            requiredCheckboxGroupLabels.forEach(label => {
+                const groupDiv = label.nextElementSibling;
+                if (groupDiv && groupDiv.classList.contains('form-check-group')) {
+                    const checkboxesInGroup = groupDiv.querySelectorAll('input[type="checkbox"]');
+                    if (checkboxesInGroup.length > 0 && !label.closest('.mb-4, .mb-3')?.querySelector('input[type="radio"]')) {
+                        let isGroupChecked = false; checkboxesInGroup.forEach(cb => { cb.classList.remove('is-invalid'); if (cb.checked) isGroupChecked = true; });
+                        label.classList.remove('is-invalid-group');
+                        if (!isGroupChecked) { isValid = false; label.classList.add('is-invalid-group'); checkboxesInGroup.forEach(cb => cb.classList.add('is-invalid'));}
+                    }
+                }
+            });
+            if (!isValid && !formFeedbackElement.textContent) { showFeedback('Por favor, completa todos los campos obligatorios (*).', 'error');}
+            return isValid;
+        }
+
+        function attachConditionalListeners() {
+            const triggers = questionContainer.querySelectorAll('.conditional-trigger');
+            triggers.forEach(trigger => {
+                const targetId = trigger.dataset.target; const targetElement = questionContainer.querySelector('#' + targetId);
+                if(targetElement){
+                    const textInput = targetElement.querySelector('input[type="text"]');
+                    const checkInitialState = () => {
+                        if (trigger.checked) {
+                            targetElement.style.display = 'block'; targetElement.style.maxHeight = '100px'; targetElement.style.opacity = '1';
+                            if (textInput) textInput.required = true;
+                        } else {
+                            targetElement.style.maxHeight = '0'; targetElement.style.opacity = '0'; if (textInput) textInput.required = false;
+                            setTimeout(() => { if(targetElement && !trigger.checked) targetElement.style.display = 'none'; }, 300);
+                        }
+                    };
+                    checkInitialState();
+                    trigger.addEventListener('change', () => {
+                        if (trigger.checked) {
+                            targetElement.style.display = 'block'; if (textInput) textInput.required = true;
+                            requestAnimationFrame(() => { targetElement.style.maxHeight = '100px'; targetElement.style.opacity = '1'; if (textInput) textInput.focus(); });
+                        } else {
+                            if (textInput) textInput.required = false;
+                            targetElement.style.maxHeight = '0'; targetElement.style.opacity = '0';
+                            setTimeout(() => { if(targetElement && !trigger.checked) targetElement.style.display = 'none'; }, 300);
+                            if (textInput) textInput.value = '';
+                        }
+                    });
+                }
+            });
+        }
+
+        function showFeedback(message, type = 'error') { formFeedbackElement.textContent = message; formFeedbackElement.className = ''; formFeedbackElement.classList.add(type); formFeedbackElement.style.display = 'block'; formFeedbackElement.style.opacity = 1; }
+        function hideFeedback() { formFeedbackElement.style.opacity = 0; setTimeout(() => { formFeedbackElement.style.display = 'none'; formFeedbackElement.textContent = ''; formFeedbackElement.className = ''; }, 300); }
 
         // Callbacks para reCAPTCHA
         function recaptchaAuditoriaCallback(response) {

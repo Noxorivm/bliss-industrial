@@ -14,6 +14,7 @@ $interacciones = []; // Array para guardar las interacciones
 $error_message = '';
 
 if (!$cliente_id || !filter_var($cliente_id, FILTER_VALIDATE_INT)) {
+    // Si no hay ID o no es un entero, redirigir a crm.php
     header('Location: crm.php?error=invalid_id');
     exit;
 }
@@ -28,6 +29,7 @@ try {
     $cliente = $stmtCliente->fetch(PDO::FETCH_ASSOC);
 
     if (!$cliente) {
+        // Cliente no encontrado, redirigir a crm.php
         header('Location: crm.php?error=not_found');
         exit;
     }
@@ -35,10 +37,10 @@ try {
     // Obtener interacciones para este cliente (usando los nombres de columna de tu tabla)
     $stmtInteracciones = $pdo->prepare(
         "SELECT id, cliente_id, usuario_crm_id, tipo_interaccion, fecha_interaccion, resumen_interaccion, resultado_interaccion, proximo_paso, fecha_proximo_paso, creado_en
-         FROM " . DB_TABLE_INTERACCIONES . " 
-         WHERE cliente_id = :cliente_id 
+         FROM " . DB_TABLE_INTERACCIONES . "
+         WHERE cliente_id = :cliente_id
          ORDER BY fecha_interaccion DESC, creado_en DESC"
-    ); // Asumiendo que tienes una columna 'resultado_interaccion'
+    ); // Asegúrate que tu tabla tiene 'resultado_interaccion' si lo seleccionas
     $stmtInteracciones->bindParam(':cliente_id', $cliente_id, PDO::PARAM_INT);
     $stmtInteracciones->execute();
     $interacciones = $stmtInteracciones->fetchAll(PDO::FETCH_ASSOC);
@@ -46,8 +48,8 @@ try {
 } catch (\PDOException $e) {
     error_log("Error fetching client details or interactions for ID {$cliente_id}: " . $e->getMessage());
     $error_message = "Error al cargar los datos del cliente o sus interacciones.";
-    if (!$cliente) {
-        die("Error crítico al cargar datos del cliente. Revise los logs.");
+    if (!$cliente) { // Si el cliente no se cargó, error crítico para esta página
+        die("Error crítico al cargar datos del cliente. Revise los logs del servidor.");
     }
 }
 ?>
@@ -68,7 +70,7 @@ try {
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="../assets/css/main.css" rel="stylesheet">
-    <link href="../assets/css/dashboard.css" rel="stylesheet">
+    <link href="../assets/css/dashboard.css" rel="stylesheet"> <!-- Asegúrate que los estilos del modal y lista de interacciones están aquí -->
 </head>
 <body class="dashboard-body">
 
@@ -103,7 +105,7 @@ try {
                                 echo $fecha_mod_str;
                             ?>
                         </p>
-                        <?php if ($error_message && $cliente): ?>
+                        <?php if ($error_message && $cliente): // Mostrar error de interacciones si ocurrió pero el cliente sí cargó ?>
                             <div class="alert alert-warning"><?php echo $error_message; ?> (Error cargando interacciones)</div>
                         <?php endif; ?>
 
@@ -188,10 +190,10 @@ try {
                                                         case 'llamada': echo 'bi bi-telephone-fill'; break;
                                                         case 'email enviado': echo 'bi bi-envelope-arrow-up-fill'; break;
                                                         case 'email recibido': echo 'bi bi-envelope-arrow-down-fill'; break;
-                                                        case 'reunión': case 'reunion': echo 'bi bi-calendar-event-fill'; break; // Acepta 'reunion'
+                                                        case 'reunión': case 'reunion': echo 'bi bi-calendar-event-fill'; break;
                                                         case 'whatsapp': echo 'bi bi-whatsapp'; break;
                                                         case 'nota interna': echo 'bi bi-sticky-fill'; break;
-                                                        case 'formulario auditoría': echo 'bi bi-file-earmark-text-fill'; break; // Icono para formulario
+                                                        case 'formulario auditoría': echo 'bi bi-file-earmark-text-fill'; break;
                                                         default: echo 'bi bi-chat-dots-fill';
                                                     }
                                                 ?> me-2 text-primary"></i>
@@ -202,7 +204,7 @@ try {
                                             </small>
                                         </div>
                                         <p class="mb-1 interaction-description"><?php echo nl2br(htmlspecialchars($interaccion['resumen_interaccion'] ?? 'Sin descripción')); ?></p>
-                                        <?php if (!empty($interaccion['resultado_interaccion'])): // Usar el nombre de columna de tu tabla ?>
+                                        <?php if (!empty($interaccion['resultado_interaccion'])): // Nombre de columna de tu tabla ?>
                                             <small class="d-block"><strong>Resultado:</strong> <?php echo htmlspecialchars($interaccion['resultado_interaccion']); ?></small>
                                         <?php endif; ?>
                                         <?php if (!empty($interaccion['proximo_paso'])): ?>
@@ -252,7 +254,6 @@ try {
                     <div class="col-md-6 mb-3">
                         <label for="int_fecha_interaccion_display" class="form-label">Fecha y Hora Interacción</label>
                         <input type="text" class="form-control" id="int_fecha_interaccion_display" readonly>
-                        <!-- El valor real de fecha_interaccion se establece en el servidor -->
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="int_tipo_interaccion" class="form-label">Tipo de Interacción *</label>
@@ -313,9 +314,9 @@ try {
                 const originalButtonText = submitButton.html();
                 submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...').prop('disabled', true);
 
-                const formData = $(this).serializeArray();
+                const formDataArray = $(this).serializeArray();
                 let clientData = {};
-                $.each(formData, function(i, field){ clientData[field.name] = field.value || ''; });
+                $.each(formDataArray, function(i, field){ clientData[field.name] = field.value || ''; });
                 console.log("Datos a actualizar (Cliente):", clientData);
 
                 $.ajax({
@@ -324,9 +325,17 @@ try {
                     success: function(response) {
                         if (response.success) {
                             feedbackDiv.html('Cliente actualizado con éxito: ' + (response.message || '')).addClass('alert alert-success').fadeIn();
+                             // Actualizar dinámicamente el título de la página si el nombre de la empresa cambia
+                            if (clientData.nombre_empresa) {
+                                const pageTitleH1 = $('h1.dashboard-title');
+                                if (pageTitleH1.length) {
+                                    pageTitleH1.contents().filter(function() { return this.nodeType === 3; }).last().replaceWith(" Detalle Cliente: " + clientData.nombre_empresa);
+                                }
+                                $('#addInteractionModalLabel').text('Añadir Nueva Interacción para ' + clientData.nombre_empresa);
+                            }
                             setTimeout(() => { feedbackDiv.fadeOut().html('').removeClass('alert alert-success alert-danger'); }, 3000);
                         } else {
-                            feedbackDiv.html('Error: ' + (response.message || 'No se pudo actualizar el cliente.')).addClass('alert alert-danger').fadeIn();
+                            feedbackDiv.html('Error al actualizar: ' + (response.message || 'No se pudo actualizar el cliente.')).addClass('alert alert-danger').fadeIn();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -356,9 +365,6 @@ try {
                         interactionData[input.attr('name')] = input.val() || '';
                     }
                 });
-                // No necesitamos enviar 'fecha_interaccion' desde el JS, se genera en el servidor.
-                // delete interactionData.fecha_interaccion; // Si el input 'datetime-local' aún existe
-
                 console.log("Datos de interacción a enviar:", interactionData);
 
                 $.ajax({
@@ -372,7 +378,7 @@ try {
                             feedbackDiv.html('Interacción guardada con éxito.').addClass('alert alert-success').fadeIn();
                             setTimeout(() => {
                                 $('#addInteractionModal').modal('hide');
-                                location.reload(); // Recargar la página para ver la nueva interacción
+                                location.reload();
                             }, 1500);
                         } else {
                             feedbackDiv.html('Error: ' + (response.message || 'No se pudo guardar la interacción.')).addClass('alert alert-danger').fadeIn();
@@ -391,7 +397,6 @@ try {
             function resetInteractionModal() {
                 $('#addInteractionFormFeedback').html('').removeClass('alert alert-danger alert-success').hide();
                 $('#addInteractionForm')[0].reset();
-
                 const nowMadrid = new Date(new Date().toLocaleString("en-US", {timeZone: "Europe/Madrid"}));
                 const year = nowMadrid.getFullYear();
                 const month = (nowMadrid.getMonth() + 1).toString().padStart(2, '0');
@@ -405,7 +410,7 @@ try {
                 resetInteractionModal();
             });
             $('#addInteractionModal').on('hidden.bs.modal', function () {
-                resetInteractionModal(); // También resetea al ocultar por si acaso
+                resetInteractionModal();
             });
         });
     </script>
