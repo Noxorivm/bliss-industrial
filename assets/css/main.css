@@ -783,7 +783,6 @@ strong, b {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all var(--transition-speed-medium) var(--easing-smooth);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -791,17 +790,26 @@ strong, b {
     text-decoration: none;
     line-height: 1.5;
     box-shadow: 0 2px 8px rgba(250, 204, 21, 0.25);
+    transition:
+      background-color var(--transition-speed-medium) var(--easing-smooth),
+      box-shadow var(--transition-speed-medium) var(--easing-smooth),
+      transform var(--transition-speed-medium) var(--easing-smooth),
+      color 0s; /* Color cambia sin transición */
 }
+
 .cta-principal i {
     transition: transform var(--transition-speed-medium) var(--easing-smooth);
 }
+
 .cta-principal:hover {
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
+
 .cta-principal:hover i {
     transform: translateX(5px);
 }
+
 .dark-background .cta-principal:hover,
 .header .cta-btn:hover { /* Header CTA in dark background */
     background: var(--color-white);
@@ -809,13 +817,24 @@ strong, b {
     border-color: var(--color-white);
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
 }
+
 /* Specific hover for hero audit button (yellow hover) */
+.hero .cta-hero-audit {
+    color: black !important;
+    transition:
+      background-color var(--transition-speed-medium) var(--easing-smooth),
+      box-shadow var(--transition-speed-medium) var(--easing-smooth),
+      transform var(--transition-speed-medium) var(--easing-smooth),
+      color 0s;
+}
+
 .hero .cta-hero-audit:hover {
     background: var(--color-accent-yellow-darker) !important;
     border-color: var(--color-accent-yellow-darker) !important;
-    color: var(--contrast-color) !important;
+    color: white !important;
     box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3) !important;
 }
+
 .light-background .cta-principal:hover,
 .section:not(.dark-background):not(.light-background) .cta-principal:hover {
     background: var(--color-accent-yellow-darker);
@@ -823,13 +842,20 @@ strong, b {
     color: var(--color-black) !important;
     box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
 }
+
 .cta-principal.cta-principal-dark {
-    background: var(--color-black); color: var(--color-white) !important; border-color: var(--color-black);
+    background: var(--color-black);
+    color: var(--color-white) !important;
+    border-color: var(--color-black);
 }
+
 .cta-principal.cta-principal-dark:hover {
-    background: var(--color-dark-gray); color: var(--color-white) !important; border-color: var(--color-dark-gray);
+    background: var(--color-dark-gray);
+    color: var(--color-white) !important;
+    border-color: var(--color-dark-gray);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+
 /* Header CTA Button Specifics */
 .header .cta-btn { /* This is the '.cta-principal' in the header */
     padding: 8px 20px;
@@ -837,31 +863,58 @@ strong, b {
     order: 3;
     white-space: nowrap;
 }
+
 @media (max-width: 1199px) {
-    .header .cta-btn { order: 2; margin: 0 15px 0 0; }
+    .header .cta-btn {
+        order: 2;
+        margin: 0 15px 0 0;
+    }
 }
+
 /* Botón de "Más info" en los bloques de servicio del ecosistema */
 .btn-card-detail {
-  background: transparent; border: 2px solid var(--color-dark-gray); color: var(--color-dark-gray);
-  padding: 8px 20px; border-radius: 50px; text-transform: uppercase; font-size: 0.8rem;
-  font-weight: 700; transition: all var(--transition-speed-medium) var(--easing-smooth);
-  display: inline-flex; align-items: center; text-decoration: none;
+    background: transparent;
+    border: 2px solid var(--color-dark-gray);
+    color: var(--color-dark-gray);
+    padding: 8px 20px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all var(--transition-speed-medium) var(--easing-smooth);
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
 }
+
 .btn-card-detail:hover {
-   background: var(--color-dark-gray); border-color: var(--color-dark-gray); color: var(--color-white);
-   transform: scale(1.05);
+    background: var(--color-dark-gray);
+    border-color: var(--color-dark-gray);
+    color: var(--color-white);
+    transform: scale(1.05);
 }
-.btn-card-detail i { margin-left: 5px; transition: transform var(--transition-speed-medium) var(--easing-smooth); }
-.btn-card-detail:hover i { transform: translateX(4px); }
+
+.btn-card-detail i {
+    margin-left: 5px;
+    transition: transform var(--transition-speed-medium) var(--easing-smooth);
+}
+
+.btn-card-detail:hover i {
+    transform: translateX(4px);
+}
+
 /* Executive Newsletter Button */
 #executive-newsletter-btn { /* Uses .cta-principal styling by default */ }
-#executive-newsletter-btn:hover { /* Specific hover if needed */
-     background: var(--color-accent-yellow-darker); border-color: var(--color-accent-yellow-darker);
-     color: var(--contrast-color); transform: translateY(-3px) scale(1.02);
-     box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
-}
-#executive-newsletter-form-div {} /* Handled by inline style + JS */
 
+#executive-newsletter-btn:hover {
+    background: var(--color-accent-yellow-darker);
+    border-color: var(--color-accent-yellow-darker);
+    color: var(--contrast-color);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(250, 204, 21, 0.3);
+}
+
+#executive-newsletter-form-div {} /* Handled by inline style + JS */
 
 /*--------------------------------------------------------------
 # Global Sections
