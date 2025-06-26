@@ -84,258 +84,239 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const formSteps = [
-    // PASO 1: Datos de contacto (Sin cambios)
-    {
-        id: 'contacto_inicial',
-        title: 'Paso 1: Datos de Contacto',
-        html: `
-        <h3 class="form-step-title mb-4">Empecemos por conocernos</h3>
-        <div class="mb-3">
-            <label for="empresa_nombre" class="form-label">Nombre de la empresa <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="empresa_nombre" name="empresa_nombre" required>
-        </div>
-        <div class="mb-3">
-            <label for="contacto_nombre" class="form-label">Nombre y apellidos de contacto <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="contacto_nombre" name="contacto_nombre" required>
-        </div>
-        <div class="mb-3">
-            <label for="contacto_email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-            <input type="email" class="form-control" id="contacto_email" name="contacto_email" required>
-        </div>
-        <div class="mb-3">
-            <label for="contacto_telefono" class="form-label">Número de teléfono (opcional)</label>
-            <input type="tel" class="form-control" id="contacto_telefono" name="contacto_telefono">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">¿Prefieres contacto por WhatsApp?</label>
-            <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Sí" id="contacto_whatsapp" name="contacto_whatsapp">
-            <label class="form-check-label" for="contacto_whatsapp">Sí, podéis contactarme por WhatsApp</label>
-            </div>
-        </div>`
-    },
-    // PASO 2: Perfil del contacto (Sin cambios)
-    {
-        id: 'perfil',
-        title: 'Paso 2: Tu Rol en la Empresa',
-        html: `
-        <h3 class="form-step-title mb-4">¿Cuál es tu cargo principal? <span class="text-danger">*</span></h3>
-        <div class="form-check-group" id="perfil_cargo_group">
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_gerente" value="Gerente / CEO / Director General" required><label class="form-check-label" for="cargo_gerente">Gerente / CEO / Director General</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_produccion" value="Director de Producción / Planta"><label class="form-check-label" for="cargo_produccion">Director de Producción / Planta</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_comercial" value="Director Comercial"><label class="form-check-label" for="cargo_comercial">Director Comercial</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_operaciones" value="Director de Operaciones / COO"><label class="form-check-label" for="cargo_operaciones">Director de Operaciones / COO</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_compras" value="Responsable de Compras"><label class="form-check-label" for="cargo_compras">Responsable de Compras</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_logistica" value="Responsable de Almacén / Logística"><label class="form-check-label" for="cargo_logistica">Responsable de Almacén / Logística</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_tecnico" value="Técnico / Encargado de mantenimiento"><label class="form-check-label" for="cargo_tecnico">Técnico / Encargado de mantenimiento</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_ingenieria" value="Oficina Técnica / Ingeniería"><label class="form-check-label" for="cargo_ingenieria">Oficina Técnica / Ingeniería</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_calidad" value="Calidad / Seguridad"><label class="form-check-label" for="cargo_calidad">Calidad / Seguridad</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_rrhh" value="RRHH / Administración"><label class="form-check-label" for="cargo_rrhh">RRHH / Administración</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_otro" value="Otro"><label class="form-check-label" for="cargo_otro">Otro (especificar)</label></div>
-        </div>
-        <div class="mt-2 other-input-container" data-group-name="perfil_cargo" style="display:none;">
-            <input type="text" class="form-control form-control-sm" name="cargo_otro_texto" placeholder="Escribe tu cargo">
-        </div>`
-    },
-    // ====================== INICIO DE LOS CAMBIOS SOLICITADOS ======================
-    // PASO 3: Información sobre la empresa
-    {
-      id: 'empresa_info',
-      title: 'Paso 3: Información sobre la empresa',
-      html: `
-        <div class="mb-4">
-          <label for="sector" class="form-label">¿En qué sectores opera tu empresa? <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="sector" name="sector" placeholder="Especificar sector(es)" required>
-        </div>
-        <div class="mb-4">
-          <label class="form-label">¿Cuántos empleados tiene la empresa aproximadamente? <span class="text-danger">*</span></label>
-          <div class="form-check-group radio-inline" id="empresa_empleados_group">
-             <div class="form-check"><input class="form-check-input" type="radio" name="empresa_empleados" id="emp_1" value="1-10" required><label class="form-check-label" for="emp_1">1-10</label></div>
-             <div class="form-check"><input class="form-check-input" type="radio" name="empresa_empleados" id="emp_11" value="11-50"><label class="form-check-label" for="emp_11">11-50</label></div>
-             <div class="form-check"><input class="form-check-input" type="radio" name="empresa_empleados" id="emp_51" value="51-200"><label class="form-check-label" for="emp_51">51-200</label></div>
-             <div class="form-check"><input class="form-check-input" type="radio" name="empresa_empleados" id="emp_200" value="Más de 200"><label class="form-check-label" for="emp_200">Más de 200</label></div>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">¿En qué áreas de la empresa queréis mejorar procesos? <span class="text-danger">*</span></label>
-          <p class="form-step-subtitle">Multiselección</p>
-           <div class="form-check-group checkbox-grid" id="areas_mejora_group">
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Producción"><label>Producción</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Oficina Técnica / Ingeniería"><label>Oficina Técnica / Ingeniería</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Almacén y Logística"><label>Almacén y Logística</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Compras / Aprovisionamiento"><label>Compras / Aprovisionamiento</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Comercial / Atención cliente"><label>Comercial / Atención cliente</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Mantenimiento"><label>Mantenimiento</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Calidad / Seguridad"><label>Calidad / Seguridad</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="RRHH / Formación"><label>RRHH / Formación</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Toda la empresa"><label>Toda la empresa</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Otro"><label>Otro (ESPECIFICAR)</label></div>
-           </div>
-           <div class="mt-2 other-input-container" data-group-name="areas_mejora[]" style="display:none;">
-              <input type="text" class="form-control form-control-sm" name="areas_mejora_otro_texto" placeholder="Por favor, especifica aquí">
-           </div>
-        </div>`
-    },
-    // PASO 4: Situación actual
-    {
-      id: 'situacion',
-      title: 'Paso 4: Situación actual',
-      html: `
-        <div class="mb-4">
-            <label class="form-label">¿Qué sistemas utilizáis actualmente para gestionar la empresa?</label>
-            <p class="form-step-subtitle">Multiselección</p>
-            <div class="form-check-group checkbox-grid" id="sistemas_group">
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Excel"><label>Excel</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="ERP (Navision, SAP, Odoo, etc.)"><label>ERP (Navision, SAP, Odoo, etc.)</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Software propio"><label>Software propio</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="CRM"><label>CRM</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Formularios en papel"><label>Formularios en papel</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="No tenemos ningún sistema"><label>No tenemos ningún sistema</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Otro"><label>Otro (especificar)</label></div>
-            </div>
-            <div class="mt-2 other-input-container" data-group-name="sistemas[]" style="display:none;">
-                <input type="text" class="form-control form-control-sm" name="sis_otro_texto" placeholder="Escribe el sistema">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">¿Qué problemas o retos estáis viviendo ahora mismo?</label>
-            <p class="form-step-subtitle">Multiselección</p>
-            <div class="form-check-group checkbox-grid" id="retos_group">
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Errores humanos frecuentes"><label>Errores humanos frecuentes</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Descoordinación entre departamentos"><label>Descoordinación entre departamentos</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Falta de trazabilidad en procesos o productos"><label>Falta de trazabilidad en procesos o productos</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Pérdida de tiempo en tareas manuales"><label>Pérdida de tiempo en tareas manuales</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No controlamos bien el stock o inventario"><label>No controlamos bien el stock o inventario</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No sabemos si nuestras inversiones son rentables"><label>No sabemos si nuestras inversiones son rentables</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Falta de datos fiables para tomar decisiones"><label>Falta de datos fiables para tomar decisiones</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Dependemos demasiado de ciertas personas"><label>Dependemos demasiado de ciertas personas</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No sabemos por dónde empezar a mejorar"><label>No sabemos por dónde empezar a mejorar</label></div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Otro"><label>Otro (especificar)</label></div>
-            </div>
-            <div class="mt-2 other-input-container" data-group-name="retos[]" style="display:none;">
-                <input type="text" class="form-control form-control-sm" name="reto_otro_texto" placeholder="Describe el reto">
-            </div>
-        </div>`
-    },
-    // PASO 5: Interés y prioridades
-    {
-       id: 'interes',
-       title: 'Paso 5: Interés y prioridades',
-       html: `
-        <div class="mb-4">
-          <label class="form-label">¿Qué tipo de soluciones te interesan más?</label>
-          <p class="form-step-subtitle">Multiselección</p>
-          <div class="form-check-group checkbox-grid" id="soluciones_group">
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Automatización de procesos"><label>Automatización de procesos</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Mejora del control de producción"><label>Mejora del control de producción</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Digitalización de formularios / tareas"><label>Digitalización de formularios / tareas</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Optimización de compras o inversión en maquinaria"><label>Optimización de compras o inversión en maquinaria</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Conectar datos de diferentes sistemas"><label>Conectar datos de diferentes sistemas</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Mejora de la comunicación interna"><label>Mejora de la comunicación interna</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Análisis de datos y toma de decisiones"><label>Análisis de datos y toma de decisiones</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Networking con otros empresarios"><label>Networking con otros empresarios</label></div>
-              <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Otro"><label>Otro (especificar)</label></div>
-          </div>
-          <div class="mt-2 other-input-container" data-group-name="soluciones[]" style="display:none;">
-              <input type="text" class="form-control form-control-sm" name="sol_otro_texto" placeholder="Describe la solución">
-          </div>
-        </div>
-        <div class="mb-4">
-          <label class="form-label">¿En qué punto estáis respecto a este tema? <span class="text-danger">*</span></label>
-          <p class="form-step-subtitle">Selecciona la opción que mejor refleje vuestra situación actual</p>
-          <div class="form-check-group" id="proyecto_punto_actual_group">
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Solo estoy explorando opciones, sin planes inmediatos" required><label>Solo estoy explorando opciones, sin planes inmediatos</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Nos gustaría mejorar, pero no es una prioridad actual (6-12 meses)"><label>Nos gustaría mejorar, pero no es una prioridad actual (6-12 meses)</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Queremos avanzar pronto, pero estamos acabando otras cosas primero (3-6 meses)"><label>Queremos avanzar pronto, pero estamos acabando otras cosas primero (3-6 meses)</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Estamos buscando soluciones y esperamos actuar en breve (1-3 meses)"><label>Estamos buscando soluciones y esperamos actuar en breve (1-3 meses)</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Necesitamos actuar cuanto antes. Esto nos está frenando (1-4 semanas)"><label>Necesitamos actuar cuanto antes. Esto nos está frenando (1-4 semanas)</label></div>
-          </div>
-        </div>`
-    },
-    // PASO 6: Presupuesto y Decisión
-    {
-      id: 'presupuesto_decision',
-      title: 'Paso 6: Presupuesto y Decisión',
-      html: `
-        <div class="mb-4">
-          <label class="form-label">¿Tenéis algún presupuesto asignado o previsto para este tipo de mejoras? <span class="text-danger">*</span></label>
-          <div class="form-check-group" id="proyecto_presupuesto_group">
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="No" required><label>No</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Sí, pero muy limitado"><label>Sí, pero muy limitado</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Estamos valorando cuánto invertir"><label>Estamos valorando cuánto invertir</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Sí, tenemos un presupuesto estimado"><label>Sí, tenemos un presupuesto estimado (especificar si se desea)</label></div>
-          </div>
-          <div class="mt-2 other-input-container" data-group-name="proyecto_presupuesto" data-trigger-value="Sí, tenemos un presupuesto estimado" style="display:none;">
-            <input type="text" class="form-control form-control-sm" name="proyecto_presupuesto_especificar" placeholder="Escribe el presupuesto estimado">
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">¿Quién tomará la decisión final sobre estas mejoras? <span class="text-danger">*</span></label>
-          <div class="form-check-group" id="proyecto_decision_final_group">
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Yo directamente" required><label>Yo directamente</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Yo y otra(s) persona(s) del equipo"><label>Yo y otra(s) persona(s) del equipo</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Otro departamento o dirección general"><label>Otro departamento o dirección general</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Aún no está claro"><label>Aún no está claro</label></div>
-          </div>
-        </div>`
-    },
-    // PASO 7: Apoyo y Otras Iniciativas
-    {
-      id: 'apoyo_iniciativas',
-      title: 'Paso 7: Apoyo e Iniciativas',
-      html: `
-        <div class="mb-4">
-          <label class="form-label">¿Qué tipo de apoyo valoráis más en esta etapa?</label>
-          <p class="form-step-subtitle">Multiselección</p>
-          <div class="form-check-group checkbox-grid" id="proyecto_apoyo_valorado_group">
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ideas claras y hoja de ruta personalizada"><label>Ideas claras y hoja de ruta personalizada</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ahorro de tiempo y tareas repetitivas"><label>Ahorro de tiempo y tareas repetitivas</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Reducción de errores y más trazabilidad"><label>Reducción de errores y más trazabilidad</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Conectar sistemas o equipos descoordinados"><label>Conectar sistemas o equipos descoordinados</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Justificar la inversión ante dirección"><label>Justificar la inversión ante dirección</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Comparar soluciones disponibles"><label>Comparar soluciones disponibles</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ver ejemplos reales de otros casos similares"><label>Ver ejemplos reales de otros casos similares</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="No lo tenemos claro, buscamos orientación."><label>No lo tenemos claro, buscamos orientación.</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Otro"><label>Otro (especificar)</label></div>
-          </div>
-          <div class="mt-2 other-input-container" data-group-name="proyecto_apoyo_valorado[]" style="display:none;">
-            <input type="text" class="form-control form-control-sm" name="proyecto_apoyo_valorado_otro_texto" placeholder="Por favor, especifica aquí">
-          </div>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">¿Qué otras iniciativas tenéis previstas en los próximos 6-12 meses?</label>
-          <p class="form-step-subtitle">Multiselección</p>
-          <div class="form-check-group checkbox-grid" id="proyecto_otras_iniciativas_group">
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Inversión en nueva maquinaria"><label>Inversión en nueva maquinaria</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Certificaciones de calidad o medioambiente"><label>Certificaciones de calidad o medioambiente</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Crecimiento o expansión a nuevos mercados"><label>Crecimiento o expansión a nuevos mercados</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Cambios en el equipo o estructura organizativa"><label>Cambios en el equipo o estructura organizativa</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Implementación de ERP u otro software"><label>Implementación de ERP u otro software</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Digitalización global de la empresa"><label>Digitalización global de la empresa</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Ninguna en especial / No lo sé aún"><label>Ninguna en especial / No lo sé aún</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Otro"><label>Otro (especificar)</label></div>
-          </div>
-          <div class="mt-2 other-input-container" data-group-name="proyecto_otras_iniciativas[]" style="display:none;">
-            <input type="text" class="form-control form-control-sm" name="proyecto_otras_iniciativas_otro_texto" placeholder="Por favor, especifica aquí">
-          </div>
-        </div>`
-    },
-    // PASO 8: Final
-    {
-      id: 'envio_final',
-      title: 'Paso 8: ¡Ya casi está!',
-      html: `
-          <h3 class="form-step-title mb-4">Último paso</h3>
-          <p class="mb-4">Revisaremos la información para generar tu auditoría gratuita y personalizada.</p>
-          <div>
-              <label class="form-label">¿Cómo prefieres recibir el informe? <span class="text-danger">*</span></label>
-              <div class="form-check-group" id="como_recibir_group">
-                <div class="form-check"> <input class="form-check-input" type="radio" name="como_recibir" id="recibir_email" value="Email" required checked> <label class="form-check-label" for="recibir_email">Por correo electrónico</label> </div>
-                <div class="form-check"> <input class="form-check-input" type="checkbox" name="recibir_whatsapp" value="Sí" id="recibir_whatsapp"> <label class="form-check-label" for="recibir_whatsapp">También por WhatsApp (si has facilitado tu número)</label> </div>
+          // PASO 1: Datos de contacto
+          {
+            id: 'contacto_inicial',
+            title: 'Paso 1: Datos de Contacto',
+            html: `
+              <h3 class="form-step-title mb-4">Empecemos por conocernos</h3>
+              <div class="mb-3">
+                <label for="empresa_nombre" class="form-label">Nombre de la empresa <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="empresa_nombre" name="empresa_nombre" required>
               </div>
-          </div>`
-     }
-];
+              <div class="mb-3">
+                <label for="contacto_nombre" class="form-label">Nombre y apellidos de contacto <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="contacto_nombre" name="contacto_nombre" required>
+              </div>
+              <div class="mb-3">
+                <label for="contacto_email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="contacto_email" name="contacto_email" required>
+              </div>
+              <div class="mb-3">
+                <label for="contacto_telefono" class="form-label">Número de teléfono (opcional)</label>
+                <input type="tel" class="form-control" id="contacto_telefono" name="contacto_telefono">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">¿Prefieres contacto por WhatsApp?</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Sí" id="contacto_whatsapp" name="contacto_whatsapp">
+                  <label class="form-check-label" for="contacto_whatsapp">Sí, podéis contactarme por WhatsApp</label>
+                </div>
+              </div>`
+          },
+          // PASO 2: Perfil del contacto
+          {
+            id: 'perfil',
+            title: 'Paso 2: Tu Rol en la Empresa',
+            html: `
+              <h3 class="form-step-title mb-4">¿Cuál es tu cargo principal? <span class="text-danger">*</span></h3>
+              <div class="form-check-group" id="perfil_cargo_group">
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_gerente" value="Gerente / CEO / Director General" required><label class="form-check-label" for="cargo_gerente">Gerente / CEO / Director General</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_produccion" value="Director de Producción / Planta"><label class="form-check-label" for="cargo_produccion">Director de Producción / Planta</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_comercial" value="Director Comercial"><label class="form-check-label" for="cargo_comercial">Director Comercial</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_operaciones" value="Director de Operaciones / COO"><label class="form-check-label" for="cargo_operaciones">Director de Operaciones / COO</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_compras" value="Responsable de Compras"><label class="form-check-label" for="cargo_compras">Responsable de Compras</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_logistica" value="Responsable de Almacén / Logística"><label class="form-check-label" for="cargo_logistica">Responsable de Almacén / Logística</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_tecnico" value="Técnico / Encargado de mantenimiento"><label class="form-check-label" for="cargo_tecnico">Técnico / Encargado de mantenimiento</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_ingenieria" value="Oficina Técnica / Ingeniería"><label class="form-check-label" for="cargo_ingenieria">Oficina Técnica / Ingeniería</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_calidad" value="Calidad / Seguridad"><label class="form-check-label" for="cargo_calidad">Calidad / Seguridad</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_rrhh" value="RRHH / Administración"><label class="form-check-label" for="cargo_rrhh">RRHH / Administración</label></div>
+                <div class="form-check"><input class="form-check-input" type="radio" name="perfil_cargo" id="cargo_otro" value="Otro"><label class="form-check-label" for="cargo_otro">Otro (especificar)</label></div>
+              </div>
+              <div class="mt-2" id="cargo_otro_texto_container" style="display:none;">
+                <input type="text" class="form-control form-control-sm" id="cargo_otro_texto" name="cargo_otro_texto" placeholder="Escribe tu cargo">
+              </div>`
+          },
+          // PASO 3: Áreas de Mejora
+          {
+            id: 'areas_mejora_step',
+            title: 'Paso 3: Áreas de Interés',
+            html: `
+              <h3 class="form-step-title mb-4">¿En qué áreas de la empresa queréis mejorar procesos? <span class="text-danger">*</span></h3>
+              <p class="form-step-subtitle">Marca todas las que apliquen.</p>
+              <div class="form-check-group checkbox-grid" id="areas_mejora_group">
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Producción" required><label>Producción</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Oficina Técnica / Ingeniería"><label>Oficina Técnica / Ingeniería</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Almacén y Logística"><label>Almacén y Logística</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Compras / Aprovisionamiento"><label>Compras / Aprovisionamiento</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Comercial / Atención cliente"><label>Comercial / Atención cliente</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Mantenimiento"><label>Mantenimiento</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Calidad / Seguridad"><label>Calidad / Seguridad</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="RRHH / Formación"><label>RRHH / Formación</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Toda la empresa"><label>Toda la empresa</label></div>
+                <div class="form-check"><input class="form-check-input" type="checkbox" name="areas_mejora[]" value="Otro"><label>Otro (ESPECIFICAR)</label></div>
+              </div>
+              <div class="mt-2" id="areas_mejora_otro_texto_container" style="display:none;">
+                <input type="text" class="form-control form-control-sm" id="areas_mejora_otro_texto" name="areas_mejora_otro_texto" placeholder="Por favor, especifica aquí">
+              </div>`
+          },
+           // PASO 4: Situación actual
+          {
+            id: 'situacion',
+            title: 'Paso 4: Situación Actual',
+            html: `
+              <h3 class="form-step-title mb-4">¿Cómo gestionáis y qué retos tenéis?</h3>
+              <div class="mb-4">
+                <label class="form-label">¿Qué sistemas utilizáis actualmente? <span class="text-danger">*</span></label>
+                 <div class="form-check-group checkbox-grid" id="sistemas_group">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Excel" required><label>Excel</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="ERP (Navision, SAP, Odoo, etc.)"><label>ERP (Navision, SAP, Odoo, etc.)</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Software propio"><label>Software propio</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="CRM"><label>CRM</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Formularios en papel"><label>Formularios en papel</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="No tenemos ningún sistema"><label>No tenemos ningún sistema</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="sistemas[]" value="Otro"><label>Otro (especificar)</label></div>
+                </div>
+                 <div class="mt-2" id="sis_otro_texto_container" style="display:none;">
+                     <input type="text" class="form-control form-control-sm" id="sis_otro_texto" name="sis_otro_texto" placeholder="Escribe el sistema">
+                 </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">¿Qué problemas o retos estáis viviendo ahora mismo? <span class="text-danger">*</span></label>
+                 <div class="form-check-group checkbox-grid" id="retos_group">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Errores humanos frecuentes" required><label>Errores humanos frecuentes</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Descoordinación entre departamentos"><label>Descoordinación entre departamentos</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Falta de trazabilidad en procesos o productos"><label>Falta de trazabilidad en procesos o productos</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Pérdida de tiempo en tareas manuales"><label>Pérdida de tiempo en tareas manuales</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No controlamos bien el stock o inventario"><label>No controlamos bien el stock o inventario</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No sabemos si nuestras inversiones son rentables"><label>No sabemos si nuestras inversiones son rentables</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Falta de datos fiables para tomar decisiones"><label>Falta de datos fiables para tomar decisiones</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Dependemos demasiado de ciertas personas"><label>Dependemos demasiado de ciertas personas</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="No sabemos por dónde empezar a mejorar"><label>No sabemos por dónde empezar a mejorar</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="retos[]" value="Otro"><label>Otro (especificar)</label></div>
+                 </div>
+                 <div class="mt-2" id="reto_otro_texto_container" style="display:none;">
+                     <input type="text" class="form-control form-control-sm" id="reto_otro_texto" name="reto_otro_texto" placeholder="Describe el reto">
+                 </div>
+              </div>`
+          },
+          // PASO 5: Interés y prioridades
+          {
+             id: 'interes',
+             title: 'Paso 5: Intereses y Prioridades',
+             html: `
+                <h3 class="form-step-title mb-4">¿Qué tipo de soluciones te interesan más? <span class="text-danger">*</span></h3>
+                <p class="form-step-subtitle">Marca todas las que apliquen.</p>
+                <div class="form-check-group checkbox-grid" id="soluciones_group">
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Automatización de procesos" required><label>Automatización de procesos</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Mejora del control de producción"><label>Mejora del control de producción</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Digitalización de formularios / tareas"><label>Digitalización de formularios / tareas</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Optimización de compras o inversión en maquinaria"><label>Optimización de compras o inversión en maquinaria</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Conectar datos de diferentes sistemas"><label>Conectar datos de diferentes sistemas</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Mejora de la comunicación interna"><label>Mejora de la comunicación interna</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Análisis de datos y toma de decisiones"><label>Análisis de datos y toma de decisiones</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Networking con otros empresarios"><label>Networking con otros empresarios</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" name="soluciones[]" value="Otro"><label>Otro (especificar)</label></div>
+                </div>
+                 <div class="mt-2" id="sol_otro_texto_container" style="display:none;">
+                    <input type="text" class="form-control form-control-sm" id="sol_otro_texto" name="sol_otro_texto" placeholder="Describe la solución">
+                </div>`
+           },
+          // PASO 6: Detalles del Proyecto
+          {
+            id: 'proyecto_detalles',
+            title: 'Paso 6: Sobre el Proyecto de Mejora',
+            html: `
+              <h3 class="form-step-title mb-4">Cuéntanos sobre vuestras expectativas</h3>
+              <div class="mb-4">
+                <label class="form-label">¿En qué punto estáis respecto a este tema? <span class="text-danger">*</span></label>
+                <p class="form-step-subtitle">Selecciona la opción que mejor refleje vuestra situación actual</p>
+                <div class="form-check-group" id="proyecto_punto_actual_group">
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Solo estoy explorando opciones, sin planes inmediatos" required><label>Solo estoy explorando opciones, sin planes inmediatos</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Nos gustaría mejorar, pero no es una prioridad actual (6-12 meses)"><label>Nos gustaría mejorar, pero no es una prioridad actual (6-12 meses)</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Queremos avanzar pronto, pero estamos acabando otras cosas primero (3-6 meses)"><label>Queremos avanzar pronto, pero estamos acabando otras cosas primero (3-6 meses)</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Estamos buscando soluciones y esperamos actuar en breve (1-3 meses)"><label>Estamos buscando soluciones y esperamos actuar en breve (1-3 meses)</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_punto_actual" value="Necesitamos actuar cuanto antes. Esto nos está frenando (1-4 semanas)"><label>Necesitamos actuar cuanto antes. Esto nos está frenando (1-4 semanas)</label></div>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label">¿Tenéis algún presupuesto asignado o previsto? <span class="text-danger">*</span></label>
+                <div class="form-check-group" id="proyecto_presupuesto_group">
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="No" required><label>No</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Sí, pero muy limitado"><label>Sí, pero muy limitado</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Estamos valorando cuánto invertir"><label>Estamos valorando cuánto invertir</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_presupuesto" value="Sí, tenemos un presupuesto estimado"><label>Sí, tenemos un presupuesto estimado (especificar si se desea)</label></div>
+                </div>
+                <div class="mt-2" id="proyecto_presupuesto_especificar_container" style="display:none;">
+                  <input type="text" class="form-control form-control-sm" id="proyecto_presupuesto_especificar" name="proyecto_presupuesto_especificar" placeholder="Escribe el presupuesto estimado">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">¿Quién tomará la decisión final sobre estas mejoras? <span class="text-danger">*</span></label>
+                <div class="form-check-group" id="proyecto_decision_final_group">
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Yo directamente" required><label>Yo directamente</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Yo y otra(s) persona(s) del equipo"><label>Yo y otra(s) persona(s) del equipo</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Otro departamento o dirección general"><label>Otro departamento o dirección general</label></div>
+                  <div class="form-check"><input class="form-check-input" type="radio" name="proyecto_decision_final" value="Aún no está claro"><label>Aún no está claro</label></div>
+                </div>
+              </div>`
+          },
+          // PASO 7: Apoyo y Otras Iniciativas
+          {
+            id: 'apoyo_iniciativas',
+            title: 'Paso 7: Apoyo e Iniciativas',
+            html: `
+              <h3 class="form-step-title mb-4">¿Qué más podemos saber?</h3>
+              <div class="mb-4">
+                <label class="form-label">¿Qué tipo de apoyo valoráis más en esta etapa? <span class="text-danger">*</span></label>
+                <div class="form-check-group checkbox-grid" id="proyecto_apoyo_valorado_group">
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ideas claras y hoja de ruta personalizada" required><label>Ideas claras y hoja de ruta personalizada</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ahorro de tiempo y tareas repetitivas"><label>Ahorro de tiempo y tareas repetitivas</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Reducción de errores y más trazabilidad"><label>Reducción de errores y más trazabilidad</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Conectar sistemas o equipos descoordinados"><label>Conectar sistemas o equipos descoordinados</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Justificar la inversión ante dirección"><label>Justificar la inversión ante dirección</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Comparar soluciones disponibles"><label>Comparar soluciones disponibles</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Ver ejemplos reales de otros casos similares"><label>Ver ejemplos reales de otros casos similares</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="No lo tenemos claro, buscamos orientación."><label>No lo tenemos claro, buscamos orientación.</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_apoyo_valorado[]" value="Otro"><label>Otro (especificar)</label></div>
+                </div>
+                <div class="mt-2" id="proyecto_apoyo_valorado_otro_texto_container" style="display:none;">
+                  <input type="text" class="form-control form-control-sm" id="proyecto_apoyo_valorado_otro_texto" name="proyecto_apoyo_valorado_otro_texto" placeholder="Por favor, especifica aquí">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">¿Qué otras iniciativas tenéis previstas en los próximos 6-12 meses? <span class="text-danger">*</span></label>
+                <div class="form-check-group checkbox-grid" id="proyecto_otras_iniciativas_group">
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Inversión en nueva maquinaria" required><label>Inversión en nueva maquinaria</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Certificaciones de calidad o medioambiente"><label>Certificaciones de calidad o medioambiente</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Crecimiento o expansión a nuevos mercados"><label>Crecimiento o expansión a nuevos mercados</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Cambios en el equipo o estructura organizativa"><label>Cambios en el equipo o estructura organizativa</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Implementación de ERP u otro software"><label>Implementación de ERP u otro software</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Digitalización global de la empresa"><label>Digitalización global de la empresa</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Ninguna en especial / No lo sé aún"><label>Ninguna en especial / No lo sé aún</label></div>
+                  <div class="form-check"><input class="form-check-input" type="checkbox" name="proyecto_otras_iniciativas[]" value="Otro"><label>Otro (especificar)</label></div>
+                </div>
+                <div class="mt-2" id="proyecto_otras_iniciativas_otro_texto_container" style="display:none;">
+                  <input type="text" class="form-control form-control-sm" id="proyecto_otras_iniciativas_otro_texto" name="proyecto_otras_iniciativas_otro_texto" placeholder="Por favor, especifica aquí">
+                </div>
+              </div>`
+          },
+          // PASO 8: Final
+          {
+            id: 'envio_final',
+            title: 'Paso 8: ¡Ya casi está!',
+            html: `
+                <h3 class="form-step-title mb-4">Último paso</h3>
+                <p class="mb-4">Revisaremos la información para generar tu auditoría gratuita y personalizada.</p>
+                <div>
+                    <label class="form-label">¿Cómo prefieres recibir el informe? <span class="text-danger">*</span></label>
+                    <div class="form-check-group" id="como_recibir_group">
+                      <div class="form-check"> <input class="form-check-input" type="radio" name="como_recibir" id="recibir_email" value="Email" required checked> <label class="form-check-label" for="recibir_email">Por correo electrónico</label> </div>
+                      <div class="form-check"> <input class="form-check-input" type="checkbox" name="recibir_whatsapp" value="Sí" id="recibir_whatsapp"> <label class="form-check-label" for="recibir_whatsapp">También por WhatsApp (si has facilitado tu número)</label> </div>
+                    </div>
+                </div>`
+           }
+        ];
 
         let currentStepIndex = 0;
         const formData = {};
@@ -347,30 +328,27 @@
         const stepIndicatorElement = document.getElementById('stepIndicator');
         const formFeedbackElement = document.getElementById('form-feedback');
 
-        function handleOtherFields() {
-            const otherContainers = questionContainer.querySelectorAll('.other-input-container');
-            otherContainers.forEach(container => {
-                const groupName = container.dataset.groupName;
-                const triggerValue = container.dataset.triggerValue || 'Otro';
-                const controls = questionContainer.querySelectorAll(`input[name="${groupName}"]`);
+        function handleOtherField(groupName, textInputName, otherValue = 'Otro') {
+            const containerId = `${textInputName}_container`;
+            const otherContainer = document.getElementById(containerId);
+            if (!otherContainer) return;
 
-                const checkVisibility = () => {
-                    let show = false;
-                    controls.forEach(control => {
-                        if (control.checked && control.value === triggerValue) {
-                            show = true;
-                        }
-                    });
-                    container.style.display = show ? 'block' : 'none';
-                    if (!show) {
-                        const textInput = container.querySelector('input');
-                        if (textInput) textInput.value = '';
+            const controls = document.querySelectorAll(`input[name="${groupName}"]`);
+            const checkVisibility = () => {
+                let show = false;
+                controls.forEach(control => {
+                    if (control.checked && (control.value === otherValue || (groupName === 'proyecto_presupuesto' && control.value.includes('presupuesto estimado')))) {
+                        show = true;
                     }
-                };
-
-                controls.forEach(control => control.addEventListener('change', checkVisibility));
-                checkVisibility();
-            });
+                });
+                otherContainer.style.display = show ? 'block' : 'none';
+                if (!show) {
+                    const textInput = otherContainer.querySelector('input');
+                    if (textInput) textInput.value = '';
+                }
+            };
+            controls.forEach(control => control.addEventListener('change', checkVisibility));
+            checkVisibility();
         }
 
         function loadStep(index) {
@@ -399,7 +377,14 @@
               }
           });
           
-          handleOtherFields();
+          handleOtherField('perfil_cargo', 'cargo_otro_texto');
+          handleOtherField('areas_mejora[]', 'areas_mejora_otro_texto');
+          handleOtherField('sistemas[]', 'sis_otro_texto');
+          handleOtherField('retos[]', 'reto_otro_texto');
+          handleOtherField('soluciones[]', 'sol_otro_texto');
+          handleOtherField('proyecto_presupuesto', 'proyecto_presupuesto_especificar');
+          handleOtherField('proyecto_apoyo_valorado[]', 'proyecto_apoyo_valorado_otro_texto');
+          handleOtherField('proyecto_otras_iniciativas[]', 'proyecto_otras_iniciativas_otro_texto');
 
           const progress = ((index + 1) / formSteps.length) * 100;
           progressBarFillElement.style.width = `${progress}%`;
@@ -439,34 +424,40 @@
         function validateStep() {
             hideFeedback();
             let isValid = true;
-            const stepInputs = questionContainer.querySelectorAll('input[required], select[required], textarea[required]');
-            
-            stepInputs.forEach(input => {
-                input.classList.remove('is-invalid');
-                let groupWrapper = input.closest('.form-check-group');
-                if(groupWrapper) groupWrapper.classList.remove('is-invalid-group');
+            const stepElement = questionContainer;
 
-                if (input.type === 'radio') {
-                    const groupName = input.name;
-                    const groupRadios = questionContainer.querySelectorAll(`input[name="${groupName}"]`);
-                    if (![...groupRadios].some(radio => radio.checked)) {
-                        isValid = false;
-                        if(groupWrapper) groupWrapper.classList.add('is-invalid-group');
-                    }
-                } else if (input.type === 'checkbox' && input.required) {
-                    if (!input.checked) {
-                        isValid = false;
-                        input.classList.add('is-invalid');
-                    }
-                } else {
-                    if (input.value.trim() === '') {
-                        isValid = false;
-                        input.classList.add('is-invalid');
-                    } else if (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value.trim())) {
-                        isValid = false;
-                        input.classList.add('is-invalid');
-                        showFeedback('Por favor, introduce un correo electrónico válido.', 'error');
-                    }
+            // Validar inputs de texto, email, etc. que sean required
+            stepElement.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]), textarea[required], select[required]').forEach(input => {
+                input.classList.remove('is-invalid');
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                } else if (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value.trim())) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                    showFeedback('Por favor, introduce un correo electrónico válido.', 'error');
+                }
+            });
+
+            // Validar grupos de radio y checkbox
+            const requiredGroups = new Set();
+            stepElement.querySelectorAll('input[required]').forEach(input => {
+                if(input.type === 'radio' || input.type === 'checkbox') {
+                    requiredGroups.add(input.name);
+                }
+            });
+            
+            requiredGroups.forEach(groupName => {
+                const inputsInGroup = stepElement.querySelectorAll(`input[name="${groupName}"]`);
+                const groupWrapper = inputsInGroup[0].closest('.form-check-group');
+                
+                const isChecked = [...inputsInGroup].some(input => input.checked);
+                
+                if (groupWrapper) groupWrapper.classList.remove('is-invalid-group');
+
+                if (!isChecked) {
+                    isValid = false;
+                    if (groupWrapper) groupWrapper.classList.add('is-invalid-group');
                 }
             });
             
